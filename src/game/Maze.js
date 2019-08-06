@@ -14,8 +14,18 @@ var CELL = {
  * A simple class that just holds a pair of coordinates */
 class Position {
     constructor(y, x) {
-        this.y = y;
-        this.x = x;
+        this._y = y;
+        this._x = x;
+    }
+
+    // Gets the Y coordinate
+    get y() {
+        return this._y;
+    }
+
+    // Gets the X coordinate
+    get x() {
+        return this._x;
     }
 }
 
@@ -126,6 +136,8 @@ class Maze {
         if (x > 0) f(new Position(y, x - 1));
         if (x < this._combinedWidth - 1) f(new Position(y, x + 1));
     }
+
+
 
     // Returns a string representation of the current maze
     toString() {
