@@ -67,6 +67,38 @@ class Maze {
 
             // 3.2. Remove the wall from the list
             walls.splice(i, 1);
+
+            // Explore the adjacent cells
+            var adjacent = [];
+            this.executeOnAdjacentCells(pos.y, pos.x, adj =>
+            {
+                if (this.grid[adj.y][adj.x] == CELL.EMPTY) {
+                    adjacent.push(adj);
+                }
+            });
+
+            // Count the visited adjacent cells
+            var visited = 0;
+            var target = undefined;
+            for (var j = 0; j < adjacent.length; j++) {
+                if (this.grid[adjacent[j].y, adjacent[j].x] == CELL.EMPTY) {
+                    visited += 1;
+                    target = adjacent[j];
+                }
+            }
+
+            // 3.1.1. If only one of the two cells that the wall divides is visited
+            if (visited == 1) {
+                this.grid[pos.y][pos.x] = CELL.PASSAGE;
+                this.grid[target.y, target.x] = CELL.EMPTY;
+
+                // 3.1.2. Add the neighboring walls of the cell to the wall list
+                this.executeOnAdjacentCells(target.y, target.x, next => {
+                    if (this.grid[next.y][next.x] == CELL.WALL) {
+                        walls.push(next);
+                    }
+                });
+            }
         }
     }
 
