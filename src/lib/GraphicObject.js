@@ -1,6 +1,4 @@
-
-
-class GraphicObject{
+class GraphicObject {
 
     constructor(vertices, normals, colors, uvCoords, colorMap, normalsMap){
         this._vertices = vertices;
@@ -17,21 +15,20 @@ class GraphicObject{
     }
 
     render(parentMatrix){
-      //var model = instanceMatrix*parentMatrix;
-      //pass model to _children
+        //var model = instanceMatrix*parentMatrix;
+        //pass model to _children
     }
 
-    translate(){
-      
-
+    translate(x, y, z){
+        this._instanceMatrix = mult(this.translate(x, y, z), this._instanceMatrix);
     }
 
-    rotate(){
-
+    rotate(angle, axis){
+        this._instanceMatrix = mult(this.rotate(angle, axis), this._instanceMatrix);
     }
 
-    scale(){
-      
+    scale(x, y, z){
+        this._instanceMatrix = mult(this.scalem(x, y, z), this._instanceMatrix);
     }
 
 
