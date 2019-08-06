@@ -8,6 +8,14 @@ var CELL = {
     TARGET: 5
 }
 
+// An enum that indicates a movement direction
+var DIRECTION = {
+    UP: 0,
+    DOWN: 1,
+    LEFT: 2,
+    RIGHT: 3
+}
+
 /* ==================
  * Position
  * ==================
