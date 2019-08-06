@@ -25,6 +25,7 @@ class Maze {
         this.combinedHeight = height * 2 + 1;
         this.combinedWidth = width * 2 + 1;
         this.grid = []
+        this.position = null;
 
         // Initialize a new [height, width] array
         this.initialize();
@@ -88,6 +89,16 @@ class Maze {
                         walls.push(next);
                     }
                 });
+            }
+        }
+
+        // Spawn the player and the target
+        for (var i = 0; i < this.combinedWidth; i++) {
+            if (this.grid[this.combinedHeight - 2][i] == CELL.EMPTY ||
+                this.grid[this.combinedHeight - 2][i] == CELL.PASSAGE) {
+                this.position = new Position(this.combinedHeight - 2, i);
+                this.grid[this.position.y][this.position.x] = CELL.PLAYER;
+                break;
             }
         }
     }
