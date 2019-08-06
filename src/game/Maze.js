@@ -50,6 +50,11 @@ class Maze {
         this._grid = []
         this._position = null;
         this._target = null;
+        this._vectors = {};
+        this._vectors[DIRECTION.UP] = new Position(-1, 0);
+        this._vectors[DIRECTION.DOWN] = new Position(1, 0);
+        this._vectors[DIRECTION.LEFT] = new Position(0, -1);
+        this._vectors[DIRECTION.RIGHT] = new Position(0, 1);
 
         // Initialize a new [height, width] array
         this._initialize();
@@ -116,6 +121,15 @@ class Maze {
             }
         }
 
+        // Convert passages to empty spaces
+        for (var i = 0; i < this._combinedHeight; i++) {
+            for (var j = 0; j < this._combinedWidth; j++) {
+                if (this._grid[i][j] == CELL.PASSAGE) {
+                    this._grid[i][j] == CELL.EMPTY;
+                }
+            }
+        }
+
         // Spawn the player and the target
         for (var i = 0; i < this._combinedWidth; i++) {
             if (this._grid[this._combinedHeight - 2][i] == CELL.EMPTY ||
@@ -144,8 +158,6 @@ class Maze {
         if (x > 0) f(new Position(y, x - 1));
         if (x < this._combinedWidth - 1) f(new Position(y, x + 1));
     }
-
-
 
     // Returns a string representation of the current maze
     toString() {
