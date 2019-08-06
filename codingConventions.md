@@ -3,6 +3,9 @@ Since JavaScript can be one huge mess if not managed properly, we're collecting
 here some conventions we'll be using in our project to favor consistency, performance
 and elegance.
 
+## Importing files
+As of now, we just import all of the required js files in the right order in the HTML document calling them. In the future we may turn to [ES6 modules](https://stackoverflow.com/questions/950087/how-do-i-include-a-javascript-file-in-another-javascript-file/950146#950146).
+
 ## Object oriented programming
 
 ### Class declaration
@@ -56,3 +59,4 @@ let moreSpecificObject = new Drummer ("Mike", 1000, true);
 if (moreSpecificObject.doubleBass)
     moreSpecificObject.printDiscography();
 ```
+
