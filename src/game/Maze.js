@@ -1,3 +1,10 @@
+// An enum to keep track of the cells state
+var CELL = {
+    EMPTY: 0,
+    WALL: 1,
+    PLAYER: 2
+}
+
 /* ==================
  * Maze
  * ==================
@@ -12,9 +19,25 @@ export default class Maze {
         for (var i = 0; i < height; i ++) {
             var row = [];
             for (var j = 0; j < width; j++) {
-                row.push(0);
+                row.push(CELL.EMPTY);
             }
             this.grid.push(row);
+        }
+    }
+
+    // Prints the current maze in a readable format
+    toString() {
+        for (var i = 0; i < this.height; i++) {
+            var line = '';
+            for (var j = 0; j < this.width; j++) {
+                switch (this.grid[i][j]) {
+                    case CELL.EMPTY: line += ' '; break;
+                    case CELL.WALL: line += '█'; break;
+                    case CELL.PLAYER: line += '🤖'; break;
+                    default: throw 'Invalid cell value: ' + this.grid[i][j];
+                }
+            }
+            console.log(line);
         }
     }
 }
