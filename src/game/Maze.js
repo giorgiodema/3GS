@@ -1,5 +1,5 @@
 // An enum to keep track of the cells state
-const CELL = {
+export const CELL = {
     EMPTY: 0,
     UNDEFINED: 1,
     WALL: 2,
@@ -9,7 +9,7 @@ const CELL = {
 }
 
 // An enum that indicates a movement direction
-const DIRECTION = {
+export const DIRECTION = {
     UP: 0,
     DOWN: 1,
     LEFT: 2,
@@ -20,7 +20,7 @@ const DIRECTION = {
  * Position
  * ==================
  * A simple class that just holds a pair of coordinates */
-class Position {
+export class Position {
     constructor(y, x) {
         this._y = y;
         this._x = x;
@@ -41,7 +41,7 @@ class Position {
  * Maze
  * ==================
  * A class that represents a random maze that can be navigated */
-class Maze {
+export class Maze {
     constructor(width, height) {
         this._width = width;
         this._height = height;
