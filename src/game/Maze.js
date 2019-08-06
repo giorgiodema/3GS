@@ -46,8 +46,8 @@ class Maze {
         // 2. Pick a cell, mark it as part of the maze
         var walls = [];
         var cell = new Position(
-            Math.floor(Math.random() * this.height) + 1,
-            Math.floor(Math.random() * this.width) + 1
+            Math.floor(Math.random() * this.height) * 2 + 1,
+            Math.floor(Math.random() * this.width) * 2 + 1
         );
         this.grid[cell.y][cell.x] = CELL.EMPTY;
 
@@ -68,32 +68,22 @@ class Maze {
             // 3.2. Remove the wall from the list
             walls.splice(i, 1);
 
-            // Explore the adjacent cells
+            // Count the visited adjacent cells
             var adjacent = [];
             this.executeOnAdjacentCells(pos.y, pos.x, adj =>
             {
-                if (this.grid[adj.y][adj.x] == CELL.EMPTY) {
+                if (this.grid[adj.y][adj.x] == CELL.UNDEFINED) {
                     adjacent.push(adj);
                 }
             });
 
-            // Count the visited adjacent cells
-            var visited = 0;
-            var target = undefined;
-            for (var j = 0; j < adjacent.length; j++) {
-                if (this.grid[adjacent[j].y, adjacent[j].x] == CELL.EMPTY) {
-                    visited += 1;
-                    target = adjacent[j];
-                }
-            }
-
             // 3.1.1. If only one of the two cells that the wall divides is visited
-            if (visited == 1) {
+            if (adjacent.length == 1) {
                 this.grid[pos.y][pos.x] = CELL.PASSAGE;
-                this.grid[target.y, target.x] = CELL.EMPTY;
+                this.grid[adjacent[0].y][adjacent[0].x] = CELL.EMPTY;
 
                 // 3.1.2. Add the neighboring walls of the cell to the wall list
-                this.executeOnAdjacentCells(target.y, target.x, next => {
+                this.executeOnAdjacentCells(adjacent[0].y, adjacent[0].x, next => {
                     if (this.grid[next.y][next.x] == CELL.WALL) {
                         walls.push(next);
                     }
@@ -105,9 +95,9 @@ class Maze {
     // Invokes a callback function on the valid adjacent cells to the given coordinates
     executeOnAdjacentCells(y, x, f) {
         if (y > 0) f(new Position(y - 1, x));
-        if (y < this.height - 1) f(new Position(y + 1, x));
+        if (y < this.combinedHeight - 1) f(new Position(y + 1, x));
         if (x > 0) f(new Position(y, x - 1));
-        if (x < this.width - 1) f(new Position(y, x + 1));
+        if (x < this.combinedWidth - 1) f(new Position(y, x + 1));
     }
 
     // Returns a string representation of the current maze
@@ -133,5 +123,5 @@ class Maze {
     }
 }
 
-var maze = new Maze(20, 10);
+var maze = new Maze(20, 18);
 console.log(maze.toString());
