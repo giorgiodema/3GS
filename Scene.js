@@ -6,10 +6,12 @@ class Scene {
         this.camera = new Array();
     }
 
+    // Gets called inside render, calls all animations
     animate(){
         //TODO
     }
 
+    // Calls animate, then all renders of children objects
     render(){
         //TODO
     }
@@ -26,7 +28,11 @@ class Scene {
         //TODO
     }
 
-    setCamera(){
+    addCamera(){
+
+    }
+
+    setActiveCamera(){
         //TODO
     }
 }
