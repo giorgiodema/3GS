@@ -167,6 +167,19 @@ class Maze {
         return this._grid[next.y][next.x] == CELL.EMPTY;
     }
 
+    // Moves the player in a specific direction, if possible
+    move(direction) {
+        var next = new Position(
+            this._position.y + this._vectors[direction].y,
+            this._position.x + this._vectors[direction].x
+        );
+        if (this._grid[next.y][next.x] == CELL.EMPTY) {
+            this._grid[this._position.y][this._position.x] = CELL.EMPTY;
+            this._grid[next.y][next.x] = CELL.PLAYER;
+            this._position = next;
+        }
+    }
+
     // Returns a string representation of the current maze
     toString() {
         var result = '';
