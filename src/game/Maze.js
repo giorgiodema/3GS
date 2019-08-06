@@ -25,19 +25,22 @@ export default class Maze {
         }
     }
 
-    // Prints the current maze in a readable format
+    // Returns a string representation of the current maze
     toString() {
+        var result = '';
         for (var i = 0; i < this.height; i++) {
             var line = '';
             for (var j = 0; j < this.width; j++) {
                 switch (this.grid[i][j]) {
-                    case CELL.EMPTY: line += ' '; break;
-                    case CELL.WALL: line += '█'; break;
+                    case CELL.EMPTY: line += '  '; break;
+                    case CELL.WALL: line += '██'; break;
                     case CELL.PLAYER: line += '🤖'; break;
                     default: throw 'Invalid cell value: ' + this.grid[i][j];
                 }
             }
-            console.log(line);
+            result += line;
+            if (i < this.height - 1) result += '\n';
         }
+        return result;
     }
 }
