@@ -22,6 +22,7 @@ class GraphicObject{
     }
 
     translate(){
+      
 
     }
 
