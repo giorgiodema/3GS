@@ -1,5 +1,5 @@
 // An enum to keep track of the cells state
-var CELL = {
+const CELL = {
     EMPTY: 0,
     UNDEFINED: 1,
     WALL: 2,
@@ -9,7 +9,7 @@ var CELL = {
 }
 
 // An enum that indicates a movement direction
-var DIRECTION = {
+const DIRECTION = {
     UP: 0,
     DOWN: 1,
     LEFT: 2,
@@ -229,6 +229,3 @@ class Maze {
         return result;
     }
 }
-
-var maze = new Maze(8, 6);
-console.log(maze.toString());
