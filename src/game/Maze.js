@@ -55,6 +55,7 @@ class Maze {
         this._vectors[DIRECTION.DOWN] = new Position(1, 0);
         this._vectors[DIRECTION.LEFT] = new Position(0, -1);
         this._vectors[DIRECTION.RIGHT] = new Position(0, 1);
+        this._won = false;
 
         // Initialize a new [height, width] array
         this._initialize();
@@ -158,13 +159,19 @@ class Maze {
         if (x < this._combinedWidth - 1) f(new Position(y, x + 1));
     }
 
+    // Gets whether or not the player has reached the target position
+    get hasWon() {
+        return this._won;
+    }
+
     // Checks whether the player can move in a specific direction
     canMove(direction) {
         var next = new Position(
             this._position.y + this._vectors[direction].y,
             this._position.x + this._vectors[direction].x
         );
-        return this._grid[next.y][next.x] == CELL.EMPTY;
+        return this._grid[next.y][next.x] == CELL.EMPTY ||
+               this._grid[next.y][next.x] == CELL.TARGET;
     }
 
     // Moves the player in a specific direction, if possible
@@ -173,7 +180,11 @@ class Maze {
             this._position.y + this._vectors[direction].y,
             this._position.x + this._vectors[direction].x
         );
-        if (this._grid[next.y][next.x] == CELL.EMPTY) {
+        if (this._grid[next.y][next.x] == CELL.EMPTY ||
+            this._grid[next.y][next.x] == CELL.TARGET) {
+            if (this._grid[next.y][next.x] == CELL.TARGET) {
+                this._won = true;
+            }
             this._grid[this._position.y][this._position.x] = CELL.EMPTY;
             this._grid[next.y][next.x] = CELL.PLAYER;
             this._position = next;
