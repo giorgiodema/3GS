@@ -4,7 +4,8 @@ var CELL = {
     UNDEFINED: 1,
     WALL: 2,
     PASSAGE: 3,
-    PLAYER: 4
+    PLAYER: 4,
+    TARGET: 5
 }
 
 class Position {
@@ -26,6 +27,7 @@ class Maze {
         this.combinedWidth = width * 2 + 1;
         this.grid = []
         this.position = null;
+        this.target = null;
 
         // Initialize a new [height, width] array
         this.initialize();
@@ -101,6 +103,16 @@ class Maze {
                 break;
             }
         }
+
+        // Spawn the target
+        for (var i = this.combinedWidth - 2; i > 0; i--) {
+            if (this.grid[1][i] == CELL.EMPTY ||
+                this.grid[1][i] == CELL.PASSAGE) {
+                this.target = new Position(1, i);
+                this.grid[this.target.y][this.target.x] = CELL.TARGET;
+                break;
+            }
+        }
     }
 
     // Invokes a callback function on the valid adjacent cells to the given coordinates
@@ -124,6 +136,7 @@ class Maze {
                     case CELL.UNDEFINED: line += '░░'; break;
                     case CELL.WALL: line += '██'; break;
                     case CELL.PLAYER: line += '🤖'; break;
+                    case CELL.TARGET: line += '🥇'; break;
                     default: throw 'Invalid cell value: ' + this.grid[i][j];
                 }
             }
