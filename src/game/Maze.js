@@ -142,8 +142,7 @@ class Maze {
 
         // Spawn the target
         for (var i = this._combinedWidth - 2; i > 0; i--) {
-            if (this._grid[1][i] == CELL.EMPTY ||
-                this._grid[1][i] == CELL.PASSAGE) {
+            if (this._grid[1][i] == CELL.EMPTY) {
                 this._target = new Position(1, i);
                 this._grid[this._target.y][this._target.x] = CELL.TARGET;
                 break;
@@ -157,6 +156,15 @@ class Maze {
         if (y < this._combinedHeight - 1) f(new Position(y + 1, x));
         if (x > 0) f(new Position(y, x - 1));
         if (x < this._combinedWidth - 1) f(new Position(y, x + 1));
+    }
+
+    // Checks whether the player can move in a specific direction
+    canMove(direction) {
+        var next = new Position(
+            this._position.y + this._vectors[direction].y,
+            this._position.x + this._vectors[direction].x
+        );
+        return this._grid[next.y][next.x] == CELL.EMPTY;
     }
 
     // Returns a string representation of the current maze
