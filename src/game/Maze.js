@@ -159,6 +159,21 @@ class Maze {
         if (x < this._combinedWidth - 1) f(new Position(y, x + 1));
     }
 
+    // Gets the position of the current player inside the maze
+    get position() {
+        return this._position;
+    }
+
+    // Gets the position of the target
+    get target() {
+        return this._target;
+    }
+
+    // Gets the current maze data
+    get grid() {
+        return this._grid;
+    }
+
     // Gets whether or not the player has reached the target position
     get hasWon() {
         return this._won;
