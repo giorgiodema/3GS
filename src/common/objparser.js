@@ -1,6 +1,3 @@
-
-
-
 class Parser{
     constructor(serverAddr,objPath){
         this.serverAddr = serverAddr;
@@ -42,7 +39,7 @@ class Parser{
         var s = this._readObjFile();
         while(s.length>0){
             var lineEnd = s.indexOf('\n');
-            var line = s.substring(0,lineEnd-1);
+            var line = s.substring(0,lineEnd);
             s = s.substring(lineEnd+1);
 
             if (!(line.startsWith("o") || line.startsWith("v") ||line.startsWith("vt") || line.startsWith("vn") || line.startsWith("f")))
