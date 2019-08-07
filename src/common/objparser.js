@@ -57,6 +57,9 @@ class Parser{
                 this.components[name]["vertices"] = [];
                 this.components[name]["normals"] = [];
                 this.components[name]["uvCoords"] = [];
+                this.verticesArray = [];
+                this.normalsArray = [];
+                this.uvCoordsArray = [];
             }
             else{
                 
@@ -84,7 +87,6 @@ class Parser{
                     var z = parseFloat(lines[2]);
                     this.verticesArray.push(vec3(x,y,z));
                 }
-    
     
                 else if(line.startsWith("f")){
                     var lines = this._splitLine(line.substring(2),' ');
@@ -147,7 +149,6 @@ class Parser{
     
                 }
             }
-
         }
     }
 

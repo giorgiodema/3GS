@@ -12,9 +12,9 @@ window.onload = function init() {
     console.log("Components Names:" + components.toString());
 
     var torsoVertices = p.getVertices("Torso");
-    console.log("Torso Vertices:");
-    torsoVertices.forEach(v => {
+    console.log("Torso Vertices:" + torsoVertices);
+    /*torsoVertices.forEach(v => {
         console.log(v.toString());
-    });
+    });*/
 
 }
