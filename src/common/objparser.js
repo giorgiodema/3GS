@@ -39,7 +39,12 @@ class Parser{
         var s = this._readObjFile();
         while(s.length>0){
             var lineEnd = s.indexOf('\n');
+            
+            // The line is all of the characters up to the newline
+            // (which is the first excluded character by substring's syntax)
             var line = s.substring(0,lineEnd);
+
+            // The rest of the document is everything starting from the character after the newline
             s = s.substring(lineEnd+1);
 
             if (!(line.startsWith("o") || line.startsWith("v") ||line.startsWith("vt") || line.startsWith("vn") || line.startsWith("f")))
