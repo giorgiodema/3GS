@@ -154,22 +154,25 @@ class Parser{
     }
 
     getVertices(componentName){
-        if(this.names.findIndex(componentName))
-            return this.components[componentName]["vertices"];
+        if(this.names.findIndex(e =>{return e===componentName;})>=0)
+            if(this.components[componentName]["vertices"].length>0)
+                return this.components[componentName]["vertices"].slice(0);
         else
             return null;
     }
 
     getNormals(componentName){
-        if(this.names.findIndex(componentName))
-            return this.components[componentName]["normals"];
+        if(this.names.findIndex(e =>{return e===componentName;})>=0)
+            if(this.components[componentName]["normals"].length>0)
+                return this.components[componentName]["normals"].slice(0);
         else
             return null;
     }
 
     getUVCoords(componentName){
-        if(this.names.findIndex(componentName))
-            return this.components[componentName]["uvCoords"];
+        if(this.names.findIndex(e =>{return e===componentName;})>=0)
+            if(this.components[componentName]["uvCoords"].length>0)
+                return this.components[componentName]["uvCoords"].slice(0);
         else
             return null;
     }
