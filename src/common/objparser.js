@@ -121,13 +121,15 @@ class Parser{
                     // triangles
                     if(vidxArray.length===3){
                         vidxArray.forEach(vidx => {
-                            this.components[currComp]["vertices"].push(this.verticesArray[vidx]);
+                            // The -1 is required because our array starts from index 0 while the
+                            // .obj format starts counting from 1 
+                            this.components[currComp]["vertices"].push(this.verticesArray[vidx - 1]);
                         });
                         nidxArray.forEach(nidx => {
-                            this.components[currComp]["normals"].push(this.normalsArray[nidx]);
+                            this.components[currComp]["normals"].push(this.normalsArray[nidx - 1]);
                         });
                         uvidxArray.forEach(uvidx => {
-                            this.components[currComp]["uvCoords"].push(this.uvCoordsArray[uvidx]);
+                            this.components[currComp]["uvCoords"].push(this.uvCoordsArray[uvidx - 1]);
                         });
                     }
 
@@ -137,13 +139,13 @@ class Parser{
                         var nidxArrayExp = nidxArray.length === 0 ? [] : this._expandVertices(nidxArray);
                         var uvidxArrayExp = uvidxArray.length === 0 ? [] : this._expandVertices(uvidxArray);
                         vidxArrayExp.forEach(vidx => {
-                            this.components[currComp]["vertices"].push(this.verticesArray[vidx]);
+                            this.components[currComp]["vertices"].push(this.verticesArray[vidx - 1]);
                         });
                         nidxArrayExp.forEach(nidx => {
-                            this.components[currComp]["normals"].push(this.normalsArray[nidx]);
+                            this.components[currComp]["normals"].push(this.normalsArray[nidx - 1]);
                         });
                         uvidxArrayExp.forEach(uvidx => {
-                            this.components[currComp]["uvCoords"].push(this.uvCoordsArray[uvidx]);
+                            this.components[currComp]["uvCoords"].push(this.uvCoordsArray[uvidx - 1]);
                         });
                     }
     
