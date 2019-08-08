@@ -38,7 +38,13 @@ class Parser{
     parse(){
         var s = this._readObjFile();
         while(s.length>0){
-            var lineEnd = s.indexOf('\n');
+            // Support both CRLF and LF files
+            var lineEnd = s.indexOf('\r');
+            if (cr === -1)
+            {
+                lineEnd = s.indexOf('\n');
+            }
+            
             
             // The line is all of the characters up to the newline
             // (which is the first excluded character by substring's syntax)
