@@ -40,7 +40,7 @@ class Parser{
         while(s.length>0){
             // Support both CRLF and LF files
             var lineEnd = s.indexOf('\r');
-            if (cr === -1)
+            if (lineEnd === -1)
             {
                 lineEnd = s.indexOf('\n');
             }
