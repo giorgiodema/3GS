@@ -48,7 +48,7 @@ class Parser{
             s = s.substring(lineEnd+1);
 
             // Support both CR/LF and LF
-            cr = line.indexOf('\r');
+            var cr = line.indexOf('\r');
             if (cr !== -1)
             {
                 line = line.substr(0,cr);
