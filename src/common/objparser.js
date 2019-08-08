@@ -38,20 +38,21 @@ class Parser{
     parse(){
         var s = this._readObjFile();
         while(s.length>0){
-            // Support both CRLF and LF files
-            var lineEnd = s.indexOf('\r');
-            if (lineEnd === -1)
-            {
-                lineEnd = s.indexOf('\n');
-            }
-            
-            
+            var lineEnd = s.indexOf('\n');
+                        
             // The line is all of the characters up to the newline
             // (which is the first excluded character by substring's syntax)
             var line = s.substring(0,lineEnd);
 
             // The rest of the document is everything starting from the character after the newline
             s = s.substring(lineEnd+1);
+
+            // Support both CR/LF and LF
+            cr = line.indexOf('\r');
+            if (cr !== -1)
+            {
+                line = line.substr(0,cr);
+            }
 
             if (!(line.startsWith("o") || line.startsWith("v") ||line.startsWith("vt") || line.startsWith("vn") || line.startsWith("f")))
                 continue;
