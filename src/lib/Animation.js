@@ -11,6 +11,9 @@ class KeyframeShift {
         this._currentRot = object.rot;
         this._currentScale = object.scale;
         this._finalPos = pos;
+        /* rot parameter must be a 3*2 matrix [[rotateX -> <boolean>, xAngle],
+                                                [rotateY -> <boolean>, yAngle],
+                                                [rotateZ -> <boolean>, zAngle]] */
         this._finalRot = rot;
         this._finalScale = scale;
     }
@@ -37,14 +40,45 @@ class KeyframeShift {
         if(this._now < this._frames){
 
             //updates position
-            if(this._finalPos != NULL) currentPos = this.interpolateVector(currentPos, finalPos);
-            this._object.translate(this._currentPos[0], this._currentPos[1], this._currentPos[2]);
+            if(this._finalPos != NULL)[
+                this._currentPos = this.interpolateVector(this._currentPos, this._finalPos);
+                this._object.translate(this._currentPos[0], this._currentPos[1], this._currentPos[2]);
+            }
 
-            //ROTATION UPDATE TODO
+            //updates rotation
+            if(this._finalRot != NULL){
+
+                /* _finalRot property is a 3*2 matrix [[rotateX -> <boolean>, xAngle],
+                                                        [rotateY -> <boolean>, yAngle],
+                                                        [rotateZ -> <boolean>, zAngle]]
+
+                    _currentRot is a vector [xAngle, yAngle, zAngle]
+                */
+
+                //updates X axis
+                if(this._finalRot[0][0]){
+                    this._currentRot[0] = this.interpolateVector(this._currentRot[0], this._finalRot[0][1]);
+                    this._object.rotate(this._currentRot[0], [1, 0, 0]);
+                }
+
+                //updates Y axis
+                if(this._finalRot[1][0]){
+                    this._currentRot[1] = this.interpolateVector(this._currentRot[1], this._finalRot[1][1]);
+                    this._object.rotate(this._currentRot[1], [0, 1, 0]);
+                }
+
+                //updates Z axis
+                if(this._finalRot[2][0]){
+                    this._currentRot[2] = this.interpolateVector(this._currentRot[2], this._finalRot[2][1]);
+                    this._object.rotate(this._currentRot[2], [0, 0, 1]);
+                }
+            }
 
             //updates scaling
-            if(this._finalScale != NULL) currentScale = this.interpolateVector(currentScale, finalScale);
-            this._object.scale(this._currentScale[0], this._currentScale[1], this._currentScale[2]);
+            if(this._finalScale != NULL){
+                this._currentScale = this.interpolateVector(this._currentScale, this._finalScale);
+                this._object.scale(this._currentScale[0], this._currentScale[1], this._currentScale[2]);
+            }
 
             //increment logical time
             this._now += 1;
