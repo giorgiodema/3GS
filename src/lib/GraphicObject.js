@@ -61,9 +61,9 @@ class GraphicObject {
         this._instanceMatrix = mult(scalem(x, y, z), this._instanceMatrix);
     }
 
-    // Used in functions that specifically set parameters. It is a bit costly and could be avoided by 
-    // internally storing separate matrices for the position, rotation and scale. That would make the 
-    // translate/rotate/scale methods costlier though since they'd have to update two matrices.
+    // Previously used in setter functions. Not used anymore after optimizations. 
+    // Keeping it here in case it is needed again.
+    /*
     _recalculateInstanceMatrix() {
         this._instanceMatrix = new mat4();
         this._instanceMatrix = mult(translate(this._pos[0], this._pos[1], this._pos[2]), this._instanceMatrix);
@@ -72,25 +72,31 @@ class GraphicObject {
         this._instanceMatrix = mult(rotate(this._rot[2], [0, 0, 1]), this._instanceMatrix);
         this._instanceMatrix = mult(scalem(this._scale[0], this._scale[1], this._scale[2]), this._instanceMatrix);
     }
+    */
 
     setPosition(x, y, z) {
-        this._pos[0] = x;
-        this._pos[1] = y;
-        this._pos[2] = z;
-        this._recalculateInstanceMatrix();
+        let xTranslation = x - this._pos[0];
+        let yTranslation = y - this._pos[1];
+        let zTranslation = z - this._pos[2];
+        this.translate(xTranslation, yTranslation, zTranslation);
     }
 
     setRotation(angle, axis) {
-        this._rot[0] = this._rot[0] * (1 - axis[0]) + angle * axis[0];
-        this._rot[1] = this._rot[1] * (1 - axis[1]) + angle * axis[1];
-        this._rot[2] = this._rot[2] * (1 - axis[2]) + angle * axis[2];
-        this._recalculateInstanceMatrix();
+        let rotations = new vec3();
+        for (let i = 0; i < 3; i++) {
+            if(axis[i] === 1) {
+                rotations[i] = angle - this._rot[i];
+            }
+        }
+        this.rotate(rotations[0], [1, 0, 0]);
+        this.rotate(rotations[1], [0, 1, 0]);
+        this.rotate(rotations[2], [0, 0, 1]);
     }
 
     setScale(x, y, z) {
-        this._scale[0] = x;
-        this._scale[1] = y;
-        this._scale[2] = z;
-        this._recalculateInstanceMatrix();
+        let xScale = x / this._scale[0];
+        let yScale = y / this._scale[1];
+        let zScale = z / this._scale[2];
+        this.scale(xScale, yScale, zScale);
     }
 }
