@@ -41,7 +41,7 @@ class KeyframeShift {
 
             //updates position
             if(this._finalPos != NULL){
-                this._currentPos = this.interpolateVector(this._currentPos, this._finalPos);
+                this._currentPos = this.interpolateVector(this._initPos, this._finalPos);
                 this._object.setPosition(this._currentPos[0], this._currentPos[1], this._currentPos[2]);
             }
 
@@ -57,26 +57,26 @@ class KeyframeShift {
 
                 //updates X axis
                 if(this._finalRot[0][0]){
-                    this._currentRot[0] = this.interpolateVector(this._currentRot[0], this._finalRot[0][1]);
+                    this._currentRot[0] = this.interpolateScalar(this._initRot[0], this._finalRot[0][1]);
                     this._object.setRotation(this._currentRot[0], [1, 0, 0]);
                 }
 
                 //updates Y axis
                 if(this._finalRot[1][0]){
-                    this._currentRot[1] = this.interpolateVector(this._currentRot[1], this._finalRot[1][1]);
+                    this._currentRot[1] = this.interpolateScalar(this._initRot[1], this._finalRot[1][1]);
                     this._object.setRotation(this._currentRot[1], [0, 1, 0]);
                 }
 
                 //updates Z axis
                 if(this._finalRot[2][0]){
-                    this._currentRot[2] = this.interpolateVector(this._currentRot[2], this._finalRot[2][1]);
+                    this._currentRot[2] = this.interpolateScalar(this._initRot[2], this._finalRot[2][1]);
                     this._object.setRotation(this._currentRot[2], [0, 0, 1]);
                 }
             }
 
             //updates scaling
             if(this._finalScale != NULL){
-                this._currentScale = this.interpolateVector(this._currentScale, this._finalScale);
+                this._currentScale = this.interpolateVector(this._initScale, this._finalScale);
                 this._object.setScale(this._currentScale[0], this._currentScale[1], this._currentScale[2]);
             }
 
