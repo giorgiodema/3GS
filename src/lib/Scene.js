@@ -1,20 +1,21 @@
 class Scene {
 
-    this._activeCamera;
+    
 
     constructor() {
         this._objects = new Array();
         this._lights = new Array();
         this._animations = new Array();
         this._cameras = new Array();
+        this._activeCamera;
     }
 
     // Gets called inside renderScene(), calls animate() function for all GraphicObjects
     _animateScene(){
         var len = this._animations.length;
-        for(var i = 0; i < len i++){
+        for(var i = 0; i < len; i++){
 
-            if(this._animations[i] != NULL || !(this._animations[i].length != 0)
+            if(this._animations[i] != NULL || !(this._animations[i].length != 0) )
                 //Processes an Animation object
                 this._animations[i].animate();
 
@@ -24,14 +25,17 @@ class Scene {
     // Calls animateScene(), then renders all GraphicObjects
     renderScene(){
 
-        if(this._animations != NULL || !(this._animations.length != 0)
+        var currViewMatrix = this._activeCamera.getViewMatrix();
+        //TODO: update the gl view matrix
+
+        if(this._animations != NULL || !(this._animations.length != 0))
             //Updates scene objects animation parameters
-            _animateScene();
+            this._animateScene();
 
 
         var len = this._objects.length;
 
-        if(this._objects != NULL || !(len != 0){
+        if(this._objects != NULL || !(len != 0)){
 
             for(var i = 0; i < len; i++){
                 if(this._objects[i] != NULL)
