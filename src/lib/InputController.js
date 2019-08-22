@@ -6,10 +6,10 @@ export default class InputController {
     constructor() {
 
         // Mouse handlers
-        this._onVerticalCameraAxisMoved = null;
-        this._onHorizontalCameraAxisMoved = null;
+        this._onVerticalMouseAxisMoved = null;
+        this._onHorizontalMouseAxisMoved = null;
 
-        window.onmousemove = e => this._trackCameraMovement(e);
+        window.onmousemove = e => this._trackMouseMovement(e);
 
         // Arrow keys states
         this._isUpArrowKeyDown = false;
@@ -27,25 +27,25 @@ export default class InputController {
         window.onkeyup = e => this._trackArrowKey(e, false);
     }
 
-    // Sets the callback to invoke when the vertical camera axis changes
-    get onVerticalCameraAxisMoved() {
-        return this._onVerticalCameraAxisMoved;
+    // Sets the callback to invoke when the vertical mouse axis position changes
+    get onVerticalMouseAxisMoved() {
+        return this._onVerticalMouseAxisMoved;
     }
 
-    // Sets the callback to invoke when the horizontal camera axis changes
-    get onHorizontalCameraAxisMoved() {
-        return this._onHorizontalCameraAxisMoved;
+    // Sets the callback to invoke when the horizontal mouse axis position changes
+    get onHorizontalMouseAxisMoved() {
+        return this._onHorizontalMouseAxisMoved;
     }
 
-    // Tracks when the camera is moved
-    _trackCameraMovement(e) {
+    // Tracks when the mouse is moved
+    _trackMouseMovement(e) {
         e = e || window.event;
 
-        if (typeof this._onVerticalCameraAxisMoved === 'function') {
-            this._onVerticalCameraAxisMoved(e.movementY);
+        if (typeof this._onVerticalMouseAxisMoved === 'function') {
+            this._onHorizontalMouseAxisMoved(e.movementY);
         }
         if (typeof this._onHorizontalCameraAxisMoved === 'function') {
-            this._onHorizontalCameraAxisMoved(e.movementX);
+            this._onHorizontalMouseAxisMoved(e.movementX);
         }
     }
 
