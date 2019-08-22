@@ -5,6 +5,12 @@
 export default class InputController {
     constructor() {
 
+        // Mouse handlers
+        this._onVerticalCameraAxisMoved = null;
+        this._onHorizontalCameraAxisMoved = null;
+
+        window.onmousemove = e => this._trackCameraMovement(e);
+
         // Arrow keys states
         this._isUpArrowKeyDown = false;
         this._isDownArrowKeyDown = false;
@@ -19,6 +25,28 @@ export default class InputController {
 
         window.onkeydown = e => this._trackArrowKey(e, true);
         window.onkeyup = e => this._trackArrowKey(e, false);
+    }
+
+    // Sets the callback to invoke when the vertical camera axis changes
+    get onVerticalCameraAxisMoved() {
+        return this._onVerticalCameraAxisMoved;
+    }
+
+    // Sets the callback to invoke when the horizontal camera axis changes
+    get onHorizontalCameraAxisMoved() {
+        return this._onHorizontalCameraAxisMoved;
+    }
+
+    // Tracks when the camera is moved
+    _trackCameraMovement(e) {
+        e = e || window.event;
+
+        if (typeof this._onVerticalCameraAxisMoved === 'function') {
+            this._onVerticalCameraAxisMoved(e.movementY);
+        }
+        if (typeof this._onHorizontalCameraAxisMoved === 'function') {
+            this._onHorizontalCameraAxisMoved(e.movementX);
+        }
     }
 
     // Gets whether or not the up arrow key is currently down
