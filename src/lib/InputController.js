@@ -28,13 +28,13 @@ export default class InputController {
     }
 
     // Sets the callback to invoke when the vertical mouse axis position changes
-    get onVerticalMouseAxisMoved() {
-        return this._onVerticalMouseAxisMoved;
+    set onVerticalMouseAxisMoved(value) {
+        this._onVerticalMouseAxisMoved = value;
     }
 
     // Sets the callback to invoke when the horizontal mouse axis position changes
-    get onHorizontalMouseAxisMoved() {
-        return this._onHorizontalMouseAxisMoved;
+    set onHorizontalMouseAxisMoved(value) {
+        this._onHorizontalMouseAxisMoved = value;
     }
 
     // Tracks when the mouse is moved
@@ -70,23 +70,23 @@ export default class InputController {
     }
 
     // Sets the callback to invoke when the up arrow key is pressed
-    get onUpArrowKeyDown() {
-        return this._onUpArrowKeyDown;
+    set onUpArrowKeyDown(value) {
+        this._onUpArrowKeyDown = value;
     }
 
     // Sets the callback to invoke when the down arrow key is pressed
-    get onDownArrowKeyDown() {
-        return this._onDownArrowKeyDown;
+    set onDownArrowKeyDown(value) {
+        this._onDownArrowKeyDown = value;
     }
 
     // Sets the callback to invoke when the left arrow key is pressed
-    get onLeftArrowKeyDown() {
-        return this._onLeftArrowKeyDown;
+    set onLeftArrowKeyDown(value) {
+        this._onLeftArrowKeyDown = value;
     }
 
     // Sets the callback to invoke when the right arrow key is pressed
-    get onRightArrowKeyDown() {
-        return this._onRightArrowKeyDown;
+    set onRightArrowKeyDown(value) {
+        this._onRightArrowKeyDown = value;
     }
 
     // Tracks when an arrow key is being pressed
