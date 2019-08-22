@@ -1,13 +1,31 @@
 class Scene {
-
-    
-
-    constructor() {
+    constructor(canvasID) {
         this._objects = new Array();
         this._lights = new Array();
         this._animations = new Array();
         this._cameras = new Array();
         this._activeCamera;
+        this.program;
+        
+        let canvas = document.getElementById(canvasID);
+        this._gl = WebGLUtils.setupWebGL(canvas);
+        if (!this._gl) { alert("WebGL isn't available"); }
+        
+        this._gl.viewport(0, 0, canvas.width, canvas.height);
+        this._gl.clearColor(1.0, 1.0, 1.0, 1.0);
+    }
+    // Necessary to call this before using the scene
+    init(callback) {
+        let self = this;
+        var program = initShadersFromFile( this._gl, "../lib/shaders/phong.vert", "../lib/shaders/phong.frag", function(program) {
+            self.program = program;
+            self._gl.useProgram(self.program);
+            if(callback !== undefined) {  callback(); }
+        });
+    }
+
+    get gl() {
+        return this._gl;
     }
 
     // Gets called inside renderScene(), calls animate() function for all GraphicObjects

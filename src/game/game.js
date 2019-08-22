@@ -7,74 +7,61 @@ var NumPoints = 5000;
 
 window.onload = function init()
 {
-    var canvas = document.getElementById( "gl-canvas" );
+    var scene = new Scene("gl-canvas");
+    scene.init(function() {
+        //
+        //  Initialize our data for the Sierpinski Gasket
+        //
 
-    gl = WebGLUtils.setupWebGL( canvas );
-    if ( !gl ) { alert( "WebGL isn't available" ); }
+        // First, initialize the corners of our gasket with three points.
 
-    //
-    //  Initialize our data for the Sierpinski Gasket
-    //
+        var vertices = [
+            vec2( -1, -1 ),
+            vec2(  0,  1 ),
+            vec2(  1, -1 )
+        ];
 
-    // First, initialize the corners of our gasket with three points.
+        // Specify a starting point p for our iterations
+        // p must lie inside any set of three vertices
 
-    var vertices = [
-        vec2( -1, -1 ),
-        vec2(  0,  1 ),
-        vec2(  1, -1 )
-    ];
+        var u = add( vertices[0], vertices[1] );
+        var v = add( vertices[0], vertices[2] );
+        var p = scale( 0.25, add( u, v ) );
 
-    // Specify a starting point p for our iterations
-    // p must lie inside any set of three vertices
+        // And, add our initial point into our array of points
 
-    var u = add( vertices[0], vertices[1] );
-    var v = add( vertices[0], vertices[2] );
-    var p = scale( 0.25, add( u, v ) );
+        points = [ p ];
 
-    // And, add our initial point into our array of points
+        // Compute new points
+        // Each new point is located midway between
+        // last point and a randomly chosen vertex
 
-    points = [ p ];
-
-    // Compute new points
-    // Each new point is located midway between
-    // last point and a randomly chosen vertex
-
-    for ( var i = 0; points.length < NumPoints; ++i ) {
-        var j = Math.floor(Math.random() * 3);
-        p = add( points[i], vertices[j] );
-        p = scale( 0.5, p );
-        points.push( p );
-    }
-
-    //
-    //  Configure WebGL
-    //
-    gl.viewport( 0, 0, canvas.width, canvas.height );
-    gl.clearColor( 1.0, 1.0, 1.0, 1.0 );
-
-    //  Load shaders and initialize attribute buffers
-
-    var program = initShadersFromFile( gl, "test.vert", "test.frag", function(program) {
-        gl.useProgram( program );
+        for ( var i = 0; points.length < NumPoints; ++i ) {
+            var j = Math.floor(Math.random() * 3);
+            p = add( points[i], vertices[j] );
+            p = scale( 0.5, p );
+            points.push( p );
+        }
 
         // Load the data into the GPU
-    
-        var bufferId = gl.createBuffer();
-        gl.bindBuffer( gl.ARRAY_BUFFER, bufferId );
-        gl.bufferData( gl.ARRAY_BUFFER, flatten(points), gl.STATIC_DRAW );
-    
+
+        var bufferId = scene.gl.createBuffer();
+        scene.gl.bindBuffer( scene.gl.ARRAY_BUFFER, bufferId );
+        scene.gl.bufferData( scene.gl.ARRAY_BUFFER, flatten(points), scene.gl.STATIC_DRAW );
+
         // Associate out shader variables with our data buffer
+        var vPosition = scene.gl.getAttribLocation( scene.program, "vPosition" );
+        scene.gl.vertexAttribPointer( vPosition, 2, scene.gl.FLOAT, false, 0, 0 );
+        scene.gl.enableVertexAttribArray( vPosition );
     
-        var vPosition = gl.getAttribLocation( program, "vPosition" );
-        gl.vertexAttribPointer( vPosition, 2, gl.FLOAT, false, 0, 0 );
-        gl.enableVertexAttribArray( vPosition );
-    
-        render();
+        scene.gl.clear( scene.gl.COLOR_BUFFER_BIT );
+        scene.gl.drawArrays( scene.gl.POINTS, 0, points.length );
     });
 };
 
 
-function render() {
-    gl.clear( gl.COLOR_BUFFER_BIT );
-    gl.drawArrays( gl.POINTS, 0, points.length );
+/*function render() {
+    scene.gl.clear( scene.gl.COLOR_BUFFER_BIT );
+    scene.gl.drawArrays( scene.gl.POINTS, 0, points.length );
 }
+*/
