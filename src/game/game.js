@@ -24,14 +24,13 @@ window.onload = function init()
         scene.addCamera(camera);
         scene.setActiveCamera(0);
 
-        camera.setPosition(0.0, 0.0, -3.0);
-        scene.renderScene();
+        camera.setPosition(0.0, 0.0, -10.0);
+        render(scene);
     });
 };
 
-
-/*function render() {
+var render  = function(scene) {
     scene.gl.clear( scene.gl.COLOR_BUFFER_BIT );
-    scene.gl.drawArrays( scene.gl.POINTS, 0, points.length );
+    scene.renderScene();
+    requestAnimFrame(render(scene));
 }
-*/

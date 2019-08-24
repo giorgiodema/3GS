@@ -33,7 +33,7 @@ class Scene {
         var len = this._animations.length;
         for(var i = 0; i < len; i++){
 
-            if(this._animations[i] != null || !(this._animations[i].length != 0) )
+            if(this._animations[i] != null && this._animations[i].length != 0 )
                 //Processes an Animation object
                 this._animations[i].animate();
 
@@ -52,14 +52,14 @@ class Scene {
         // Update the projection matrix on the GPU
         this._gl.uniformMatrix4fv(this._gl.getUniformLocation(this.program, "projectionMatrix" ), false, flatten(currProjMatrix));
 
-        if(this._animations != null || !(this._animations.length != 0))
+        if(this._animations != null && (this._animations.length != 0))
             //Updates scene objects animation parameters
             this._animateScene();
 
 
         var len = this._objects.length;
 
-        if(this._objects != null || !(len != 0)){
+        if(this._objects != null && (len != 0)){
             for(var i = 0; i < len; i++){
                 if(this._objects[i] != null)
                     //renders a GraphicObject
