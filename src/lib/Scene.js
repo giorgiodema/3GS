@@ -42,7 +42,7 @@ class Scene {
 
     // Calls animateScene(), then renders all GraphicObjects
     renderScene(){
-        this._gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+        this._gl.clear( this._gl.COLOR_BUFFER_BIT | this._gl.DEPTH_BUFFER_BIT);
 
         var currViewMatrix = this._activeCamera.getViewMatrix();
         // Update the view matrix on the GPU
@@ -85,7 +85,7 @@ class Scene {
     }
 
     addCamera(camera){
-        if(object != null) this._cameras.push(camera);
+        if(camera != null) this._cameras.push(camera);
     }
 
 //******************************************************************************

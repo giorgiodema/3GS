@@ -3,9 +3,9 @@ class PerspectiveCamera{
     constructor(){
 
         // camera position and orientation
-        this._eye = vec3(0.0,0.0,0.0);
-        this._at  = vec3(0.0,0.0,0.0);
-        this._up  = vec3(0.0,1.0,0.0);
+        this._eye = vec3(0.0, 0.0, 0.0);
+        this._at  = vec3(0.0, 0.0, 0.0);
+        this._up  = vec3(0.0, 1.0, 0.0);
 
         // perspective parameters
         this._fovy = 45.0;
