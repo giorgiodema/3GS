@@ -61,12 +61,12 @@ class GraphicObject {
         var modelMatrix = mult(this._instanceMatrix, parentMatrix);
         
         //rendering stuff
-        this.scene.gl.uniformMatrix4fv(this.scene.gl.getUniformLocation( program,"modelMatrix"),false,flatten(modelMatrix));
+        this.scene.gl.uniformMatrix4fv(this.scene.gl.getUniformLocation( this.scene.program,"modelMatrix"),false,flatten(modelMatrix));
         this.scene.gl.drawArrays(this.scene.gl.TRIANGLES, 0, this._vertices.length);
 
         //remember that after all that the "render" methods have been called, the user will do a "requestAnimationFrame".
 
-        children.forEach(child => {
+        this._children.forEach(child => {
             child.render(modelMatrix);
         });
     }

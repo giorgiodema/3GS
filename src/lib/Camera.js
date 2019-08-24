@@ -27,7 +27,7 @@ class PerspectiveCamera{
     }
 
     getViewMatrix(){
-        return lookAt(this._eye, this._at);
+        return lookAt(this._eye, this._at, this._up);
     }
 
     getProjectionMatrix(){
