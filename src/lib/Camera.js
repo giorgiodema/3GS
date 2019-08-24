@@ -27,6 +27,10 @@ class PerspectiveCamera{
     }
 
     getViewMatrix(){
+        return lookAt(this._eye, this._at);
+    }
+
+    getProjectionMatrix(){
         return perspective( this._fovy, this._aspect, this._near, this._far );
     }
 

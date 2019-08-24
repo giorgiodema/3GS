@@ -9,53 +9,23 @@ window.onload = function init()
 {
     var scene = new Scene("gl-canvas");
     scene.init(function() {
-        //
-        //  Initialize our data for the Sierpinski Gasket
-        //
+        let objparser = new Parser("localhost:9000", "src/game/Assets/Character/model_separated.obj");
+        objparser.parse();
 
-        // First, initialize the corners of our gasket with three points.
+        let firstObjectName = objparser.getComponents()[0];
+        let colors = new Array(objparser.getVertices(firstObjectName).length).fill(new vec3(100/255,90/255,68/255));
+        let trialObject = new GraphicObject(objparser.getVertices(firstObjectName), objparser.getNormals(firstObjectName), colors);
 
-        var vertices = [
-            vec2( -1, -1 ),
-            vec2(  0,  1 ),
-            vec2(  1, -1 )
-        ];
+        scene.addObject(trialObject);
+        trialObject.initBuffers();
 
-        // Specify a starting point p for our iterations
-        // p must lie inside any set of three vertices
+        let camera = new PerspectiveCamera();
 
-        var u = add( vertices[0], vertices[1] );
-        var v = add( vertices[0], vertices[2] );
-        var p = scale( 0.25, add( u, v ) );
+        scene.addCamera(camera);
+        scene.setActiveCamera(0);
 
-        // And, add our initial point into our array of points
-
-        points = [ p ];
-
-        // Compute new points
-        // Each new point is located midway between
-        // last point and a randomly chosen vertex
-
-        for ( var i = 0; points.length < NumPoints; ++i ) {
-            var j = Math.floor(Math.random() * 3);
-            p = add( points[i], vertices[j] );
-            p = scale( 0.5, p );
-            points.push( p );
-        }
-
-        // Load the data into the GPU
-
-        var bufferId = scene.gl.createBuffer();
-        scene.gl.bindBuffer( scene.gl.ARRAY_BUFFER, bufferId );
-        scene.gl.bufferData( scene.gl.ARRAY_BUFFER, flatten(points), scene.gl.STATIC_DRAW );
-
-        // Associate out shader variables with our data buffer
-        var vPosition = scene.gl.getAttribLocation( scene.program, "vPosition" );
-        scene.gl.vertexAttribPointer( vPosition, 2, scene.gl.FLOAT, false, 0, 0 );
-        scene.gl.enableVertexAttribArray( vPosition );
-    
-        scene.gl.clear( scene.gl.COLOR_BUFFER_BIT );
-        scene.gl.drawArrays( scene.gl.POINTS, 0, points.length );
+        camera.setPosition(0.0, 0.0, -3.0);
+        scene.renderScene();
     });
 };
 

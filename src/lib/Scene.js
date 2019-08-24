@@ -7,11 +7,11 @@ class Scene {
         this._activeCamera;
         this.program;
         
-        let canvas = document.getElementById(canvasID);
-        this._gl = WebGLUtils.setupWebGL(canvas);
+        this.canvas = document.getElementById(canvasID);
+        this._gl = WebGLUtils.setupWebGL(this.canvas);
         if (!this._gl) { alert("WebGL isn't available"); }
         
-        this._gl.viewport(0, 0, canvas.width, canvas.height);
+        this._gl.viewport(0, 0, this.canvas.width, this.canvas.height);
         this._gl.clearColor(1.0, 1.0, 1.0, 1.0);
     }
     // Necessary to call this before using the scene
@@ -42,9 +42,15 @@ class Scene {
 
     // Calls animateScene(), then renders all GraphicObjects
     renderScene(){
+        this._gl.clear( gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
         var currViewMatrix = this._activeCamera.getViewMatrix();
-        //TODO: update the gl view matrix
+        // Update the view matrix on the GPU
+        this._gl.uniformMatrix4fv(this._gl.getUniformLocation(this.program, "viewMatrix" ), false, flatten(currViewMatrix));
+
+        var currProjMatrix = this._activeCamera.getProjectionMatrix();
+        // Update the projection matrix on the GPU
+        this._gl.uniformMatrix4fv(this._gl.getUniformLocation(this.program, "projectionMatrix" ), false, flatten(currProjMatrix));
 
         if(this._animations != NULL || !(this._animations.length != 0))
             //Updates scene objects animation parameters
@@ -54,20 +60,20 @@ class Scene {
         var len = this._objects.length;
 
         if(this._objects != NULL || !(len != 0)){
-
             for(var i = 0; i < len; i++){
                 if(this._objects[i] != NULL)
                     //renders a GraphicObject
-                    this._objects[i].render();
+                    this._objects[i].render(new mat4());
             }
-
         }
-
     }
 
 //******************************** ADD METHODS *********************************
     addObject(object){
-        if(object != NULL) this._objects.push(object);
+        if(object != NULL) {
+            this._objects.push(object);
+            object.scene = this;
+        }
     }
 
     addLight(light){

@@ -13,7 +13,7 @@ class Parser{
 
     _readObjFile(){
         var request = new XMLHttpRequest();
-        request.open("GET",this.serverAddr + "/" + this.objPath,false);
+        request.open("GET", this.serverAddr + "/" + this.objPath, false);
         request.send();
         if (request.status === 200) 
             return request.responseText;
