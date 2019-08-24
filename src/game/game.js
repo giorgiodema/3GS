@@ -9,7 +9,7 @@ window.onload = function init()
 {
     var scene = new Scene("gl-canvas");
     scene.init(function() {
-        let objparser = new Parser("localhost:9000", "src/game/Assets/Character/model_separated.obj");
+        let objparser = new Parser("http://localhost:9000", "src/game/Assets/Character/model_separated.obj");
         objparser.parse();
 
         let firstObjectName = objparser.getComponents()[0];

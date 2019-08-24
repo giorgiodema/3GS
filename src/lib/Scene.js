@@ -33,7 +33,7 @@ class Scene {
         var len = this._animations.length;
         for(var i = 0; i < len; i++){
 
-            if(this._animations[i] != NULL || !(this._animations[i].length != 0) )
+            if(this._animations[i] != null || !(this._animations[i].length != 0) )
                 //Processes an Animation object
                 this._animations[i].animate();
 
@@ -52,16 +52,16 @@ class Scene {
         // Update the projection matrix on the GPU
         this._gl.uniformMatrix4fv(this._gl.getUniformLocation(this.program, "projectionMatrix" ), false, flatten(currProjMatrix));
 
-        if(this._animations != NULL || !(this._animations.length != 0))
+        if(this._animations != null || !(this._animations.length != 0))
             //Updates scene objects animation parameters
             this._animateScene();
 
 
         var len = this._objects.length;
 
-        if(this._objects != NULL || !(len != 0)){
+        if(this._objects != null || !(len != 0)){
             for(var i = 0; i < len; i++){
-                if(this._objects[i] != NULL)
+                if(this._objects[i] != null)
                     //renders a GraphicObject
                     this._objects[i].render(new mat4());
             }
@@ -70,22 +70,22 @@ class Scene {
 
 //******************************** ADD METHODS *********************************
     addObject(object){
-        if(object != NULL) {
+        if(object != null) {
             this._objects.push(object);
             object.scene = this;
         }
     }
 
     addLight(light){
-        if(light != NULL) this._lights.push(light);
+        if(light != null) this._lights.push(light);
     }
 
     addAnimation(animation){
-        if(animation != NULL) this._animations.push(animation);
+        if(animation != null) this._animations.push(animation);
     }
 
     addCamera(camera){
-        if(object != NULL) this._cameras.push(camera);
+        if(object != null) this._cameras.push(camera);
     }
 
 //******************************************************************************
@@ -95,7 +95,7 @@ class Scene {
 
         if (cameraIndex >= 0 && cameraIndex < this._cameras.length){
 
-            console.assert(this._cameras[cameraIndex] != NULL,
+            console.assert(this._cameras[cameraIndex] != null,
                     "[setActiveCamera] Undefined camera selected");
 
             this._activeCamera = this._cameras[cameraIndex];
