@@ -39,7 +39,6 @@ class GraphicObject {
         return new vec3(this._scale[0], this.scale[1], this.scale[2]);
     }
 
-    // Needs to be called after adding the object to a scene or to another object
     initBuffers() {
         if(this.scene === undefined) {
             console.error("Can't initialize GPU buffers: this GraphicObject belongs to no scene.");
@@ -136,5 +135,6 @@ class GraphicObject {
     addChild(newChild) {
         this._children.push(newChild);
         newChild.scene = this.scene;
+        newChild.initBuffers();
     }
 }

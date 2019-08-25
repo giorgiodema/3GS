@@ -12,14 +12,18 @@ window.onload = function init()
         let objparser = new Parser("http://localhost:9000", "src/game/Assets/Character/model_separated.obj");
         objparser.parse();
 
-        let firstObjectName = objparser.getComponents()[0];
-        let colors = new Array(objparser.getVertices(firstObjectName).length).fill(new vec3(100/255,90/255,68/255));
-        let trialObject = new GraphicObject(objparser.getVertices(firstObjectName), objparser.getNormals(firstObjectName), colors);
+        let torsoName = objparser.getComponents()[0];
+        let colors = new Array(objparser.getVertices(torsoName).length).fill(new vec3(100/255,90/255,68/255));
+        let torso = new GraphicObject(objparser.getVertices(torsoName), objparser.getNormals(torsoName), colors);
 
-        scene.addObject(trialObject);
-        trialObject.initBuffers();
+        scene.addObject(torso);
 
-        trialObject.rotate(90.0, [0, 1, 0]);
+        torso.rotate(90.0, [0, 1, 0]);
+
+        let headName = objparser.getComponents()[1];
+        let head = new GraphicObject(objparser.getVertices(headName), objparser.getNormals(headName), colors);
+
+        torso.addChild(head);
 
         let camera = new PerspectiveCamera();
 

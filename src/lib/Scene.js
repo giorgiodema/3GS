@@ -100,6 +100,7 @@ class Scene {
         if(object != null) {
             this._objects.push(object);
             object.scene = this;
+            object.initBuffers();
         }
     }
 
