@@ -22,14 +22,6 @@ class PerspectiveCamera{
         this._aspect = width/height;
     }
 
-    setFar(far){
-        this._far = far;
-    }
-
-    setNear(near){
-        this._near = near;
-    }
-
     setFovy(fovy){
         this._fovy = fovy;
     }

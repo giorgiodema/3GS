@@ -34,8 +34,7 @@ window.onload = function init()
         scene.addCamera(camera);
         scene.setActiveCamera(0);
 
-        camera.setPosition(0.0, 0.0, -50.0);
-        camera.setFar(100);
+        camera.setPosition(0.0, 0.0, -10.0);
         render(scene);
     });
 };
