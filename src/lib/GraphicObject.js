@@ -54,8 +54,8 @@ class GraphicObject {
         this._firstNormalIdx = this.scene.nArray.length > 0 ? this.scene.nArray.length-1 : 0;
         this._lastNormIdx  = this.scene.nArray.length-1+this._normals.length;
         this.scene.nArray = this.scene.nArray.concat(this._normals);
-        this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.scene.nBuffer);
-        this.scene.gl.bufferData(this.scene.gl.ARRAY_BUFFER, flatten(this.scene.nArray), this.scene.gl.STATIC_DRAW);
+        //this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.scene.nBuffer);
+        //this.scene.gl.bufferData(this.scene.gl.ARRAY_BUFFER, flatten(this.scene.nArray), this.scene.gl.STATIC_DRAW);
 
         this._firstColorIdx = this.scene.cArray.length > 0 ? this.scene.cArray.length-1 : 0;
         this._lastColorIdx  = this.scene.cArray.length-1+this._colors.length;

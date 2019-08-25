@@ -36,11 +36,11 @@ class Scene {
             self._gl.vertexAttribPointer(self._gl.getAttribLocation(self.program, "vPosition"), 3, self._gl.FLOAT, false, 0, 0);
             self._gl.enableVertexAttribArray(self._gl.getAttribLocation(self.program, "vPosition"));
 
-            self.nBuffer = self._gl.createBuffer();
+            /*self.nBuffer = self._gl.createBuffer();
             self._gl.bindBuffer(self._gl.ARRAY_BUFFER, self.nBuffer);
             self._gl.vertexAttribPointer(self._gl.getAttribLocation(self.program, "vNormal"), 3, self._gl.FLOAT, false, 0, 0);
             self._gl.enableVertexAttribArray(self._gl.getAttribLocation(self.program, "vNormal"));
-            
+            */
             self.cBuffer = self._gl.createBuffer();
             self._gl.bindBuffer(self._gl.ARRAY_BUFFER, self.cBuffer);
             self._gl.vertexAttribPointer(self._gl.getAttribLocation(self.program, "vColor"), 3, self._gl.FLOAT, false, 0, 0);
