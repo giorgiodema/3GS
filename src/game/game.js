@@ -23,11 +23,8 @@ window.onload = function init()
         let headName = objparser.getComponents()[1];
         let head = new GraphicObject(objparser.getVertices(headName), objparser.getNormals(headName), colors);
 
-        torso.addChild(head);
-        head.initBuffers();
-
-        head.rotate(90.0, [0, 1, 0]);
-
+        //torso.addChild(head);
+        
         let camera = new PerspectiveCamera();
 
         scene.addCamera(camera);
