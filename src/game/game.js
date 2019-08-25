@@ -1,13 +1,9 @@
 "use strict";
 
-var gl;
-var points;
-
-var NumPoints = 5000;
-
+var scene;
 window.onload = function init()
 {
-    var scene = new Scene("gl-canvas");
+    scene = new Scene("gl-canvas");
     scene.init(function() {
         let objparser = new Parser("http://localhost:9000", "src/game/Assets/Character/model_separated.obj");
         objparser.parse();
@@ -32,11 +28,11 @@ window.onload = function init()
 
         camera.setPosition(0.0, 0.0, -50.0);
         camera.setFar(100);
-        render(scene);
+        render();
     });
 };
 
-var render  = function(scene) {
+var render  = function() {
     scene.renderScene();
-    requestAnimFrame(render(scene));
+    requestAnimFrame(render);
 }
