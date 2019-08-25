@@ -52,6 +52,7 @@ class GraphicObject {
         this.cBuffer = this.scene.gl.createBuffer();
         this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.cBuffer);
         this.scene.gl.bufferData(this.scene.gl.ARRAY_BUFFER, flatten(this._colors), this.scene.gl.STATIC_DRAW);
+        
 
 
 
@@ -63,14 +64,19 @@ class GraphicObject {
         
         //rendering stuff
         this.scene.gl.uniformMatrix4fv(this.scene.gl.getUniformLocation( this.scene.program,"modelMatrix"),false,flatten(modelMatrix));
+
         // binding vertex buffer
         this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER,this.vBuffer);
         this.scene.gl.vertexAttribPointer(this.scene.gl.getAttribLocation(this.scene.program, "vPosition"), 3, this.scene.gl.FLOAT, false, 0, 0);
         this.scene.gl.enableVertexAttribArray(this.scene.gl.getAttribLocation(this.scene.program, "vPosition"));
+
         // binding normal buffer
+        /* TODO: fix warnings
         this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER,this.nBuffer);
         this.scene.gl.vertexAttribPointer(this.scene.gl.getAttribLocation(this.scene.program, "vNormal"), 3, this.scene.gl.FLOAT, false, 0, 0);
         this.scene.gl.enableVertexAttribArray(this.scene.gl.getAttribLocation(this.scene.program, "vNormal"));
+        */
+
         // binding color buffer
         this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER,this.cBuffer);
         this.scene.gl.vertexAttribPointer(this.scene.gl.getAttribLocation(this.scene.program, "vColor"), 3, this.scene.gl.FLOAT, false, 0, 0);
