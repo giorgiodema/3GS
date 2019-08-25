@@ -26,6 +26,14 @@ class PerspectiveCamera{
         this._fovy = fovy;
     }
 
+    setNear(near){
+        this._near = near;
+    }
+
+    setFar(far){
+        this._far = far;
+    }
+
     getViewMatrix(){
         return lookAt(this._eye, this._at, this._up);
     }
