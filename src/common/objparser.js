@@ -13,7 +13,7 @@ class Parser{
 
     _readObjFile(){
         var request = new XMLHttpRequest();
-        request.open("GET",this.serverAddr + "/" + this.objPath,false);
+        request.open("GET", this.serverAddr + "/" + this.objPath, false);
         request.send();
         if (request.status === 200) 
             return request.responseText;
@@ -64,9 +64,6 @@ class Parser{
                 this.components[name]["vertices"] = [];
                 this.components[name]["normals"] = [];
                 this.components[name]["uvCoords"] = [];
-                this.verticesArray = [];
-                this.normalsArray = [];
-                this.uvCoordsArray = [];
             }
             else{
                 

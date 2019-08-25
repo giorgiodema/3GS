@@ -8,6 +8,11 @@ class GraphicObject {
         this._colorMap = colorMap;
         this._normalsMap = normalsMap;
         this._children = new Array();
+        this.scene;
+
+        this.vBuffer;
+        this.cBuffer;
+        this.nBuffer;
 
         // Model instantiation matrix, places the object in its relative coordinates w.r.t. father
         this._instanceMatrix = new mat4();
@@ -31,9 +36,52 @@ class GraphicObject {
         return new vec3(this._scale[0], this.scale[1], this.scale[2]);
     }
 
+    initBuffers() {
+        if(this.scene === undefined) {
+            console.error("Can't initialize GPU buffers: this GraphicObject belongs to no scene.");
+        }
+
+        this.vBuffer = this.scene.gl.createBuffer();
+        this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.vBuffer);
+        this.scene.gl.bufferData(this.scene.gl.ARRAY_BUFFER, flatten(this._vertices), this.scene.gl.STATIC_DRAW);
+
+        this.nBuffer = this.scene.gl.createBuffer();
+        this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.nBuffer);
+        this.scene.gl.bufferData(this.scene.gl.ARRAY_BUFFER, flatten(this._normals), this.scene.gl.STATIC_DRAW);
+
+        this.cBuffer = this.scene.gl.createBuffer();
+        this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.cBuffer);
+        this.scene.gl.bufferData(this.scene.gl.ARRAY_BUFFER, flatten(this._colors), this.scene.gl.STATIC_DRAW);
+
+
+
+
+    }
+
     render(parentMatrix) {
-        //var model = instanceMatrix*parentMatrix;
-        //pass model to _children
+        var modelMatrix = mult(this._instanceMatrix, parentMatrix);
+        
+        //rendering stuff
+        this.scene.gl.uniformMatrix4fv(this.scene.gl.getUniformLocation( this.scene.program,"modelMatrix"),false,flatten(modelMatrix));
+        // binding vertex buffer
+        this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER,this.vBuffer);
+        this.scene.gl.vertexAttribPointer(this.scene.gl.getAttribLocation(this.scene.program, "vPosition"), 3, this.scene.gl.FLOAT, false, 0, 0);
+        this.scene.gl.enableVertexAttribArray(this.scene.gl.getAttribLocation(this.scene.program, "vPosition"));
+        // binding normal buffer
+        this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER,this.nBuffer);
+        this.scene.gl.vertexAttribPointer(this.scene.gl.getAttribLocation(this.scene.program, "vNormal"), 3, this.scene.gl.FLOAT, false, 0, 0);
+        this.scene.gl.enableVertexAttribArray(this.scene.gl.getAttribLocation(this.scene.program, "vNormal"));
+        // binding color buffer
+        this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER,this.cBuffer);
+        this.scene.gl.vertexAttribPointer(this.scene.gl.getAttribLocation(this.scene.program, "vColor"), 3, this.scene.gl.FLOAT, false, 0, 0);
+        this.scene.gl.enableVertexAttribArray(this.scene.gl.getAttribLocation(this.scene.program, "vColor"));
+        this.scene.gl.drawArrays(this.scene.gl.TRIANGLES,0, this._vertices.length-1);
+
+        //remember that after all that the "render" methods have been called, the user will do a "requestAnimationFrame".
+
+        this._children.forEach(child => {
+            child.render(modelMatrix);
+        });
     }
 
     // Adds the values of x, y, z to the position parameters of the object
@@ -61,19 +109,6 @@ class GraphicObject {
         this._instanceMatrix = mult(scalem(x, y, z), this._instanceMatrix);
     }
 
-    // Previously used in setter functions. Not used anymore after optimizations. 
-    // Keeping it here in case it is needed again.
-    /*
-    _recalculateInstanceMatrix() {
-        this._instanceMatrix = new mat4();
-        this._instanceMatrix = mult(translate(this._pos[0], this._pos[1], this._pos[2]), this._instanceMatrix);
-        this._instanceMatrix = mult(rotate(this._rot[0], [1, 0, 0]), this._instanceMatrix);
-        this._instanceMatrix = mult(rotate(this._rot[1], [0, 1, 0]), this._instanceMatrix);
-        this._instanceMatrix = mult(rotate(this._rot[2], [0, 0, 1]), this._instanceMatrix);
-        this._instanceMatrix = mult(scalem(this._scale[0], this._scale[1], this._scale[2]), this._instanceMatrix);
-    }
-    */
-
     setPosition(x, y, z) {
         let xTranslation = x - this._pos[0];
         let yTranslation = y - this._pos[1];
@@ -98,5 +133,11 @@ class GraphicObject {
         let yScale = y / this._scale[1];
         let zScale = z / this._scale[2];
         this.scale(xScale, yScale, zScale);
+    }
+
+    addChild(newChild) {
+        this._children.push(newChild);
+        newChild.scene = this.scene;
+        newChild.initBuffers();
     }
 }

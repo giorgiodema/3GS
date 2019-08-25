@@ -3,9 +3,9 @@ class PerspectiveCamera{
     constructor(){
 
         // camera position and orientation
-        this._eye = vec3(0.0,0.0,0.0);
-        this._at  = vec3(0.0,0.0,0.0);
-        this._up  = vec3(0.0,1.0,0.0);
+        this._eye = vec3(0.0, 0.0, 0.0);
+        this._at  = vec3(0.0, 0.0, 0.0);
+        this._up  = vec3(0.0, 1.0, 0.0);
 
         // perspective parameters
         this._fovy = 45.0;
@@ -26,7 +26,19 @@ class PerspectiveCamera{
         this._fovy = fovy;
     }
 
+    setNear(near){
+        this._near = near;
+    }
+
+    setFar(far){
+        this._far = far;
+    }
+
     getViewMatrix(){
+        return lookAt(this._eye, this._at, this._up);
+    }
+
+    getProjectionMatrix(){
         return perspective( this._fovy, this._aspect, this._near, this._far );
     }
 
