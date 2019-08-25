@@ -23,7 +23,7 @@ window.onload = function init()
         let headName = objparser.getComponents()[1];
         let head = new GraphicObject(objparser.getVertices(headName), objparser.getNormals(headName), colors);
 
-        torso.addChild(head);
+        //torso.addChild(head);
 
         let camera = new PerspectiveCamera();
 
