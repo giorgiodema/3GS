@@ -17,6 +17,7 @@ window.onload = function init()
         let torso = new GraphicObject(objparser.getVertices(torsoName), objparser.getNormals(torsoName), colors);
 
         scene.addObject(torso);
+        torso.initBuffers();
 
         torso.rotate(90.0, [0, 1, 0]);
 
