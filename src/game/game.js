@@ -26,8 +26,7 @@ window.onload = function init()
         scene.addCamera(camera);
         scene.setActiveCamera(0);
 
-        camera.setPosition(0.0, 0.0, -50.0);
-        camera.setFar(100);
+        camera.setPosition(0.0, 0.0, -10.0);
         render(scene);
     });
 };
@@ -35,5 +34,5 @@ window.onload = function init()
 var render  = function(scene) {
     scene.gl.clear( scene.gl.COLOR_BUFFER_BIT );
     scene.renderScene();
-    requestAnimFrame(render(scene));
+    //requestAnimFrame(render(scene));
 }

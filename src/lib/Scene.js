@@ -6,14 +6,6 @@ class Scene {
         this._cameras = new Array();
         this._activeCamera;
         this.program;
-
-        this.vBuffer;
-        this.nBuffer;
-        this.cBuffer;
-
-        this.vArray = new Array();
-        this.nArray = new Array();
-        this.cArray = new Array();
         
         this.canvas = document.getElementById(canvasID);
         this._gl = WebGLUtils.setupWebGL(this.canvas);
@@ -28,27 +20,8 @@ class Scene {
         var program = initShadersFromFile( this._gl, "../lib/shaders/phong.vert", "../lib/shaders/phong.frag", function(program) {
             self.program = program;
             self._gl.useProgram(self.program);
-
-            // initialize buffers in the scene to increase performance, each object will keep
-            // in memory only the index of its first vertex, normal,color
-            self.vBuffer = self._gl.createBuffer();
-            self._gl.bindBuffer(self._gl.ARRAY_BUFFER, self.vBuffer);
-            self._gl.vertexAttribPointer(self._gl.getAttribLocation(self.program, "vPosition"), 3, self._gl.FLOAT, false, 0, 0);
-            self._gl.enableVertexAttribArray(self._gl.getAttribLocation(self.program, "vPosition"));
-
-            self.nBuffer = self._gl.createBuffer();
-            self._gl.bindBuffer(self._gl.ARRAY_BUFFER, self.nBuffer);
-            self._gl.vertexAttribPointer(self._gl.getAttribLocation(self.program, "vNormal"), 3, self._gl.FLOAT, false, 0, 0);
-            self._gl.enableVertexAttribArray(self._gl.getAttribLocation(self.program, "vNormal"));
-            
-            self.cBuffer = self._gl.createBuffer();
-            self._gl.bindBuffer(self._gl.ARRAY_BUFFER, self.cBuffer);
-            self._gl.vertexAttribPointer(self._gl.getAttribLocation(self.program, "vColor"), 3, self._gl.FLOAT, false, 0, 0);
-            self._gl.enableVertexAttribArray(self._gl.getAttribLocation(self.program, "vColor"));
-
             if(callback !== undefined) {  callback(); }
         });
-
     }
 
     get gl() {

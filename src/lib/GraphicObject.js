@@ -10,13 +10,6 @@ class GraphicObject {
         this._children = new Array();
         this.scene;
 
-        this._firstVertIdx = 0;
-        this._lastVertIdx = 0;
-        this._firstNormIdx = 0;
-        this._lastNormIdx = 0;
-        this._firstColorIdx = 0;
-        this._lastColorIdx = 0;
-
         // Model instantiation matrix, places the object in its relative coordinates w.r.t. father
         this._instanceMatrix = new mat4();
         
@@ -45,26 +38,23 @@ class GraphicObject {
             console.error("Can't initialize GPU buffers: this GraphicObject belongs to no scene.");
         }
 
-        this._firstVertIdx = this.scene.vArray.length > 0 ? this.scene.vArray.length-1 : 0;
-        this._lastVertIdx  = this.scene.vArray.length-1+this._vertices.length;
-        this.scene.vArray = this.scene.vArray.concat(this._vertices);
-        this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.scene.vBuffer);
-        this.scene.gl.bufferData(this.scene.gl.ARRAY_BUFFER, flatten(this.scene.vArray), this.scene.gl.STATIC_DRAW);
+        this.vBuffer = this.scene.gl.createBuffer();
+        this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.vBuffer);
+        this.scene.gl.bufferData(this.scene.gl.ARRAY_BUFFER, flatten(this._vertices), this.scene.gl.STATIC_DRAW);
+        this.scene.gl.vertexAttribPointer(this.scene.gl.getAttribLocation(this.scene.program, "vPosition"), 3, this.scene.gl.FLOAT, false, 0, 0);
+        this.scene.gl.enableVertexAttribArray(this.scene.gl.getAttribLocation(this.scene.program, "vPosition"));
 
-        this._firstNormalIdx = this.scene.nArray.length > 0 ? this.scene.nArray.length-1 : 0;
-        this._lastNormIdx  = this.scene.nArray.length-1+this._normals.length;
-        this.scene.nArray = this.scene.nArray.concat(this._normals);
-        this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.scene.nBuffer);
-        this.scene.gl.bufferData(this.scene.gl.ARRAY_BUFFER, flatten(this.scene.nArray), this.scene.gl.STATIC_DRAW);
-
-        this._firstColorIdx = this.scene.cArray.length > 0 ? this.scene.cArray.length-1 : 0;
-        this._lastColorIdx  = this.scene.cArray.length-1+this._colors.length;
-        this.scene.cArray = this.scene.cArray.concat(this._colors);
-        this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.scene.cBuffer);
-        this.scene.gl.bufferData(this.scene.gl.ARRAY_BUFFER, flatten(this.scene.cArray), this.scene.gl.STATIC_DRAW);
-
-
-
+        this.nBuffer = this.scene.gl.createBuffer();
+        this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.nBuffer);
+        this.scene.gl.bufferData(this.scene.gl.ARRAY_BUFFER, flatten(this._normals), this.scene.gl.STATIC_DRAW);
+        this.scene.gl.vertexAttribPointer(this.scene.gl.getAttribLocation(this.scene.program, "vNormal"), 3, this.scene.gl.FLOAT, false, 0, 0);
+        this.scene.gl.enableVertexAttribArray(this.scene.gl.getAttribLocation(this.scene.program, "vNormal"));
+        
+        this.cBuffer = this.scene.gl.createBuffer();
+        this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.cBuffer);
+        this.scene.gl.bufferData(this.scene.gl.ARRAY_BUFFER, flatten(this._colors), this.scene.gl.STATIC_DRAW);
+        this.scene.gl.vertexAttribPointer(this.scene.gl.getAttribLocation(this.scene.program, "vColor"), 3, this.scene.gl.FLOAT, false, 0, 0);
+        this.scene.gl.enableVertexAttribArray(this.scene.gl.getAttribLocation(this.scene.program, "vColor"));
     }
 
     render(parentMatrix) {
@@ -73,7 +63,7 @@ class GraphicObject {
         //rendering stuff
         this.scene.gl.uniformMatrix4fv(this.scene.gl.getUniformLocation( this.scene.program,"modelMatrix"),false,flatten(modelMatrix));
 
-        this.scene.gl.drawArrays(this.scene.gl.TRIANGLES, this._firstVertIdx, this._lastVertIdx);
+        this.scene.gl.drawArrays(this.scene.gl.TRIANGLES, 0, this._vertices.length);
 
         //remember that after all that the "render" methods have been called, the user will do a "requestAnimationFrame".
 
