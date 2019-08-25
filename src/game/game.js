@@ -1,5 +1,6 @@
 "use strict";
 
+
 var scene;
 window.onload = function init()
 {
@@ -65,6 +66,29 @@ window.onload = function init()
         lowerLegL.addChild(footL);
 
         torso.rotate(90.0, [0, 1, 0]);
+
+        let c = new CubeV();
+        let cubes = new Array();
+        for(let i = 0; i < 500; i++){
+            let ci = new GraphicObject(c.getVertices(),[],new Array(c.getVertices().length).fill(vec3(Math.random(),Math.random(),Math.random())));
+            let scale = Math.floor(Math.random()*5);
+            ci.scale(scale,scale,scale);
+
+            let x = Math.floor(Math.random()*100);
+            let y = Math.floor(Math.random()*100);
+            let z = Math.floor(Math.random()*100);
+
+            x = Math.random() >= 0.5 ? x : -x;
+            y = Math.random() >= 0.5 ? y : -y;
+            z = Math.random() >= 0.5 ? z : -z;
+            
+            ci.setPosition(x,y,z);
+
+            ci.setRotation(Math.floor(Math.random()*360),[1,0,0]);
+            ci.setRotation(Math.floor(Math.random()*360),[0,1,0]);
+            ci.setRotation(Math.floor(Math.random()*360),[0,0,1]);
+            scene.addObject(ci);
+        }
 
         let camera = new PerspectiveCamera();
 

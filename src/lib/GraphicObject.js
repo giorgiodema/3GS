@@ -47,7 +47,7 @@ class GraphicObject {
 
         this.nBuffer = this.scene.gl.createBuffer();
         this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.nBuffer);
-        this.scene.gl.bufferData(this.scene.gl.ARRAY_BUFFER, flatten(this._normals), this.scene.gl.STATIC_DRAW);
+        //this.scene.gl.bufferData(this.scene.gl.ARRAY_BUFFER, flatten(this._normals), this.scene.gl.STATIC_DRAW);
 
         this.cBuffer = this.scene.gl.createBuffer();
         this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.cBuffer);
