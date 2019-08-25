@@ -64,9 +64,6 @@ class Parser{
                 this.components[name]["vertices"] = [];
                 this.components[name]["normals"] = [];
                 this.components[name]["uvCoords"] = [];
-                this.verticesArray = [];
-                this.normalsArray = [];
-                this.uvCoordsArray = [];
             }
             else{
                 
