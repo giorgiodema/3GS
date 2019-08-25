@@ -21,6 +21,14 @@ window.onload = function init()
 
         trialObject.rotate(90.0, [0, 1, 0]);
 
+        let secondObjectName = objparser.getComponents()[1];
+        let trialObject2 = new GraphicObject(objparser.getVertices(secondObjectName), objparser.getNormals(secondObjectName), colors);
+
+        trialObject.addChild(trialObject2);
+        trialObject2.initBuffers();
+
+        trialObject2.rotate(90.0, [0, 1, 0]);
+
         let camera = new PerspectiveCamera();
 
         scene.addCamera(camera);
