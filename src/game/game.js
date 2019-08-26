@@ -96,7 +96,7 @@ window.onload = function init()
         camera.setFar(1000);
 
         let cc = new CameraController(camera);
-        cc.bindObjectController(charController,50,10);
+        cc.bindObjectController(charController,30,30);
 
         render();
     });

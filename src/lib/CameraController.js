@@ -1,7 +1,7 @@
 class CameraController{
     constructor(camera){
         this.camera = camera;
-        this.step = 0.0005;
+        this.step = 0.05;
 
         // bound object controller
         this._objectController = null;
@@ -26,6 +26,8 @@ class CameraController{
         this._distance = distance;
         this._height = height;
         this._objectController = objController;
+        this.camera.eye = vec3(this.camera.eye[0],height,distance);
+        this.camera.at = objController.object.pos;
         objController.bindCameraController(this);
     }
 
