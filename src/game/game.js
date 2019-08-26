@@ -78,7 +78,7 @@ window.onload = function init()
             x = Math.random() >= 0.5 ? x : -x;
             y = Math.random() >= 0.5 ? y : -y;
             z = Math.random() >= 0.5 ? z : -z;
-            
+
             ci.setPosition(x,y,z);
 
             ci.setRotation(Math.floor(Math.random()*360),[1,0,0]);
@@ -86,6 +86,15 @@ window.onload = function init()
             ci.setRotation(Math.floor(Math.random()*360),[0,0,1]);
             scene.addObject(ci);
         }
+
+        let fRot1 = [null, [true, 0], null];
+        let fRot2 = [null, [true, 270], null];
+        console.log(torso.rot);
+        let k1 = new KeyframeShift(torso, 30, torso.pos, torso.rot, torso.scale, null, fRot1, null);
+        let k2 = new KeyframeShift(torso, 30, torso.pos, [0, 0, 0], torso.scale, null, fRot2, null);
+        //if it's a loop, keyframes must be loaded in logical straight order, if it's one shot anim, use reverse order
+        let anim1 = new Animation(true, new Array(k1, k2));
+        scene.addAnimation(anim1);
 
         let camera = new PerspectiveCamera();
 
