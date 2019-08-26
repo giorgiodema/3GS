@@ -3,6 +3,21 @@
 var scene;
 window.onload = function init()
 {
+    // Make the canvas independent from the screen size
+    let canvas = document.getElementById("gl-canvas");
+    var myHeight = window.innerHeight;
+
+    // Canvas values
+    var WIDTH = res_independent(650, myHeight), 
+    HEIGHT = res_independent(650, myHeight);
+    
+    		
+    canvas.style.height = HEIGHT.toString() + 'px'; //Reminder that CSS parameters are string
+    canvas.style.width = WIDTH.toString() + 'px';
+
+
+
+
     scene = new Scene("gl-canvas");
     scene.init(function() {
         let objparser = new Parser("http://localhost:9000", "src/game/Assets/Character/model_separated.obj");
@@ -109,3 +124,11 @@ var render  = function() {
     scene.renderScene();
     requestAnimFrame(render);
 }
+
+function res_independent(value, myHeight)
+{
+	//Makes every screen (or scaled window) have the same experience 
+	//based on the window's height (so that 4:3 and 16:9 work the same).
+	return (value/678.0)*myHeight;
+}
+
