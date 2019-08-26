@@ -64,10 +64,13 @@ window.onload = function init()
         let charController = new ObjectController(torso);
 
         // initialize colored cubes, to test camera and object controllers
-        let c = new CubeV();
-        let cubes = new Array();
+        // let c = new CubeV();
+        // let cubes = new Array();
         for(let i = 0; i < 500; i++){
-            let ci = new GraphicObject(c.getVertices(),[],new Array(c.getVertices().length).fill(vec3(Math.random(),Math.random(),Math.random())));
+            let ci = new Cube(1,[],new Array(8).fill(vec3(Math.random(),Math.random(),Math.random())));
+
+            scene.addObject(ci);
+
             let scale = Math.floor(Math.random()*5);
             ci.scale(scale,scale,scale);
 
@@ -84,7 +87,7 @@ window.onload = function init()
             ci.setRotation(Math.floor(Math.random()*360),[1,0,0]);
             ci.setRotation(Math.floor(Math.random()*360),[0,1,0]);
             ci.setRotation(Math.floor(Math.random()*360),[0,0,1]);
-            scene.addObject(ci);
+
         }
 
         let camera = new PerspectiveCamera();

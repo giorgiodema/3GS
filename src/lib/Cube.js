@@ -1,4 +1,3 @@
-
 class CubeV{
     constructor(){
         this._cubeVertices = [
@@ -37,3 +36,13 @@ class CubeV{
     return this.pointsArray.slice();
     }
 }      
+
+// Temporary unoptimized workaround to keep API consistent
+class Cube extends GraphicObject {
+    constructor(side, colors, uvCoords, colorMap, normalsMap) {
+        let c = new CubeV();
+        super(c.getVertices(),[],new Array(c.getVertices().length).fill(vec3(Math.random(),Math.random(),Math.random())));
+    }
+}
+
+
