@@ -1,8 +1,8 @@
 class CameraController{
     constructor(camera){
-        this.camera = camera;
-        this.step = 0.05;
-        this.zoom = 1;
+        this._camera = camera;
+        this._step = 0.05;
+        this._zoom = 1;
 
         // bound object controller
         this._objectController = null;
@@ -14,14 +14,11 @@ class CameraController{
 
     _mouseController(contr){
         return function(e){
-            //console.log("X:"+e.movementX);
-            //console.log("Y:"+e.movementY);
-            if(contr._objectController!=null && (contr._objectController.moving || contr._objectController.rotatingLeft || contr._objectController.rotatingRight))
+            if(contr._objectController!=null && contr._objectController.isMoving())
                 return;
-            let sx = contr.step * e.movementX;
-            let sy = contr.step * e.movementY;
-            contr.camera.at = vec3(contr.camera.at[0] + sx,contr.camera.at[1] - sy,contr.camera.at[2]);
-            //console.log(contr.camera.at);
+            let sx = contr._step * e.movementX;
+            let sy = contr._step * e.movementY;
+            contr._camera.at = vec3(contr._camera.at[0] + sx,contr._camera.at[1] - sy,contr._camera.at[2]);
         }
    
     }
@@ -29,10 +26,10 @@ class CameraController{
     _wheelController(contr){
         return function(e){
             if(e.deltaY < 0)
-                contr._distance-=contr.zoom;
+                contr._distance-=contr._zoom;
             else
-                contr._distance+=contr.zoom;
-            contr.camera.eye = vec3(contr.camera.eye[0],contr._distance,contr.camera.eye[2]);
+                contr._distance+=contr._zoom;
+            contr._camera.eye = vec3(contr._camera.eye[0],contr._distance,contr._camera.eye[2]);
         }
     }
 
@@ -40,12 +37,12 @@ class CameraController{
         this._distance = distance;
         this._height = height;
         this._objectController = objController;
-        this.camera.eye = vec3(this.camera.eye[0],height,distance);
-        this.camera.at = objController.object.pos;
+        this._camera.eye = vec3(this._camera.eye[0],height,distance);
+        this._camera.at = objController.object.pos;
         objController.bindCameraController(this);
     }
 
-    getCamera(){
-        return this.camera;
+    get camera(){
+        return this._camera;
     }
 }
