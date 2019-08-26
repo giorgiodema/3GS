@@ -14,26 +14,28 @@ class GraphicObject {
         this.cBuffer;
         this.nBuffer;
 
+        this._controller = null;
+
         // Model instantiation matrix, places the object in its relative coordinates w.r.t. father
         this._instanceMatrix = new mat4();
         
         // Relative coordinates, they have to be kept coherent with _instanceMatrix 
         // in the methods performing operations on them. 
-        this._pos = new vec3(0, 0, 0);
-        this._rot = new vec3(0, 0, 0);
-        this._scale = new vec3(1, 1, 1);
+        this._pos = vec3(0, 0, 0);
+        this._rot = vec3(0, 0, 0);
+        this._scale = vec3(1, 1, 1);
     }
 
     get pos() {
-        return new vec3(this._pos[0], this.pos[1], this.pos[2]);
+        return vec3(this._pos[0], this._pos[1], this._pos[2]);
     }
 
     get rot() {
-        return new vec3(this._rot[0], this.rot[1], this.rot[2]);
+        return vec3(this._rot[0], this._rot[1], this._rot[2]);
     }
 
     get scale() {
-        return new vec3(this._scale[0], this.scale[1], this.scale[2]);
+        return vec3(this._scale[0], this._scale[1], this._scale[2]);
     }
 
     initBuffers() {
@@ -60,6 +62,10 @@ class GraphicObject {
     }
 
     render(parentMatrix) {
+        // if there's a controller associated to the object, the controller will
+        // update the direction of the object
+        if(this._controller!== null)
+            this._controller.update();
         var modelMatrix = mult(this._instanceMatrix, parentMatrix);
         
         //rendering stuff
@@ -145,5 +151,9 @@ class GraphicObject {
         this._children.push(newChild);
         newChild.scene = this.scene;
         newChild.initBuffers();
+    }
+
+    setController(controller){
+        this._controller = controller;
     }
 }

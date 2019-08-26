@@ -1,6 +1,5 @@
 "use strict";
 
-
 var scene;
 window.onload = function init()
 {
@@ -11,6 +10,7 @@ window.onload = function init()
 
         console.log(objparser.getComponents());
 
+        // initialize character
         let colors = new Array(objparser.getVertices("Torso").length).fill(new vec3(100/255,90/255,68/255));
         let torso = new GraphicObject(objparser.getVertices("Torso"), objparser.getNormals("Torso"), colors);
 
@@ -47,11 +47,6 @@ window.onload = function init()
         colors = new Array(objparser.getVertices("Foot_L").length).fill(new vec3(100/255,90/255,68/255));
         let footL = new GraphicObject(objparser.getVertices("Foot_L"), objparser.getNormals("Foot_L"), colors);
 
-
-
-
-
-
         scene.addObject(torso);
         torso.addChild(head);
         torso.addChild(upperLegR);
@@ -65,8 +60,10 @@ window.onload = function init()
         lowerLegR.addChild(footR);
         lowerLegL.addChild(footL);
 
-        torso.rotate(90.0, [0, 1, 0]);
+        torso.rotate(270.0, [0, 1, 0]);
+        let charController = new ObjectController(torso);
 
+        // initialize colored cubes, to test camera and object controllers
         let c = new CubeV();
         let cubes = new Array();
         for(let i = 0; i < 500; i++){
@@ -95,8 +92,12 @@ window.onload = function init()
         scene.addCamera(camera);
         scene.setActiveCamera(0);
 
-        camera.setPosition(0.0, 0.0, -50.0);
-        camera.setFar(100);
+        camera.setPosition(0.0, 0.0, -50);
+        camera.setFar(1000);
+
+        let cc = new CameraController(camera);
+        cc.bindObjectController(charController,50,10);
+
         render();
     });
 };

@@ -14,6 +14,22 @@ class PerspectiveCamera{
         this._far = 10;
     }
 
+    get at(){
+        return this._at;
+    }
+
+    set at(at){
+        this._at = at;
+    }
+
+    get eye(){
+        return this._eye;
+    }
+    
+    set eye(eye){
+        this._eye = eye;
+    }
+
     setPosition(x,y,z){
         this._eye = vec3(x,y,z);
     }
