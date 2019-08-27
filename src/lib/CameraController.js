@@ -4,6 +4,9 @@ class CameraController{
         this._step = 0.05;
         this._zoom = 1;
 
+        this._distance = 0;
+        this._height = 0;
+
         // bound object controller
         this._objectController = null;
         //document.addEventListener('mousemove',this._mouseController(this));
@@ -34,6 +37,8 @@ class CameraController{
     }
 
     bindObjectController(objController,distance,height){
+        this._distance = distance;
+        this._height = height;
         this._objectController = objController;
         this._camera.eye = vec3(this._camera.eye[0],height,distance);
         this._camera.at = objController.object.pos;
@@ -42,5 +47,13 @@ class CameraController{
 
     get camera(){
         return this._camera;
+    }
+
+    get height(){
+        return this._height;
+    }
+
+    get distance(){
+        return this._distance;
     }
 }

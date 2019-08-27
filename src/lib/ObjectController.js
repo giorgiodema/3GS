@@ -22,7 +22,7 @@ class ObjectController{
             if(this._cameraController!==null){
                 let eye = this._cameraController.camera.eye;
                 let pos = this._object.pos;
-                this._cameraController.camera.eye = vec3(eye[0]+this._direction[0]*this._fwStep,eye[1]+this._direction[1]*this._fwStep,eye[2]+this._direction[2]*this._fwStep);
+                this._cameraController.camera.eye = vec3(eye[0]+this._direction[0]*this._fwStep,this._cameraController.height,eye[2]+this._direction[2]*this._fwStep);
                 eye = this._cameraController.camera.eye;
                 this._cameraController.camera.at = vec3(pos[0],pos[1],pos[2]);
             }
