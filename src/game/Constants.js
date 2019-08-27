@@ -45,4 +45,8 @@ class Constants {
     static get CAMERA_HEIGHT() {
         return 5;
     }
+
+    static get CHARACTER_SCALING() {
+        return 0.01;
+    }
 }

@@ -12,6 +12,7 @@ window.onload = () =>
         
         let maze = buildMazeGeometry();
         let character = buildCharacterGeometry();
+        character.scale(Constants.CHARACTER_SCALING,Constants.CHARACTER_SCALING,Constants.CHARACTER_SCALING);
 
         let camera = new PerspectiveCamera();
         camera.setFar(1000);
