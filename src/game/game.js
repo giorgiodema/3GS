@@ -79,8 +79,6 @@ window.onload = function init()
         let charController = new ObjectController(torso);
 
         // initialize colored cubes, to test camera and object controllers
-        // let c = new CubeV();
-        // let cubes = new Array();
         for(let i = 0; i < 500; i++){
             let ci = new Cube(1,[],new Array(8).fill(vec3(Math.random(),Math.random(),Math.random())));
 
