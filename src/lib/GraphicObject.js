@@ -76,11 +76,11 @@ class GraphicObject {
         this.scene.gl.enableVertexAttribArray(this.scene.gl.getAttribLocation(this.scene.program, "vPosition"));
 
         // binding normal buffer
-        /* TODO: fix warnings
+        // TODO: fix warnings
         this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER,this.nBuffer);
         this.scene.gl.vertexAttribPointer(this.scene.gl.getAttribLocation(this.scene.program, "vNormal"), 3, this.scene.gl.FLOAT, false, 0, 0);
         this.scene.gl.enableVertexAttribArray(this.scene.gl.getAttribLocation(this.scene.program, "vNormal"));
-        */
+        
 
         // binding color buffer
         this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER,this.cBuffer);
