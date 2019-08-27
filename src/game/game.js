@@ -1,21 +1,20 @@
 "use strict";
 
 var scene;
-window.onload = function init()
+window.onload = () =>
 {
     scene = new Scene("gl-canvas");
-    scene.init(function() {
+    scene.init(() => {
 
-        var maze = new Maze(Constants.GRID_WIDTH,Constants.GRID_HEIGHT);
-        var g = maze.grid;
-        var c = Constants.CELL.PLAYER;
+        
+        let maze = buildMazeGeometry();
 
         let camera = new PerspectiveCamera();
 
         scene.addCamera(camera);
         scene.setActiveCamera(0);
 
-        camera.setPosition(0.0, 0.0, -50);
+        camera.setPosition(Constants.GRID_WIDTH/2, 100, Constants.GRID_HEIGHT/2);
         camera.setFar(1000);
 
         let cc = new CameraController(camera);
@@ -24,7 +23,30 @@ window.onload = function init()
     });
 };
 
-var render  = function() {
+function render() {
     scene.renderScene();
     requestAnimFrame(render);
+}
+
+function buildMazeGeometry(){
+    let tree = null;
+    let maze = new Maze(Constants.GRID_WIDTH,Constants.GRID_HEIGHT);
+    console.log(maze.toString());
+    
+    for(let i=0; i<maze.grid.length; i++){
+        for(let j=0; j<maze.grid[0].length; j++){
+            if (maze.grid[i][j] == Constants.CELL.WALL) {
+                let cube = new Cube();
+                cube.setPosition(j*Constants.BLOCK_SIZE,Constants.BLOCK_SIZE/2,i*Constants.BLOCK_SIZE)
+                
+                if (tree === null){
+                    scene.addObject(cube);
+                    tree = cube;
+                }
+                else tree.addChild(cube);        
+            }
+        }
+    }
+
+    return tree;
 }

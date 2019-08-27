@@ -26,6 +26,10 @@ class Constants {
         return 20;
     }
 
+    static get BLOCK_SIZE() {
+        return 1;
+    }
+
     static get CELL() {
         return _CELL;
     }
