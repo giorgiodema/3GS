@@ -14,10 +14,12 @@ window.onload = () =>
         let maze = values[0];
         let mazeLogic = values[1];
         let character = buildCharacterGeometry();
+        let ground = buildGroundGeometry();
+
         character.rotate(90.0, [0, 1, 0]);
         maze.setPosition(0.0,0.0,0.0);
         character.scale(Constants.CHARACTER_SCALING,Constants.CHARACTER_SCALING,Constants.CHARACTER_SCALING);
-        character.setPosition(mazeLogic.position.x+0.5,Constants.CHARACTER_HEIGHT,mazeLogic.position.y+0.5);
+        character.setPosition(mazeLogic.position.x,Constants.CHARACTER_HEIGHT,mazeLogic.position.y);
 
         let camera = new PerspectiveCamera();
         camera.setFar(1000);
@@ -40,13 +42,13 @@ function render() {
 
 function buildMazeGeometry(){
     let tree = null;
-    let maze = new Maze(Constants.GRID_WIDTH,Constants.GRID_HEIGHT);
+    let maze = new Maze(Constants.GRID_WIDTH,Constants.GRID_WIDTH);
     console.log(maze.toString());
     
     for(let i=0; i<maze.grid.length; i++){
         for(let j=0; j<maze.grid[0].length; j++){
             if (maze.grid[i][j] == Constants.CELL.WALL) {
-                let cube = new Cube();
+                let cube = new Cube(0.0,0.0,0.0);
                 cube.setPosition(j*Constants.BLOCK_SIZE,Constants.BLOCK_SIZE/2,i*Constants.BLOCK_SIZE)
                 
                 if (tree === null){
@@ -59,6 +61,15 @@ function buildMazeGeometry(){
     }
 
     return [tree,maze];
+}
+
+
+function buildGroundGeometry(){
+    let ground = new Cube(0.5,0.5,1);
+    ground.scale(Constants.GRID_WIDTH*2+1,0.000001,Constants.GRID_WIDTH*2+1);
+    ground.setPosition(Constants.GRID_WIDTH,-0.0001,Constants.GRID_WIDTH);
+    scene.addObject(ground);
+    return ground;
 }
 
 function buildCharacterGeometry(){

@@ -1,6 +1,6 @@
 
 class Cube extends GraphicObject{
-    constructor(){
+    constructor(r,g,b){
         var _cubeVertices = [
             vec3( -0.5, -0.5,  0.5),
             vec3( -0.5,  0.5,  0.5),
@@ -22,7 +22,7 @@ class Cube extends GraphicObject{
         var _pointsArray = new Array();
         var _normalsArray = new Array();
         var _texCoordArray = new Array();
-        var _colorsArray = new Array(36).fill(vec3(0.0,0.0,0.0));
+        var _colorsArray = new Array(36).fill(vec3(r,g,b));
 
         var pushQuadVertices = function(a, b, c, d) {
             _pointsArray.push(_cubeVertices[a]);

@@ -22,10 +22,6 @@ class Constants {
         return 20;
     }
 
-    static get GRID_HEIGHT() {
-        return 20;
-    }
-
     static get BLOCK_SIZE() {
         return 1;
     }
@@ -47,7 +43,7 @@ class Constants {
     }
 
     static get CHARACTER_SCALING() {
-        return 0.5;
+        return 0.02;
     }
 
     static get CHARACTER_HEIGHT(){
