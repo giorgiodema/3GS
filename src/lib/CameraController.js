@@ -29,10 +29,14 @@ class CameraController{
 
     _wheelController(contr){
         return function(e){
-            if(e.deltaY < 0)
-            contr._camera.eye[1]-=contr._zoom;
-            else
-            contr._camera.eye[1]+=contr._zoom;
+            if(e.deltaY < 0){
+                contr._height -= contr._zoom;
+                contr._distance -= contr._zoom;   
+            }
+            else{
+                contr._height += contr._zoom;
+                contr._distance += contr._zoom;
+            }
         }
     }
 
