@@ -14,8 +14,8 @@ window.onload = () =>
         let maze = values[0];
         let mazeLogic = values[1];
         let character = buildCharacterGeometry();
-        character.rotate(270.0, [0, 1, 0]);
-        maze.setPosition(0.0,0.5,0.0);
+        character.rotate(90.0, [0, 1, 0]);
+        maze.setPosition(0.0,0.0,0.0);
         character.scale(Constants.CHARACTER_SCALING,Constants.CHARACTER_SCALING,Constants.CHARACTER_SCALING);
         character.setPosition(mazeLogic.position.x+0.5,Constants.CHARACTER_HEIGHT,mazeLogic.position.y+0.5);
 

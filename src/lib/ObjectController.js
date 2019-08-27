@@ -1,9 +1,9 @@
 class ObjectController{
     constructor(obj){
         this._object = obj;
-        this._fwStep = 0.5;
-        this._rotStep = 0.5;
-        this._direction = vec3(0.0,0.0,1.0);
+        this._fwStep = 0.01;
+        this._rotStep = 2;
+        this._direction = vec3(0.0,0.0,-1.0);
         this._moving = false;
         this._rotatingRight = false;
         this._rotatingLeft = false;

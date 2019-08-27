@@ -39,7 +39,7 @@ class Constants {
     }
 
     static get CAMERA_DISTANCE() {
-        return 10;
+        return 5;
     }
 
     static get CAMERA_HEIGHT() {

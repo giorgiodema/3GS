@@ -40,7 +40,7 @@ class CameraController{
         this._distance = distance;
         this._height = height;
         this._objectController = objController;
-        this._camera.eye = vec3(this._camera.eye[0],height,distance);
+        this._camera.eye = vec3(objController.object.pos[0],height,objController.object.pos[2]+distance);
         this._camera.at = objController.object.pos;
         objController.bindCameraController(this);
     }
