@@ -3,6 +3,9 @@
 var scene;
 window.onload = () =>
 {
+    // disable scroll
+    document.documentElement.style.overflow = 'hidden';  // firefox, chrome
+
     scene = new Scene("gl-canvas");
     scene.init(() => {
 
