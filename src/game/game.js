@@ -10,9 +10,14 @@ window.onload = () =>
     scene.init(() => {
 
         
-        let maze = buildMazeGeometry();
+        let values = buildMazeGeometry();
+        let maze = values[0];
+        let mazeLogic = values[1];
         let character = buildCharacterGeometry();
+        character.rotate(270.0, [0, 1, 0]);
+        maze.setPosition(0.0,0.5,0.0);
         character.scale(Constants.CHARACTER_SCALING,Constants.CHARACTER_SCALING,Constants.CHARACTER_SCALING);
+        character.setPosition(mazeLogic.position.x+0.5,Constants.CHARACTER_HEIGHT,mazeLogic.position.y+0.5);
 
         let camera = new PerspectiveCamera();
         camera.setFar(1000);
@@ -22,7 +27,7 @@ window.onload = () =>
 
         let cameraController = new CameraController(camera);
         let characterController = new ObjectController(character);
-        cameraController.bindObjectController(characterController,Constants.CAMERA_HEIGHT,Constants.CAMERA_DISTANCE);
+        cameraController.bindObjectController(characterController,Constants.CAMERA_DISTANCE,Constants.CAMERA_HEIGHT);
 
         render();
     });
@@ -53,7 +58,7 @@ function buildMazeGeometry(){
         }
     }
 
-    return tree;
+    return [tree,maze];
 }
 
 function buildCharacterGeometry(){

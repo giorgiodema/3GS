@@ -47,6 +47,11 @@ class Constants {
     }
 
     static get CHARACTER_SCALING() {
-        return 0.01;
+        return 0.5;
     }
+
+    static get CHARACTER_HEIGHT(){
+        return 1;
+    }
+
 }
