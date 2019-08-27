@@ -22,7 +22,7 @@ class ObjectController{
             if(this._cameraController!==null){
                 let eye = this._cameraController.camera.eye;
                 let pos = this._object.pos;
-                this._cameraController.camera.eye = vec3(eye[0]+this._direction[0]*this._fwStep,this._cameraController.height,eye[2]+this._direction[2]*this._fwStep);
+                this._cameraController.camera.eye = vec3(pos[0]-(this._direction[0]*this._cameraController._distance),pos[1] + this._cameraController._height,pos[2]-(this._direction[2]*this._cameraController._distance));
                 eye = this._cameraController.camera.eye;
                 this._cameraController.camera.at = vec3(pos[0],pos[1],pos[2]);
             }
@@ -41,6 +41,12 @@ class ObjectController{
             aux = vec4(this._direction[0],this._direction[1],this._direction[2],1.0);
             aux = mult(rotateY(-this._rotStep),aux);
             this._direction = vec3(aux[0],aux[1],aux[2]);
+
+            let eye = this._cameraController.camera.eye;
+            pos = this._object.pos;
+            this._cameraController.camera.eye = vec3(pos[0]-(this._direction[0]*this._cameraController._distance),pos[1] + this._cameraController._height,pos[2]-(this._direction[2]*this._cameraController._distance));
+            eye = this._cameraController.camera.eye;
+            this._cameraController.camera.at = vec3(pos[0],pos[1],pos[2]);
  
         }
 
@@ -56,7 +62,13 @@ class ObjectController{
             
             aux = vec4(this._direction[0],this._direction[1],this._direction[2],1.0);
             aux = mult(rotateY(this._rotStep),aux);
-            this._direction = vec3(aux[0],aux[1],aux[2]);         
+            this._direction = vec3(aux[0],aux[1],aux[2]);
+            
+            let eye = this._cameraController.camera.eye;
+            pos = this._object.pos;
+            this._cameraController.camera.eye = vec3(pos[0]-(this._direction[0]*this._cameraController._distance),pos[1] + this._cameraController._height,pos[2]-(this._direction[2]*this._cameraController._distance));
+            eye = this._cameraController.camera.eye;
+            this._cameraController.camera.at = vec3(pos[0],pos[1],pos[2]);
         }
     }
 
