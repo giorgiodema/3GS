@@ -35,19 +35,19 @@ class Constants {
     }
 
     static get CAMERA_DISTANCE() {
-        return 5;
+        return 1;
     }
 
     static get CAMERA_HEIGHT() {
-        return 5;
+        return 2;
     }
 
     static get CHARACTER_SCALING() {
-        return 0.02;
+        return 0.01;
     }
 
     static get CHARACTER_HEIGHT(){
-        return 1;
+        return 0.08;
     }
 
 }

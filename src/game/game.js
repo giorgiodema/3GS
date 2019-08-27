@@ -67,7 +67,7 @@ function buildMazeGeometry(){
 function buildGroundGeometry(){
     let ground = new Cube(0.5,0.5,1);
     ground.scale(Constants.GRID_WIDTH*2+1,0.000001,Constants.GRID_WIDTH*2+1);
-    ground.setPosition(Constants.GRID_WIDTH,-0.0001,Constants.GRID_WIDTH);
+    ground.setPosition(Constants.GRID_WIDTH,-0.001,Constants.GRID_WIDTH);
     scene.addObject(ground);
     return ground;
 }
