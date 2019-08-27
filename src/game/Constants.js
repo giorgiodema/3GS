@@ -37,4 +37,12 @@ class Constants {
     static get DIRECTION() {
         return _DIRECTION;
     }
+
+    static get CAMERA_DISTANCE() {
+        return 10;
+    }
+
+    static get CAMERA_HEIGHT() {
+        return 5;
+    }
 }

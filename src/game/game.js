@@ -14,14 +14,14 @@ window.onload = () =>
         let character = buildCharacterGeometry();
 
         let camera = new PerspectiveCamera();
+        camera.setFar(1000);
 
         scene.addCamera(camera);
         scene.setActiveCamera(0);
 
-        camera.setPosition(Constants.GRID_WIDTH/2, 100, Constants.GRID_HEIGHT/2);
-        camera.setFar(1000);
-
-        let cc = new CameraController(camera);
+        let cameraController = new CameraController(camera);
+        let characterController = new ObjectController(character);
+        cameraController.bindObjectController(characterController,Constants.CAMERA_HEIGHT,Constants.CAMERA_DISTANCE);
 
         render();
     });
