@@ -6,10 +6,11 @@ class CameraController{
 
         // bound object controller
         this._objectController = null;
-        document.addEventListener('mousemove',this._mouseController(this));
+        //document.addEventListener('mousemove',this._mouseController(this));
         document.addEventListener('wheel',this._wheelController(this));
     }
 
+    /*
     _mouseController(contr){
         return function(e){
             if(contr._objectController!=null && contr._objectController.isMoving())
@@ -21,6 +22,7 @@ class CameraController{
         }
    
     }
+    */
 
     _wheelController(contr){
         return function(e){
