@@ -37,6 +37,11 @@ class CameraController{
                 contr._height += contr._zoom;
                 contr._distance += contr._zoom;
             }
+            if(contr._objectController!==null){
+                let pos = contr._objectController.object.pos;
+                contr._camera.eye = vec3(pos[0]-(contr._objectController.direction[0]*contr._distance),pos[1] + contr._height,pos[2]-(contr._objectController.direction[2]*contr._distance));
+                contr._camera.at = vec3(pos[0],pos[1],pos[2]);
+            }
         }
     }
 

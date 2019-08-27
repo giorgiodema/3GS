@@ -113,6 +113,10 @@ class ObjectController{
         return this._object;
     }
 
+    get direction(){
+        return this._direction;
+    }
+
     isMoving(){
         return this._moving || this._rotatingRight || this._rotatingLeft;
     }
