@@ -1,14 +1,14 @@
 class CubeV{
-    constructor(){
+    constructor(side){
         this._cubeVertices = [
-            vec3( -0.5, -0.5,  0.5),
-            vec3( -0.5,  0.5,  0.5),
-            vec3( 0.5,  0.5,  0.5),
-            vec3( 0.5, -0.5,  0.5),
-            vec3( -0.5, -0.5, -0.5),
-            vec3( -0.5,  0.5, -0.5),
-            vec3( 0.5,  0.5, -0.5),
-            vec3( 0.5, -0.5, -0.5)
+            vec3( -side/2, -side/2,  side/2),
+            vec3( -side/2,  side/2,  side/2),
+            vec3( side/2,  side/2,  side/2),
+            vec3( side/2, -side/2,  side/2),
+            vec3( -side/2, -side/2, -side/2),
+            vec3( -side/2,  side/2, -side/2),
+            vec3( side/2,  side/2, -side/2),
+            vec3( side/2, -side/2, -side/2)
         ];
 
         this.pointsArray = new Array();
@@ -40,7 +40,7 @@ class CubeV{
 // Temporary unoptimized workaround to keep API consistent
 class Cube extends GraphicObject {
     constructor(side, colors, uvCoords, colorMap, normalsMap) {
-        let c = new CubeV();
+        let c = new CubeV(side);
         super(c.getVertices(),[],new Array(c.getVertices().length).fill(vec3(Math.random(),Math.random(),Math.random())));
     }
 }

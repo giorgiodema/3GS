@@ -6,12 +6,8 @@ window.onload = function init()
     // Make the canvas independent from the screen size
     let canvas = document.getElementById("gl-canvas");
     var myHeight = window.innerHeight;
-
-    // Canvas values
     var WIDTH = res_independent(650, myHeight), 
     HEIGHT = res_independent(650, myHeight);
-    
-    		
     canvas.style.height = HEIGHT.toString() + 'px'; //Reminder that CSS parameters are string
     canvas.style.width = WIDTH.toString() + 'px';
 
