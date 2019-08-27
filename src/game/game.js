@@ -87,11 +87,17 @@ window.onload = function init()
             scene.addObject(ci);
         }
 
-        let fRot1 = [null, [true, 0], null];
-        let fRot2 = [null, [true, 270], null];
-        console.log(torso.rot);
-        let k1 = new KeyframeShift(torso, 30, torso.pos, torso.rot, torso.scale, null, fRot1, null);
-        let k2 = new KeyframeShift(torso, 30, torso.pos, [0, 0, 0], torso.scale, null, fRot2, null);
+        //LOOP
+        let fRot1 = [null, 0, null];
+        let fRot2 = [null, 270, null];
+        let iPos1 = [torso.pos[0], [torso.pos[1]], torso.pos[2]];
+        let iRot1 = [torso.rot[0], torso.rot[1], torso.rot[2]];
+        let iRot2 = [0, 0, 0];
+        let iScale1 = [torso.scale[0], torso.scale[1], torso.scale[2]];
+
+        //KeyframeShift parameters: (object, frames, initPos, initRot, initScale, finalPos, finalRot, finalScale)
+        let k1 = new KeyframeShift(torso, 30, iPos1, iRot1, iScale1, null, fRot1, null);
+        let k2 = new KeyframeShift(torso, 30, iPos1, iRot2, iScale1, null, fRot2, null);
         //if it's a loop, keyframes must be loaded in logical straight order, if it's one shot anim, use reverse order
         let anim1 = new Animation(true, new Array(k1, k2));
         scene.addAnimation(anim1);

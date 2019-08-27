@@ -14,13 +14,15 @@ class Scene {
         this.vArray = new Array();
         this.nArray = new Array();
         this.cArray = new Array();
-        
+
         this.canvas = document.getElementById(canvasID);
         this._gl = WebGLUtils.setupWebGL(this.canvas);
         if (!this._gl) { alert("WebGL isn't available"); }
-        
+
         this._gl.viewport(0, 0, this.canvas.width, this.canvas.height);
         this._gl.clearColor(1.0, 1.0, 1.0, 1.0);
+
+        this._gl.enable(this._gl.DEPTH_TEST);
     }
     // Necessary to call this before using the scene
     init(callback) {
