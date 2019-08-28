@@ -30,10 +30,21 @@ window.onload = () =>
         let cameraController = new CameraController(camera);
         let characterController = new ObjectController(character);
         characterController.positionValidator = pos => {
-            let x = Math.trunc(pos[0] + 0.5);
-            let y = Math.trunc(pos[2] + 0.5);
-            let free = mazeLogic.grid[y][x] != Constants.CELL.WALL;
-            console.log(y + ", " + x + " ---> " + free);
+            let cx = pos[0] + 0.5;
+            let cy = pos[2] + 0.5;
+
+            for (let i = 0; i < 18; i++) {
+                let radians = i * 20 * (180 / Math.PI);
+                let x = cx + 0.1 * Math.cos(radians);
+                let y = cy + 0.1 * Math.sin(radians);
+                let xCell = Math.trunc(x);
+                let yCell = Math.trunc(y);
+                
+                if (mazeLogic.grid[yCell][xCell] == Constants.CELL.WALL) {
+                    return false;
+                }
+            }
+
             return true;
         };
         cameraController.bindObjectController(characterController,Constants.CAMERA_DISTANCE,Constants.CAMERA_HEIGHT);
