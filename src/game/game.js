@@ -30,7 +30,9 @@ window.onload = () =>
         let cameraController = new CameraController(camera);
         let characterController = new ObjectController(character);
         characterController.positionValidator = pos => {
-            console.log(pos);
+            let x = Math.trunc(pos[0] + 0.5);
+            let y = Math.trunc(pos[2] + 0.5);
+            console.log(y + ", " + x);
             return true;
         };
         cameraController.bindObjectController(characterController,Constants.CAMERA_DISTANCE,Constants.CAMERA_HEIGHT);
