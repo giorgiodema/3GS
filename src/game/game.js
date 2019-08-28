@@ -14,7 +14,7 @@ window.onload = () =>
         let maze = values[0];
         let mazeLogic = values[1];
         let character = buildCharacterGeometry();
-        let ground = buildGroundGeometry();
+        buildGroundGeometry();
 
         character.rotate(90.0, [0, 1, 0]);
         maze.setPosition(0.0,0.0,0.0);
@@ -55,14 +55,13 @@ function buildMazeGeometry(){
                     scene.addObject(cube);
                     tree = cube;
                 }
-                else tree.addChild(cube);        
+                else tree.addChild(cube);
             }
         }
     }
 
     return [tree,maze];
 }
-
 
 function buildGroundGeometry(){
     let ground = new Cube(0.5,0.5,1);
@@ -73,8 +72,11 @@ function buildGroundGeometry(){
 }
 
 function buildCharacterGeometry(){
+
+    // parse character model
     let objparser = new Parser("http://localhost:9000", "src/game/Assets/Character/model_separated.obj");
     objparser.parse();
+
     // initialize character
     let colors = new Array(objparser.getVertices("Torso").length).fill(new vec3(100/255,90/255,68/255));
     let torso = new GraphicObject(objparser.getVertices("Torso"), objparser.getNormals("Torso"), colors);
@@ -112,6 +114,7 @@ function buildCharacterGeometry(){
     colors = new Array(objparser.getVertices("Foot_L").length).fill(new vec3(100/255,90/255,68/255));
     let footL = new GraphicObject(objparser.getVertices("Foot_L"), objparser.getNormals("Foot_L"), colors);
 
+    // build the character tree
     scene.addObject(torso);
     torso.addChild(head);
     torso.addChild(upperLegR);
@@ -124,8 +127,6 @@ function buildCharacterGeometry(){
     upperLegL.addChild(lowerLegL);
     lowerLegR.addChild(footR);
     lowerLegL.addChild(footL);
-
-    
 
     return torso;
 }
