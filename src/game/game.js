@@ -29,17 +29,23 @@ window.onload = () =>
 
         let cameraController = new CameraController(camera);
         let characterController = new ObjectController(character);
+
+        // setup the position validation function
         characterController.positionValidator = pos => {
+
+            // calculate the effective character position
             let cx = pos[0] + 0.5;
             let cy = pos[2] + 0.5;
 
+            // check boundaries in a circle of radius 0.1, in 20 degrees intervals
             for (let i = 0; i < 18; i++) {
                 let radians = i * 20 * (180 / Math.PI);
                 let x = cx + 0.1 * Math.cos(radians);
                 let y = cy + 0.1 * Math.sin(radians);
-                let xCell = Math.trunc(x);
+                let xCell = Math.trunc(x); // Truncate to get the logical coordinate
                 let yCell = Math.trunc(y);
-                
+
+                // abort if the next move would make the player go into a wall
                 if (mazeLogic.grid[yCell][xCell] == Constants.CELL.WALL) {
                     return false;
                 }
@@ -47,6 +53,7 @@ window.onload = () =>
 
             return true;
         };
+
         cameraController.bindObjectController(characterController,Constants.CAMERA_DISTANCE,Constants.CAMERA_HEIGHT);
 
         render();
