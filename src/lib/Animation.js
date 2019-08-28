@@ -124,37 +124,35 @@ class Animation {
     // until is exhausted
     animate(){
         if (this._play) {
-            var seqLen = this._animArray.length;
-            //Loop sequence
-            if(this._isLoop){
 
-                //check if keyfram is exhausted
-                console.log(this._animArrayIndex);
-                if(this._currentKeyframeshift.update() == false){
+            var seqLen = this._animArray.length;
+
+
+            //check if keyframeshift is exhausted and if animation is a loop
+            if(this._isLoop){
+                if (this._currentKeyframeshift.update() == false) {
+
                     //it's a loop, KeyframeShift needs to be resetted
                     this._currentKeyframeshift.reset();
 
                     //pass to the next KeyframeShift
                     this._animArrayIndex += 1;
+
                     //check array len, in case restart array scanning
                     if(this._animArrayIndex == seqLen){
                         this._animArrayIndex = 0;
                     }
+
+                    //assign next keyframeShift
                     this._currentKeyframeshift = this._animArray[this._animArrayIndex];
+                    return;
                 }
-
-                return;
             }
 
-            //One-shot sequence
-            else {
-                //check if sequence is not empty and keyframeshift not exhausted
-                if(seqLen != 0 && !this._animArray[seqLen-1].update()){
-                    //pop exhausted KeyframeShift
-                    this._animArray.pop();
-                }
-                return;
-            }
+            //One-shot animation case
+            else if (seqLen != 0 && !this._animArray[0].update())
+                //shift (remove first element) exhausted KeyframeShift
+                this._animArray.shift();
         }
     }
 

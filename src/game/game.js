@@ -87,20 +87,45 @@ window.onload = function init()
             scene.addObject(ci);
         }
 
-        //LOOP
-        let fRot1 = [null, 0, null];
-        let fRot2 = [null, 270, null];
-        let iPos1 = [torso.pos[0], [torso.pos[1]], torso.pos[2]];
-        let iRot1 = [torso.rot[0], torso.rot[1], torso.rot[2]];
-        let iRot2 = [0, 0, 0];
-        let iScale1 = [torso.scale[0], torso.scale[1], torso.scale[2]];
+        //UPPER LEGS ANIMATION
+        let fRot1 = [null, null, -45];
+        let fRot2 = [null, null, 0];
+        let iPos1 = [upperLegR.pos[0], upperLegR.pos[1], upperLegR.pos[2]];
+        let iRot1 = [upperLegR.rot[0], upperLegR.rot[1], upperLegR.rot[2]];
+        let iRot2 = [0, 0, -45];
+        let iScale1 = [upperLegR.scale[0], upperLegR.scale[1], upperLegR.scale[2]];
+
+        let fRot3 = [null, null, 45];
+        let iPos3 = [upperLegL.pos[0], upperLegL.pos[1], upperLegL.pos[2]];
+        let iRot3 = [upperLegL.rot[0], upperLegL.rot[1], upperLegL.rot[2]];
+        let iRot4 = [0, 0, 45];
+        let iScale3 = [upperLegL.scale[0], upperLegL.scale[1], upperLegL.scale[2]];
 
         //KeyframeShift parameters: (object, frames, initPos, initRot, initScale, finalPos, finalRot, finalScale)
-        let k1 = new KeyframeShift(torso, 30, iPos1, iRot1, iScale1, null, fRot1, null);
-        let k2 = new KeyframeShift(torso, 30, iPos1, iRot2, iScale1, null, fRot2, null);
-        //if it's a loop, keyframes must be loaded in logical straight order, if it's one shot anim, use reverse order
+        let k1 = new KeyframeShift(upperLegR, 30, iPos1, iRot1, iScale1, null, fRot1, null);
+        let k2 = new KeyframeShift(upperLegR, 30, iPos1, iRot2, iScale1, null, fRot2, null);
+        let k3 = new KeyframeShift(upperLegL, 30, iPos3, iRot3, iScale3, null, fRot3, null);
+        let k4 = new KeyframeShift(upperLegL, 30, iPos3, iRot4, iScale3, null, fRot2, null);
         let anim1 = new Animation(true, new Array(k1, k2));
+        let anim2 = new Animation(true, new Array(k3, k4));
         scene.addAnimation(anim1);
+        scene.addAnimation(anim2);
+
+        //UPPER ARMS ANIMATION
+        let fRot5 = [null, null, -45];
+        let fRot7 = [null, null, 45];
+        let iScale5 = [upperArmR.scale[0], upperArmR.scale[1], upperArmR.scale[2]];
+        let iScale7 = [upperArmL.scale[0], upperArmL.scale[1], upperArmL.scale[2]];
+        let iPos5 = [upperArmR.pos[0], upperArmR.pos[1], upperArmR.pos[2]];
+        let iPos7 = [upperArmL.pos[0], upperArmL.pos[1], upperArmL.pos[2]];
+        let k5 = new KeyframeShift(upperArmR, 30, iPos5, iRot1, iScale5, null, fRot5, null);
+        let k6 = new KeyframeShift(upperArmR, 30, iPos5, iRot2, iScale5, null, fRot2, null);
+        let k7 = new KeyframeShift(upperArmL, 30, iPos7, iRot3, iScale7, null, fRot7, null);
+        let k8 = new KeyframeShift(upperArmL, 30, iPos7, iRot4, iScale7, null, fRot2, null);
+        let anim3 = new Animation(true, new Array(k5, k6));
+        let anim4 = new Animation(true, new Array(k7, k8));
+        scene.addAnimation(anim3);
+        scene.addAnimation(anim4);
 
         let camera = new PerspectiveCamera();
 
