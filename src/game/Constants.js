@@ -8,14 +8,6 @@ const _CELL = {
     TARGET: 5
 }
 
-// An enum that indicates a movement direction
-const _DIRECTION = {
-    UP: 0,
-    DOWN: 1,
-    LEFT: 2,
-    RIGHT: 3
-}
-
 class Constants {
 
     static get GRID_WIDTH() {
@@ -28,10 +20,6 @@ class Constants {
 
     static get CELL() {
         return _CELL;
-    }
-
-    static get DIRECTION() {
-        return _DIRECTION;
     }
 
     static get CAMERA_DISTANCE() {

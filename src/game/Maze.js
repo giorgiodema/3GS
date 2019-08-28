@@ -32,11 +32,6 @@ class Maze {
         this._grid = []
         this._position = null;
         this._target = null;
-        this._vectors = {};
-        this._vectors[Constants.DIRECTION.UP] = new Position(-1, 0);
-        this._vectors[Constants.DIRECTION.DOWN] = new Position(1, 0);
-        this._vectors[Constants.DIRECTION.LEFT] = new Position(0, -1);
-        this._vectors[Constants.DIRECTION.RIGHT] = new Position(0, 1);
         this._won = false;
 
         // Initialize a new [height, width] array
@@ -159,33 +154,6 @@ class Maze {
     // Gets whether or not the player has reached the target position
     get hasWon() {
         return this._won;
-    }
-
-    // Checks whether the player can move in a specific direction
-    canMove(direction) {
-        var next = new Position(
-            this._position.y + this._vectors[direction].y,
-            this._position.x + this._vectors[direction].x
-        );
-        return this._grid[next.y][next.x] == Constants.CELL.EMPTY ||
-               this._grid[next.y][next.x] == Constants.CELL.TARGET;
-    }
-
-    // Moves the player in a specific direction, if possible
-    move(direction) {
-        var next = new Position(
-            this._position.y + this._vectors[direction].y,
-            this._position.x + this._vectors[direction].x
-        );
-        if (this._grid[next.y][next.x] == Constants.CELL.EMPTY ||
-            this._grid[next.y][next.x] == Constants.CELL.TARGET) {
-            if (this._grid[next.y][next.x] == Constants.CELL.TARGET) {
-                this._won = true;
-            }
-            this._grid[this._position.y][this._position.x] = Constants.CELL.EMPTY;
-            this._grid[next.y][next.x] = Constants.CELL.PLAYER;
-            this._position = next;
-        }
     }
 
     // Returns a string representation of the current maze
