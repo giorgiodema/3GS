@@ -58,6 +58,7 @@ class GraphicObject {
 
 
 
+
     }
 
     render(parentMatrix) {

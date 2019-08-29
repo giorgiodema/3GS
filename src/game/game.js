@@ -20,7 +20,7 @@ window.onload = () =>
         maze.setPosition(0.0,0.0,0.0);
         character.scale(Constants.CHARACTER_SCALING,Constants.CHARACTER_SCALING,Constants.CHARACTER_SCALING);
         character.setPosition(mazeLogic.position.x,Constants.CHARACTER_HEIGHT,mazeLogic.position.y);
-      
+
         let camera = new PerspectiveCamera();
         camera.setFar(1000);
 

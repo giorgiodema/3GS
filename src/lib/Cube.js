@@ -1,3 +1,4 @@
+
 class Cube extends GraphicObject{
     constructor(r,g,b){
         var _cubeVertices = [
@@ -91,13 +92,3 @@ class Cube extends GraphicObject{
         super(_pointsArray,_normalsArray, _colorsArray, _texCoordArray, null, null);
     }
 }      
-
-// Temporary unoptimized workaround to keep API consistent
-class Cube extends GraphicObject {
-    constructor(side, colors, uvCoords, colorMap, normalsMap) {
-        let c = new CubeV(side);
-        super(c.getVertices(),[],new Array(c.getVertices().length).fill(vec3(Math.random(),Math.random(),Math.random())));
-    }
-}
-
-
