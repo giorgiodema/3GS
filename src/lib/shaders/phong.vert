@@ -11,14 +11,16 @@ uniform vec4 lightPosition;
 
 void main()
 {
-    //vec4 position = vec4(vPosition.x, vPosition.y, vPosition.z, 1.0);
-    //vec4 normal = vec4(vNormal.x, vNormal.y, vNormal.z, 1.0);
-
-    vec3 pos = -(viewMatrix * modelMatrix * vPosition).xyz;
-    vec3 light = lightPosition.xyz;
+    //vec3 pos = -(viewMatrix * modelMatrix * vPosition).xyz;
+    //vec3 light = lightPosition.xyz;
+    
+    vec3 pos = (viewMatrix * modelMatrix * vPosition).xyz;
+    vec3 light = (viewMatrix * lightPosition).xyz;
+    
     L = normalize(light - pos);
     E = -pos;
-    N = normalize((viewMatrix * modelMatrix * vNormal).xyz);
+    //N = normalize((viewMatrix * modelMatrix * vNormal).xyz);
+    N = normalize(mat3(viewMatrix * modelMatrix) * vNormal.xyz);
 
     gl_Position = projectionMatrix * viewMatrix * modelMatrix * vPosition;
 }

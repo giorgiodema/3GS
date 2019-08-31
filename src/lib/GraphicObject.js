@@ -1,12 +1,10 @@
 class GraphicObject {
 
-    constructor(vertices, normals, colors, uvCoords, colorMap, normalsMap) {
+    constructor(vertices, normals, materialAmbient, materialDiffuse, materialSpecular, uvCoords, colorMap) {
         this._vertices = vertices;
         this._normals = normals;
-        this._colors = colors;
         this._uvCoords = uvCoords;
         this._colorMap = colorMap;
-        this._normalsMap = normalsMap;
         this._children = new Array();
         this.scene;
 
@@ -32,13 +30,13 @@ class GraphicObject {
         this.materialSpecular = vec4(1.0, 0.8, 0.0, 1.0);    // Should be regulated by specular/metalness map?
 */
 
-        this.materialAmbient = vec4(1.0, 0.0, 1.0, 1.0);     // Should be regulated by ambient occlusion map?
-        this.materialDiffuse = vec4(1.0, 0.8, 0.0, 1.0);     // Should be regulated by color map?
-        this.materialSpecular = vec4(0.1, 0.1, 0.0, 1.0);    // Should be regulated by specular/metalness map?
+        this.materialAmbient = materialAmbient;     // Should be regulated by ambient occlusion map?
+        this.materialDiffuse = materialDiffuse;     // Should be regulated by color map?
+        this.materialSpecular = materialSpecular;    // Should be regulated by specular/metalness map?
 
         this.shininess = 40.0;//100.0;         // Should be controlled by roughness map?
 
-        this.emission = vec4(0.0, 0.3, 0.3, 1.0);   // Not affected by light sources, does not affect any surfaces
+        this.emission = new vec4();//vec4(0.0, 0.3, 0.3, 1.0);   // Not affected by light sources, does not affect any surfaces
     }
 
     get pos() {
