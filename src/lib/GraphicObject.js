@@ -75,6 +75,7 @@ class GraphicObject {
 
 
 
+
     }
 
     render(parentMatrix) {
@@ -128,6 +129,12 @@ class GraphicObject {
         this._children.forEach(child => {
             child.render(modelMatrix);
         });
+    }
+
+    // Previews the position of the current object after a given translation
+    previewTranslation(x, y, z) {
+        let next = vec3(this._pos[0] + x, this._pos[1] + y, this._pos[2] + z);
+        return next;
     }
 
     // Adds the values of x, y, z to the position parameters of the object

@@ -1,9 +1,10 @@
 class ObjectController{
     constructor(obj){
+        this._positionValidator = null;
         this._object = obj;
-        this._fwStep = 0.5;
-        this._rotStep = 0.5;
-        this._direction = vec3(0.0,0.0,1.0);
+        this._fwStep = 0.01;
+        this._rotStep = 2;
+        this._direction = vec3(0.0,0.0,-1.0);
         this._moving = false;
         this._rotatingRight = false;
         this._rotatingLeft = false;
@@ -13,20 +14,33 @@ class ObjectController{
         window.onkeyup   = this.__directionKeyUp(this);
     }
 
+    // sets the lambda to use to validate the character position before moving it
+    set positionValidator(value) {
+        this._positionValidator = value;
+    }
+
     update(){
         if(this._moving){
-            this._object.translate(  this._direction[0]*this._fwStep,
-                                    this._direction[1]*this._fwStep,
-                                    this._direction[2]*this._fwStep);
-            
-            if(this._cameraController!==null){
-                let eye = this._cameraController.camera.eye;
-                let pos = this._object.pos;
-                this._cameraController.camera.eye = vec3(eye[0]+this._direction[0]*this._fwStep,eye[1]+this._direction[1]*this._fwStep,eye[2]+this._direction[2]*this._fwStep);
-                eye = this._cameraController.camera.eye;
-                this._cameraController.camera.at = vec3(pos[0],pos[1],pos[2]);
+
+            // check if movement is allowed
+            if (this._positionValidator !== null) {
+                let next = this._object.previewTranslation(this._direction[0]*this._fwStep, this._direction[1]*this._fwStep, this._direction[2]*this._fwStep);
+                if (this._positionValidator(next)) {
+
+                    // move
+                    this._object.translate(  this._direction[0]*this._fwStep,
+                    this._direction[1]*this._fwStep,
+                    this._direction[2]*this._fwStep);
+
+                    if(this._cameraController!==null) {
+                        let eye = this._cameraController.camera.eye;
+                        let pos = this._object.pos;
+                        this._cameraController.camera.eye = vec3(pos[0]-(this._direction[0]*this._cameraController._distance),pos[1] + this._cameraController._height,pos[2]-(this._direction[2]*this._cameraController._distance));
+                        eye = this._cameraController.camera.eye;
+                        this._cameraController.camera.at = vec3(pos[0],pos[1],pos[2]);
+                    }
+                }
             }
-            
         }
         if(this._rotatingRight){
             // rotate obj
@@ -41,6 +55,12 @@ class ObjectController{
             aux = vec4(this._direction[0],this._direction[1],this._direction[2],1.0);
             aux = mult(rotateY(-this._rotStep),aux);
             this._direction = vec3(aux[0],aux[1],aux[2]);
+
+            let eye = this._cameraController.camera.eye;
+            pos = this._object.pos;
+            this._cameraController.camera.eye = vec3(pos[0]-(this._direction[0]*this._cameraController._distance),pos[1] + this._cameraController._height,pos[2]-(this._direction[2]*this._cameraController._distance));
+            eye = this._cameraController.camera.eye;
+            this._cameraController.camera.at = vec3(pos[0],pos[1],pos[2]);
  
         }
 
@@ -56,7 +76,13 @@ class ObjectController{
             
             aux = vec4(this._direction[0],this._direction[1],this._direction[2],1.0);
             aux = mult(rotateY(this._rotStep),aux);
-            this._direction = vec3(aux[0],aux[1],aux[2]);         
+            this._direction = vec3(aux[0],aux[1],aux[2]);
+            
+            let eye = this._cameraController.camera.eye;
+            pos = this._object.pos;
+            this._cameraController.camera.eye = vec3(pos[0]-(this._direction[0]*this._cameraController._distance),pos[1] + this._cameraController._height,pos[2]-(this._direction[2]*this._cameraController._distance));
+            eye = this._cameraController.camera.eye;
+            this._cameraController.camera.at = vec3(pos[0],pos[1],pos[2]);
         }
     }
 
@@ -99,6 +125,10 @@ class ObjectController{
 
     get object(){
         return this._object;
+    }
+
+    get direction(){
+        return this._direction;
     }
 
     isMoving(){
