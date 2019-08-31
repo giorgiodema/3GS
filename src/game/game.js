@@ -110,6 +110,9 @@ window.onload = function init()
         let cc = new CameraController(camera);
         cc.bindObjectController(charController,30,30);
 
+        let light = new PointLight();
+        scene.addLight(light);
+
         render();
     });
 };

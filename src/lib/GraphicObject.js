@@ -24,6 +24,21 @@ class GraphicObject {
         this._pos = vec3(0, 0, 0);
         this._rot = vec3(0, 0, 0);
         this._scale = vec3(1, 1, 1);
+
+
+        /*// Material properties, can be overridden by textures
+        this.materialAmbient = vec4(1.0, 0.0, 1.0, 1.0);     // Should be regulated by ambient occlusion map?
+        this.materialDiffuse = vec4(1.0, 0.8, 0.0, 1.0);     // Should be regulated by color map?
+        this.materialSpecular = vec4(1.0, 0.8, 0.0, 1.0);    // Should be regulated by specular/metalness map?
+*/
+
+        this.materialAmbient = vec4(1.0, 0.0, 1.0, 1.0);     // Should be regulated by ambient occlusion map?
+        this.materialDiffuse = vec4(1.0, 0.8, 0.0, 1.0);     // Should be regulated by color map?
+        this.materialSpecular = vec4(0.1, 0.1, 0.0, 1.0);    // Should be regulated by specular/metalness map?
+
+        this.shininess = 40.0;//100.0;         // Should be controlled by roughness map?
+
+        this.emission = vec4(0.0, 0.3, 0.3, 1.0);   // Not affected by light sources, does not affect any surfaces
     }
 
     get pos() {
@@ -49,11 +64,13 @@ class GraphicObject {
 
         this.nBuffer = this.scene.gl.createBuffer();
         this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.nBuffer);
-        //this.scene.gl.bufferData(this.scene.gl.ARRAY_BUFFER, flatten(this._normals), this.scene.gl.STATIC_DRAW);
+        this.scene.gl.bufferData(this.scene.gl.ARRAY_BUFFER, flatten(this._normals), this.scene.gl.STATIC_DRAW);
 
+        /*
         this.cBuffer = this.scene.gl.createBuffer();
         this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.cBuffer);
         this.scene.gl.bufferData(this.scene.gl.ARRAY_BUFFER, flatten(this._colors), this.scene.gl.STATIC_DRAW);
+        */
         
 
 
@@ -71,21 +88,39 @@ class GraphicObject {
         this.scene.gl.uniformMatrix4fv(this.scene.gl.getUniformLocation( this.scene.program,"modelMatrix"),false,flatten(modelMatrix));
 
         // binding vertex buffer
-        this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER,this.vBuffer);
-        this.scene.gl.vertexAttribPointer(this.scene.gl.getAttribLocation(this.scene.program, "vPosition"), 3, this.scene.gl.FLOAT, false, 0, 0);
+        this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.vBuffer);
+        this.scene.gl.vertexAttribPointer(this.scene.gl.getAttribLocation(this.scene.program, "vPosition"), 4, this.scene.gl.FLOAT, false, 0, 0);
         this.scene.gl.enableVertexAttribArray(this.scene.gl.getAttribLocation(this.scene.program, "vPosition"));
 
         // binding normal buffer
         // TODO: fix warnings
-        this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER,this.nBuffer);
-        this.scene.gl.vertexAttribPointer(this.scene.gl.getAttribLocation(this.scene.program, "vNormal"), 3, this.scene.gl.FLOAT, false, 0, 0);
+        this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.nBuffer);
+        this.scene.gl.vertexAttribPointer(this.scene.gl.getAttribLocation(this.scene.program, "vNormal"), 4, this.scene.gl.FLOAT, false, 0, 0);
         this.scene.gl.enableVertexAttribArray(this.scene.gl.getAttribLocation(this.scene.program, "vNormal"));
         
 
-        // binding color buffer
-        this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER,this.cBuffer);
+        /*// binding color buffer
+        this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.cBuffer);
         this.scene.gl.vertexAttribPointer(this.scene.gl.getAttribLocation(this.scene.program, "vColor"), 3, this.scene.gl.FLOAT, false, 0, 0);
-        this.scene.gl.enableVertexAttribArray(this.scene.gl.getAttribLocation(this.scene.program, "vColor"));
+        this.scene.gl.enableVertexAttribArray(this.scene.gl.getAttribLocation(this.scene.program, "vColor"));*/
+
+        // Compute coefficient products 
+        let light = this.scene.getLight();
+        let ambientProduct = mult(light.ambient, this.materialAmbient);
+        let diffuseProduct = mult(light.diffuse, this.materialDiffuse);
+        let specularProduct = mult(light.specular, this.materialSpecular);
+
+        // Pass light position to vertex shader
+        this.scene.gl.uniform4fv(this.scene.gl.getUniformLocation( this.scene.program,"lightPosition"), flatten(light.pos));
+
+
+        // Pass parameters to fragment shader
+        this.scene.gl.uniform4fv(this.scene.gl.getUniformLocation( this.scene.program,"ambientProduct"), flatten(ambientProduct));
+        this.scene.gl.uniform4fv(this.scene.gl.getUniformLocation( this.scene.program,"diffuseProduct"), flatten(diffuseProduct));
+        this.scene.gl.uniform4fv(this.scene.gl.getUniformLocation( this.scene.program,"specularProduct"), flatten(specularProduct));
+        this.scene.gl.uniform1f(this.scene.gl.getUniformLocation( this.scene.program,"shininess"), flatten(this.shininess));
+
+    
         this.scene.gl.drawArrays(this.scene.gl.TRIANGLES,0, this._vertices.length-1);
 
         //remember that after all that the "render" methods have been called, the user will do a "requestAnimationFrame".
