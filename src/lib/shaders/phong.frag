@@ -13,6 +13,10 @@ varying vec3 N, L, E;
 
 void main()
 {
+    N = normalize(N);
+    L = normalize(L);
+    E = normalize(E);
+
     vec4 fColor;
     
     vec3 H = normalize(L + E);

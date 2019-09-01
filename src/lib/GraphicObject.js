@@ -25,16 +25,16 @@ class GraphicObject {
 
 
         /*// Material properties, can be overridden by textures
-        this.materialAmbient = vec4(1.0, 0.0, 1.0, 1.0);     // Should be regulated by ambient occlusion map?
-        this.materialDiffuse = vec4(1.0, 0.8, 0.0, 1.0);     // Should be regulated by color map?
-        this.materialSpecular = vec4(1.0, 0.8, 0.0, 1.0);    // Should be regulated by specular/metalness map?
+        this.materialAmbient = vec4(1.0, 0.0, 1.0, 1.0);
+        this.materialDiffuse = vec4(1.0, 0.8, 0.0, 1.0);     
+        this.materialSpecular = vec4(1.0, 0.8, 0.0, 1.0);    
 */
 
-        this.materialAmbient = materialAmbient;     // Should be regulated by ambient occlusion map?
-        this.materialDiffuse = materialDiffuse;     // Should be regulated by color map?
-        this.materialSpecular = materialSpecular;    // Should be regulated by specular/metalness map?
+        this.materialAmbient = materialAmbient;     
+        this.materialDiffuse = materialDiffuse;     
+        this.materialSpecular = materialSpecular;   
 
-        this.shininess = 40.0;//100.0;         // Should be controlled by roughness map?
+        this.shininess = 200.0;//100.0;         
 
         this.emission = new vec4();//vec4(0.0, 0.3, 0.3, 1.0);   // Not affected by light sources, does not affect any surfaces
     }

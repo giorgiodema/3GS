@@ -7,7 +7,7 @@ class PointLight {
         this.diffuse = vec4(1.0, 1.0, 1.0, 1.0);
         this.specular = vec4(1.0, 1.0, 1.0, 1.0);
 
-        this._pos = vec4(1.0, 2.0, 3.0,1.0);
+        this._pos = vec4(1.0, 2.0, 3.0,0.0);
     }
 
     get pos() {

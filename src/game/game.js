@@ -70,7 +70,7 @@ window.onload = () =>
 
         let light = new PointLight();
         scene.addLight(light);
-        light.setPosition(character.pos[0], character.pos[1] + Constants.CHARACTER_HEIGHT/2, character.pos[2] - Constants.CAMERA_DISTANCE);
+        light.setPosition(character.pos[0], character.pos[1] + Constants.CHARACTER_HEIGHT * 10, character.pos[2] - Constants.CAMERA_DISTANCE);
 
         render();
     });
@@ -130,13 +130,18 @@ function buildCharacterGeometry(){
 
     //Red
     let charMat1Ambient = vec4(0.1, 0.4, 0.1);
-    let charMat1Diffuse = vec4(1.0, 0.0, 0.0);
+    let charMat1Diffuse = vec4(0.3, 0.3, 0.3);
     let charMat1Specular = vec4(1.0, 0.0, 0.0);
 
     //Blue
-    let charMat2Ambient = vec4(0.1, 0.1, 0.1);
-    let charMat2Diffuse = vec4(1.0, 1.0, 1.0, 0.1);
-    let charMat2Specular = vec4(0.0, 0.0, 1.0);
+//    let charMat2Ambient = vec4(0.1, 0.1, 0.1);
+  //  let charMat2Diffuse = vec4(1.0, 1.0, 1.0, 0.1);
+    //let charMat2Specular = vec4(0.0, 0.0, 1.0);
+
+    let charMat2Ambient = vec4( 0.0, 0.0, 1.0, 1.0 );
+    let charMat2Diffuse = vec4( 0.3, 0.3, 0.3, 1.0 );
+    let charMat2Specular = vec4( 0.0, 0.0, 1.0, 1.0);
+
 
     // initialize character
     let colors = new Array(objparser.getVertices("Torso").length).fill(new vec3(100/255,90/255,68/255));

@@ -17,10 +17,10 @@ void main()
     vec3 pos = (viewMatrix * modelMatrix * vPosition).xyz;
     vec3 light = (viewMatrix * lightPosition).xyz;
     
-    L = normalize(light - pos);
+    L = light - pos;
     E = -pos;
     //N = normalize((viewMatrix * modelMatrix * vNormal).xyz);
-    N = normalize(mat3(viewMatrix * modelMatrix) * vNormal.xyz);
+    N = mat3(viewMatrix * modelMatrix) * vNormal.xyz;
 
     gl_Position = projectionMatrix * viewMatrix * modelMatrix * vPosition;
 }
