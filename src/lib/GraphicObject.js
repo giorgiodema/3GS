@@ -86,6 +86,10 @@ class GraphicObject {
         //rendering stuff
         this.scene.gl.uniformMatrix4fv(this.scene.gl.getUniformLocation( this.scene.program,"modelMatrix"),false,flatten(modelMatrix));
 
+        // 3x3 matrix needed to avoid scaling issues on the normals
+        let inverseTransposedModelMatrix = normalMatrix(modelMatrix, true);
+        this.scene.gl.uniformMatrix3fv(this.scene.gl.getUniformLocation( this.scene.program,"inverseTransposedModelMatrix"),false,flatten(inverseTransposedModelMatrix));
+
         // binding vertex buffer
         this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.vBuffer);
         this.scene.gl.vertexAttribPointer(this.scene.gl.getAttribLocation(this.scene.program, "vPosition"), 4, this.scene.gl.FLOAT, false, 0, 0);

@@ -5,6 +5,7 @@ attribute vec4 vNormal;
 uniform mat4 modelMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
+uniform mat3 inverseTransposedModelMatrix;
 
 varying vec3 N, L, E;
 uniform vec4 lightPosition;
@@ -20,7 +21,7 @@ void main()
     L = light - pos;
     E = -pos;
     //N = normalize((viewMatrix * modelMatrix * vNormal).xyz);
-    N = mat3(viewMatrix * modelMatrix) * vNormal.xyz;
+    N = inverseTransposedModelMatrix * vNormal.xyz;
 
     gl_Position = projectionMatrix * viewMatrix * modelMatrix * vPosition;
 }
