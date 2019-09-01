@@ -67,7 +67,7 @@ window.onload = () =>
 
         cameraController.bindObjectController(characterController,Constants.CAMERA_DISTANCE,Constants.CAMERA_HEIGHT);
 
-        let light = new PointLight();
+        let light = new DirectionalLight();
         scene.addLight(light);
         //light.setPosition(character.pos[0], character.pos[1] + Constants.CHARACTER_HEIGHT * 10, character.pos[2] - Constants.CAMERA_DISTANCE);
         light.setPosition(Constants.GRID_WIDTH/2, Constants.LIGHT_HEIGHT, Constants.GRID_WIDTH/2);
@@ -118,26 +118,12 @@ function buildCharacterGeometry(){
     let objparser = new Parser("http://localhost:9000", "src/game/Assets/Character/model_separated.obj");
     objparser.parse();
 
-    /*
-        let charMat1Ambient = vec4(0.2, 0.0, 0.0);
-    let charMat1Diffuse = vec4(1.0, 0.0, 0.0);
-    let charMat1Specular = vec4(1.0, 0.0, 0.0);
-
-    let charMat2Ambient = vec4(0.0, 0.0, 0.2);
-    let charMat2Diffuse = vec4(0.0, 0.0, 1.0);
-    let charMat2Specular = vec4(0.5, 0.5, 0.5);
-     */
-
-    //Red
-    let charMat1Ambient = vec4(0.1, 0.4, 0.1);
+    //Red parts
+    let charMat1Ambient = vec4(0.1, 0.0, 0.0);
     let charMat1Diffuse = vec4(0.3, 0.3, 0.3);
     let charMat1Specular = vec4(1.0, 0.0, 0.0);
 
-    //Blue
-//    let charMat2Ambient = vec4(0.1, 0.1, 0.1);
-  //  let charMat2Diffuse = vec4(1.0, 1.0, 1.0, 0.1);
-    //let charMat2Specular = vec4(0.0, 0.0, 1.0);
-
+    //Blue parts
     let charMat2Ambient = vec4( 0.0, 0.0, 1.0, 1.0 );
     let charMat2Diffuse = vec4( 0.3, 0.3, 0.3, 1.0 );
     let charMat2Specular = vec4( 0.0, 0.0, 1.0, 1.0);

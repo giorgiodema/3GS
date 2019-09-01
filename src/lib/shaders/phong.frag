@@ -1,10 +1,5 @@
 precision mediump float;
 
-/*  Will uncomment when implementing textures
-uniform bool useColorMap;
-uniform bool useNormalMap;
-*/
-
 uniform vec4 ambientProduct;
 uniform vec4 diffuseProduct;
 uniform vec4 specularProduct;

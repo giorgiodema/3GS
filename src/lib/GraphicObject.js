@@ -23,20 +23,15 @@ class GraphicObject {
         this._rot = vec3(0, 0, 0);
         this._scale = vec3(1, 1, 1);
 
-
-        /*// Material properties, can be overridden by textures
-        this.materialAmbient = vec4(1.0, 0.0, 1.0, 1.0);
-        this.materialDiffuse = vec4(1.0, 0.8, 0.0, 1.0);     
-        this.materialSpecular = vec4(1.0, 0.8, 0.0, 1.0);    
-*/
-
         this.materialAmbient = materialAmbient;     
         this.materialDiffuse = materialDiffuse;     
         this.materialSpecular = materialSpecular;   
 
-        this.shininess = 200.0;//100.0;         
+        this.shininess = 200.0;
 
-        this.emission = new vec4();//vec4(0.0, 0.3, 0.3, 1.0);   // Not affected by light sources, does not affect any surfaces
+        // Not affected by light sources, does not affect any surfaces
+        // not using this right now
+        // this.emission = new vec4();
     }
 
     get pos() {
@@ -63,17 +58,6 @@ class GraphicObject {
         this.nBuffer = this.scene.gl.createBuffer();
         this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.nBuffer);
         this.scene.gl.bufferData(this.scene.gl.ARRAY_BUFFER, flatten(this._normals), this.scene.gl.STATIC_DRAW);
-
-        /*
-        this.cBuffer = this.scene.gl.createBuffer();
-        this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.cBuffer);
-        this.scene.gl.bufferData(this.scene.gl.ARRAY_BUFFER, flatten(this._colors), this.scene.gl.STATIC_DRAW);
-        */
-        
-
-
-
-
     }
 
     render(parentMatrix) {
@@ -96,16 +80,10 @@ class GraphicObject {
         this.scene.gl.enableVertexAttribArray(this.scene.gl.getAttribLocation(this.scene.program, "vPosition"));
 
         // binding normal buffer
-        // TODO: fix warnings
         this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.nBuffer);
         this.scene.gl.vertexAttribPointer(this.scene.gl.getAttribLocation(this.scene.program, "vNormal"), 4, this.scene.gl.FLOAT, false, 0, 0);
         this.scene.gl.enableVertexAttribArray(this.scene.gl.getAttribLocation(this.scene.program, "vNormal"));
-        
-
-        /*// binding color buffer
-        this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.cBuffer);
-        this.scene.gl.vertexAttribPointer(this.scene.gl.getAttribLocation(this.scene.program, "vColor"), 3, this.scene.gl.FLOAT, false, 0, 0);
-        this.scene.gl.enableVertexAttribArray(this.scene.gl.getAttribLocation(this.scene.program, "vColor"));*/
+    
 
         // Compute coefficient products 
         let light = this.scene.getLight();

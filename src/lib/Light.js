@@ -1,13 +1,12 @@
 // We'll start by supporting only one light source. The scene will ignore all
 // lights that are not the first one for now when rendering an object. 
-class PointLight {
+class DirectionalLight {
     constructor() {
-        this.ambient = vec4(0.2, 0.2, 0.2, 1.0);
-        //this.ambient = vec4(0.0, 0.0, 0.0, 1.0);
+        this.ambient = vec4(0.4, 0.4, 0.4, 1.0);
         this.diffuse = vec4(1.0, 1.0, 1.0, 1.0);
         this.specular = vec4(1.0, 1.0, 1.0, 1.0);
 
-        this._pos = vec4(1.0, 2.0, 3.0,0.0);
+        this._pos = vec4(0.0, 0.0, 0.0,0.0);
     }
 
     get pos() {
@@ -28,5 +27,3 @@ class PointLight {
         this.translate(xTranslation, yTranslation, zTranslation);
     }
 }
-
-// class AmbientLight
