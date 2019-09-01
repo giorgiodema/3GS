@@ -1,7 +1,8 @@
 class KeyframeShift {
-    _now = 0;
-    _start = 0;
     constructor(object, frames, initPos, initRot, initScale, finalPos, finalRot, finalScale) {
+        this._now = 0;
+        this._start = 0;
+        
         this._object = object;
         this._frames = frames;
 
