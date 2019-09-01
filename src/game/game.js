@@ -22,11 +22,10 @@ window.onload = () =>
     scene.init(() => {
 
         
-        let values = buildMazeGeometry();
+        let values = buildMazeGeometry(Constants.WALL_COLOR,Constants.GROUND_COLOR);
         let maze = values[0];
         let mazeLogic = values[1];
         let character = buildCharacterGeometry();
-        buildGroundGeometry();
 
         character.rotate(90.0, [0, 1, 0]);
         maze.setPosition(0.0,0.0,0.0);
@@ -70,7 +69,8 @@ window.onload = () =>
 
         let light = new PointLight();
         scene.addLight(light);
-        light.setPosition(character.pos[0], character.pos[1] + Constants.CHARACTER_HEIGHT * 10, character.pos[2] - Constants.CAMERA_DISTANCE);
+        //light.setPosition(character.pos[0], character.pos[1] + Constants.CHARACTER_HEIGHT * 10, character.pos[2] - Constants.CAMERA_DISTANCE);
+        light.setPosition(Constants.GRID_WIDTH/2, Constants.LIGHT_HEIGHT, Constants.GRID_WIDTH/2);
 
         render();
     });
@@ -81,35 +81,35 @@ function render() {
     requestAnimFrame(render);
 }
 
-function buildMazeGeometry(){
+function buildMazeGeometry(wallColor,groundColor){
     let tree = null;
     let maze = new Maze(Constants.GRID_WIDTH,Constants.GRID_WIDTH);
     console.log(maze.toString());
     
     for(let i=0; i<maze.grid.length; i++){
         for(let j=0; j<maze.grid[0].length; j++){
-            if (maze.grid[i][j] == Constants.CELL.WALL) {
-                let cube = new Cube(0.5,0.5,0.5);
-                cube.setPosition(j*Constants.BLOCK_SIZE,Constants.BLOCK_SIZE/2,i*Constants.BLOCK_SIZE)
-                
-                if (tree === null){
-                    scene.addObject(cube);
-                    tree = cube;
-                }
-                else tree.addChild(cube);
+            let cube; 
+            if (maze.grid[i][j] == Constants.CELL.WALL){
+                cube = new Cube(wallColor[0],wallColor[1],wallColor[2]);
+                cube.setPosition(j*Constants.BLOCK_SIZE,Constants.BLOCK_SIZE/2,i*Constants.BLOCK_SIZE);
             }
+            else{
+                cube = new Cube(groundColor[0],groundColor[1],groundColor[2]);
+                cube.scale(1.0,0.0001,1.0);
+                cube.setPosition(j*Constants.BLOCK_SIZE,-0.001,i*Constants.BLOCK_SIZE);
+            }
+
+                
+            
+            if (tree === null){
+                scene.addObject(cube);
+                tree = cube;
+            }
+            else tree.addChild(cube);
         }
     }
 
     return [tree,maze];
-}
-
-function buildGroundGeometry(){
-    let ground = new Cube(0.5,0.5,1);
-    ground.scale(Constants.GRID_WIDTH*2+1,0.000001,Constants.GRID_WIDTH*2+1);
-    ground.setPosition(Constants.GRID_WIDTH,-0.001,Constants.GRID_WIDTH);
-    scene.addObject(ground);
-    return ground;
 }
 
 function buildCharacterGeometry(){
