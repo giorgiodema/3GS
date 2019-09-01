@@ -1,26 +1,8 @@
-// An enum to keep track of the cells state
-export const CELL = {
-    EMPTY: 0,
-    UNDEFINED: 1,
-    WALL: 2,
-    PASSAGE: 3,
-    PLAYER: 4,
-    TARGET: 5
-}
-
-// An enum that indicates a movement direction
-export const DIRECTION = {
-    UP: 0,
-    DOWN: 1,
-    LEFT: 2,
-    RIGHT: 3
-}
-
 /* ==================
  * Position
  * ==================
  * A simple class that just holds a pair of coordinates */
-export class Position {
+class Position {
     constructor(y, x) {
         this._y = y;
         this._x = x;
@@ -41,7 +23,7 @@ export class Position {
  * Maze
  * ==================
  * A class that represents a random maze that can be navigated */
-export class Maze {
+class Maze {
     constructor(width, height) {
         this._width = width;
         this._height = height;
@@ -50,11 +32,6 @@ export class Maze {
         this._grid = []
         this._position = null;
         this._target = null;
-        this._vectors = {};
-        this._vectors[DIRECTION.UP] = new Position(-1, 0);
-        this._vectors[DIRECTION.DOWN] = new Position(1, 0);
-        this._vectors[DIRECTION.LEFT] = new Position(0, -1);
-        this._vectors[DIRECTION.RIGHT] = new Position(0, 1);
         this._won = false;
 
         // Initialize a new [height, width] array
@@ -68,8 +45,8 @@ export class Maze {
         for (var i = 0; i < this._combinedHeight; i++) {
             var row = [];
             for (var j = 0; j < this._combinedWidth; j++) {
-                if (i % 2 == 0 || j % 2 == 0) row.push(CELL.WALL);
-                else row.push(CELL.UNDEFINED);
+                if (i % 2 == 0 || j % 2 == 0) row.push(Constants.CELL.WALL);
+                else row.push(Constants.CELL.UNDEFINED);
             }
             this._grid.push(row);
         }
@@ -80,11 +57,11 @@ export class Maze {
             Math.floor(Math.random() * this._height) * 2 + 1,
             Math.floor(Math.random() * this._width) * 2 + 1
         );
-        this._grid[cell.y][cell.x] = CELL.EMPTY;
+        this._grid[cell.y][cell.x] = Constants.CELL.EMPTY;
 
         // 2.1. Add the walls of the cell to the wall list
         this._executeOnAdjacentCells(cell.y, cell.x, pos => {
-            if (this._grid[pos.y][pos.x] == CELL.WALL) {
+            if (this._grid[pos.y][pos.x] == Constants.CELL.WALL) {
                 walls.push(pos);
             }
         });
@@ -103,19 +80,19 @@ export class Maze {
             var adjacent = [];
             this._executeOnAdjacentCells(pos.y, pos.x, adj =>
             {
-                if (this._grid[adj.y][adj.x] == CELL.UNDEFINED) {
+                if (this._grid[adj.y][adj.x] == Constants.CELL.UNDEFINED) {
                     adjacent.push(adj);
                 }
             });
 
             // 3.1.1. If only one of the two cells that the wall divides is visited
             if (adjacent.length == 1) {
-                this._grid[pos.y][pos.x] = CELL.PASSAGE;
-                this._grid[adjacent[0].y][adjacent[0].x] = CELL.EMPTY;
+                this._grid[pos.y][pos.x] = Constants.CELL.PASSAGE;
+                this._grid[adjacent[0].y][adjacent[0].x] = Constants.CELL.EMPTY;
 
                 // 3.1.2. Add the neighboring walls of the cell to the wall list
                 this._executeOnAdjacentCells(adjacent[0].y, adjacent[0].x, next => {
-                    if (this._grid[next.y][next.x] == CELL.WALL) {
+                    if (this._grid[next.y][next.x] == Constants.CELL.WALL) {
                         walls.push(next);
                     }
                 });
@@ -125,27 +102,27 @@ export class Maze {
         // Convert passages to empty spaces
         for (var i = 0; i < this._combinedHeight; i++) {
             for (var j = 0; j < this._combinedWidth; j++) {
-                if (this._grid[i][j] == CELL.PASSAGE) {
-                    this._grid[i][j] == CELL.EMPTY;
+                if (this._grid[i][j] == Constants.CELL.PASSAGE) {
+                    this._grid[i][j] == Constants.CELL.EMPTY;
                 }
             }
         }
 
         // Spawn the player and the target
         for (var i = 0; i < this._combinedWidth; i++) {
-            if (this._grid[this._combinedHeight - 2][i] == CELL.EMPTY ||
-                this._grid[this._combinedHeight - 2][i] == CELL.PASSAGE) {
+            if (this._grid[this._combinedHeight - 2][i] == Constants.CELL.EMPTY ||
+                this._grid[this._combinedHeight - 2][i] == Constants.CELL.PASSAGE) {
                 this._position = new Position(this._combinedHeight - 2, i);
-                this._grid[this._position.y][this._position.x] = CELL.PLAYER;
+                this._grid[this._position.y][this._position.x] = Constants.CELL.PLAYER;
                 break;
             }
         }
 
         // Spawn the target
         for (var i = this._combinedWidth - 2; i > 0; i--) {
-            if (this._grid[1][i] == CELL.EMPTY) {
+            if (this._grid[1][i] == Constants.CELL.EMPTY) {
                 this._target = new Position(1, i);
-                this._grid[this._target.y][this._target.x] = CELL.TARGET;
+                this._grid[this._target.y][this._target.x] = Constants.CELL.TARGET;
                 break;
             }
         }
@@ -179,33 +156,6 @@ export class Maze {
         return this._won;
     }
 
-    // Checks whether the player can move in a specific direction
-    canMove(direction) {
-        var next = new Position(
-            this._position.y + this._vectors[direction].y,
-            this._position.x + this._vectors[direction].x
-        );
-        return this._grid[next.y][next.x] == CELL.EMPTY ||
-               this._grid[next.y][next.x] == CELL.TARGET;
-    }
-
-    // Moves the player in a specific direction, if possible
-    move(direction) {
-        var next = new Position(
-            this._position.y + this._vectors[direction].y,
-            this._position.x + this._vectors[direction].x
-        );
-        if (this._grid[next.y][next.x] == CELL.EMPTY ||
-            this._grid[next.y][next.x] == CELL.TARGET) {
-            if (this._grid[next.y][next.x] == CELL.TARGET) {
-                this._won = true;
-            }
-            this._grid[this._position.y][this._position.x] = CELL.EMPTY;
-            this._grid[next.y][next.x] = CELL.PLAYER;
-            this._position = next;
-        }
-    }
-
     // Returns a string representation of the current maze
     toString() {
         var result = '';
@@ -213,13 +163,13 @@ export class Maze {
             var line = '';
             for (var j = 0; j < this._combinedWidth; j++) {
                 switch (this._grid[i][j]) {
-                    case CELL.EMPTY:
-                    case CELL.PASSAGE:
+                    case Constants.CELL.EMPTY:
+                    case Constants.CELL.PASSAGE:
                         line += '  '; break;
-                    case CELL.UNDEFINED: line += '░░'; break;
-                    case CELL.WALL: line += '██'; break;
-                    case CELL.PLAYER: line += '🤖'; break;
-                    case CELL.TARGET: line += '🥇'; break;
+                    case Constants.CELL.UNDEFINED: line += '░░'; break;
+                    case Constants.CELL.WALL: line += '██'; break;
+                    case Constants.CELL.PLAYER: line += '🤖'; break;
+                    case Constants.CELL.TARGET: line += '🥇'; break;
                     default: throw 'Invalid cell value: ' + this._grid[i][j];
                 }
             }
