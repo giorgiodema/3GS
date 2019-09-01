@@ -99,6 +99,12 @@ class Scene {
         if(camera != null) this._cameras.push(camera);
     }
 
+    // As of now, rendering only supports one light
+    getLight(){
+        console.assert(this._lights.length !== 0, "Warning: the scene has no lights!");
+        return this._lights[0];
+    }
+
 //******************************************************************************
 
     //Makes a scene camera the working scene camera

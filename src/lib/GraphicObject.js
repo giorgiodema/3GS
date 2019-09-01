@@ -1,12 +1,10 @@
 class GraphicObject {
 
-    constructor(vertices, normals, colors, uvCoords, colorMap, normalsMap) {
+    constructor(vertices, normals, materialAmbient, materialDiffuse, materialSpecular, uvCoords, colorMap) {
         this._vertices = vertices;
         this._normals = normals;
-        this._colors = colors;
         this._uvCoords = uvCoords;
         this._colorMap = colorMap;
-        this._normalsMap = normalsMap;
         this._children = new Array();
         this.scene;
 
@@ -24,6 +22,16 @@ class GraphicObject {
         this._pos = vec3(0, 0, 0);
         this._rot = vec3(0, 0, 0);
         this._scale = vec3(1, 1, 1);
+
+        this.materialAmbient = materialAmbient;     
+        this.materialDiffuse = materialDiffuse;     
+        this.materialSpecular = materialSpecular;   
+
+        this.shininess = 200.0;
+
+        // Not affected by light sources, does not affect any surfaces
+        // not using this right now
+        // this.emission = new vec4();
     }
 
     get pos() {
@@ -49,16 +57,7 @@ class GraphicObject {
 
         this.nBuffer = this.scene.gl.createBuffer();
         this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.nBuffer);
-        //this.scene.gl.bufferData(this.scene.gl.ARRAY_BUFFER, flatten(this._normals), this.scene.gl.STATIC_DRAW);
-
-        this.cBuffer = this.scene.gl.createBuffer();
-        this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.cBuffer);
-        this.scene.gl.bufferData(this.scene.gl.ARRAY_BUFFER, flatten(this._colors), this.scene.gl.STATIC_DRAW);
-        
-
-
-
-
+        this.scene.gl.bufferData(this.scene.gl.ARRAY_BUFFER, flatten(this._normals), this.scene.gl.STATIC_DRAW);
     }
 
     render(parentMatrix) {
@@ -71,23 +70,39 @@ class GraphicObject {
         //rendering stuff
         this.scene.gl.uniformMatrix4fv(this.scene.gl.getUniformLocation( this.scene.program,"modelMatrix"),false,flatten(modelMatrix));
 
+        // 3x3 matrix needed to avoid scaling issues on the normals
+        let inverseTransposedModelMatrix = normalMatrix(modelMatrix, true);
+        this.scene.gl.uniformMatrix3fv(this.scene.gl.getUniformLocation( this.scene.program,"inverseTransposedModelMatrix"),false,flatten(inverseTransposedModelMatrix));
+
         // binding vertex buffer
-        this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER,this.vBuffer);
-        this.scene.gl.vertexAttribPointer(this.scene.gl.getAttribLocation(this.scene.program, "vPosition"), 3, this.scene.gl.FLOAT, false, 0, 0);
+        this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.vBuffer);
+        this.scene.gl.vertexAttribPointer(this.scene.gl.getAttribLocation(this.scene.program, "vPosition"), 4, this.scene.gl.FLOAT, false, 0, 0);
         this.scene.gl.enableVertexAttribArray(this.scene.gl.getAttribLocation(this.scene.program, "vPosition"));
 
         // binding normal buffer
-        /* TODO: fix warnings
-        this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER,this.nBuffer);
-        this.scene.gl.vertexAttribPointer(this.scene.gl.getAttribLocation(this.scene.program, "vNormal"), 3, this.scene.gl.FLOAT, false, 0, 0);
+        this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.nBuffer);
+        this.scene.gl.vertexAttribPointer(this.scene.gl.getAttribLocation(this.scene.program, "vNormal"), 4, this.scene.gl.FLOAT, false, 0, 0);
         this.scene.gl.enableVertexAttribArray(this.scene.gl.getAttribLocation(this.scene.program, "vNormal"));
-        */
+    
 
-        // binding color buffer
-        this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER,this.cBuffer);
-        this.scene.gl.vertexAttribPointer(this.scene.gl.getAttribLocation(this.scene.program, "vColor"), 3, this.scene.gl.FLOAT, false, 0, 0);
-        this.scene.gl.enableVertexAttribArray(this.scene.gl.getAttribLocation(this.scene.program, "vColor"));
-        this.scene.gl.drawArrays(this.scene.gl.TRIANGLES,0, this._vertices.length-1);
+        // Compute coefficient products 
+        let light = this.scene.getLight();
+        let ambientProduct = mult(light.ambient, this.materialAmbient);
+        let diffuseProduct = mult(light.diffuse, this.materialDiffuse);
+        let specularProduct = mult(light.specular, this.materialSpecular);
+
+        // Pass light position to vertex shader
+        this.scene.gl.uniform4fv(this.scene.gl.getUniformLocation( this.scene.program,"lightPosition"), flatten(light.pos));
+
+
+        // Pass parameters to fragment shader
+        this.scene.gl.uniform4fv(this.scene.gl.getUniformLocation( this.scene.program,"ambientProduct"), flatten(ambientProduct));
+        this.scene.gl.uniform4fv(this.scene.gl.getUniformLocation( this.scene.program,"diffuseProduct"), flatten(diffuseProduct));
+        this.scene.gl.uniform4fv(this.scene.gl.getUniformLocation( this.scene.program,"specularProduct"), flatten(specularProduct));
+        this.scene.gl.uniform1f(this.scene.gl.getUniformLocation( this.scene.program,"shininess"), flatten(this.shininess));
+
+    
+        this.scene.gl.drawArrays(this.scene.gl.TRIANGLES,0, this._vertices.length);
 
         //remember that after all that the "render" methods have been called, the user will do a "requestAnimationFrame".
 

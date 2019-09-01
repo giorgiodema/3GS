@@ -81,7 +81,7 @@ class Parser{
                     var x = parseFloat(lines[0]);
                     var y = parseFloat(lines[1]);
                     var z = parseFloat(lines[2]);
-                    this.normalsArray.push(vec3(x,y,z));
+                    this.normalsArray.push(vec4(x,y,z, 1.0));
                 }
     
                 else if(line.startsWith("v")){
@@ -89,7 +89,7 @@ class Parser{
                     var x = parseFloat(lines[0]);
                     var y = parseFloat(lines[1]);
                     var z = parseFloat(lines[2]);
-                    this.verticesArray.push(vec3(x,y,z));
+                    this.verticesArray.push(vec4(x,y,z, 1.0));
                 }
     
                 else if(line.startsWith("f")){

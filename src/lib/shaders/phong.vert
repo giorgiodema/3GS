@@ -1,18 +1,22 @@
-attribute vec3 vPosition;
-attribute vec3 vNormal;
-attribute vec3 vColor;
+attribute vec4 vPosition;
+attribute vec4 vNormal;
 
 uniform mat4 modelMatrix;
 uniform mat4 viewMatrix;
 uniform mat4 projectionMatrix;
+uniform mat3 inverseTransposedModelMatrix;
 
-varying vec4 fColor;
+varying vec3 N, L, E;
+uniform vec4 lightPosition;
 
 void main()
-{
-    fColor = vec4(vColor.x, vColor.y, vColor.z, 1.0);
+{    
+    vec3 pos = (viewMatrix * modelMatrix * vPosition).xyz;
+    vec3 light = (viewMatrix * lightPosition).xyz;
+    
+    L = light - pos;
+    E = -pos;
+    N = inverseTransposedModelMatrix * vNormal.xyz;
 
-    vec4 position = vec4(vPosition.x, vPosition.y, vPosition.z, 1.0);
-
-    gl_Position = projectionMatrix * viewMatrix * modelMatrix * position;
+    gl_Position = projectionMatrix * viewMatrix * modelMatrix * vPosition;
 }

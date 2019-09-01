@@ -38,4 +38,16 @@ class Constants {
         return 0.08;
     }
 
+    static get WALL_COLOR(){
+        return vec3(4/255,59/255,4/255);
+    }
+
+    static get GROUND_COLOR(){
+        return vec3(181/255, 150/255, 110/255);
+    }
+
+    static get LIGHT_HEIGHT(){
+        return 50;
+    }
+
 }
