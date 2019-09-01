@@ -124,7 +124,7 @@ class GraphicObject {
         this.scene.gl.uniform1f(this.scene.gl.getUniformLocation( this.scene.program,"shininess"), flatten(this.shininess));
 
     
-        this.scene.gl.drawArrays(this.scene.gl.TRIANGLES,0, this._vertices.length-1);
+        this.scene.gl.drawArrays(this.scene.gl.TRIANGLES,0, this._vertices.length);
 
         //remember that after all that the "render" methods have been called, the user will do a "requestAnimationFrame".
 
