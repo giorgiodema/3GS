@@ -1,21 +1,29 @@
 class KeyframeShift {
-    _now = 0;
-    _start = 0;
-    constructor(object, frames, pos, rot, scale) {
-        this._obj = object;
+    constructor(object, frames, initPos, initRot, initScale, finalPos, finalRot, finalScale) {
+        this._now = 0;
+        this._start = 0;
+        
+        this._object = object;
         this._frames = frames;
-        this._initPos = object.pos;
-        this._initRot = object.rot;
-        this._initScale = object.scale;
-        this._currentPos = object.pos;
-        this._currentRot = object.rot;
-        this._currentScale = object.scale;
-        this._finalPos = pos;
-        /* rot parameter must be a 3*2 matrix [[rotateX -> <boolean>, xAngle],
-                                                [rotateY -> <boolean>, yAngle],
-                                                [rotateZ -> <boolean>, zAngle]] */
-        this._finalRot = rot;
-        this._finalScale = scale;
+
+        this._initPos = initPos;
+        if(this._initPos != null)
+            this._iPosReset = vec3(this._initPos[0], this._initPos[1], this._initPos[2]);
+
+        this._initRot = initRot;
+        if(this._initRot != null)
+            this._iRotReset = vec3(this._initRot[0], this._initRot[1], this._initRot[2]);
+
+        this._initScale = initScale;
+        if(this._initScale != null)
+            this._iScaleReset = vec3(this._initScale[0], this._initScale[1], this._initScale[2]);
+
+        this._currentPos = initPos;
+        this._currentRot = initRot;
+        this._currentScale = initScale;
+        this._finalPos = finalPos;
+        this._finalRot = finalRot;
+        this._finalScale = finalScale;
     }
 
     //Return an interpolated scalar value
@@ -40,42 +48,36 @@ class KeyframeShift {
         if(this._now < this._frames){
 
             //updates position
-            if(this._finalPos != NULL){
+            if(this._finalPos != null){
                 this._currentPos = this.interpolateVector(this._initPos, this._finalPos);
                 this._object.setPosition(this._currentPos[0], this._currentPos[1], this._currentPos[2]);
             }
 
             //updates rotation
-            if(this._finalRot != NULL){
-
-                /* _finalRot property is a 3*2 matrix [[rotateX -> <boolean>, xAngle],
-                                                        [rotateY -> <boolean>, yAngle],
-                                                        [rotateZ -> <boolean>, zAngle]]
-
-                    _currentRot is a vector [xAngle, yAngle, zAngle]
-                */
+            if(this._finalRot != null){
 
                 //updates X axis
-                if(this._finalRot[0][0]){
-                    this._currentRot[0] = this.interpolateScalar(this._initRot[0], this._finalRot[0][1]);
+                if(this._finalRot[0] != null){
+                    this._currentRot[0] = this.interpolateScalar(this._initRot[0], this._finalRot[0]);
                     this._object.setRotation(this._currentRot[0], [1, 0, 0]);
                 }
 
                 //updates Y axis
-                if(this._finalRot[1][0]){
-                    this._currentRot[1] = this.interpolateScalar(this._initRot[1], this._finalRot[1][1]);
+                if(this._finalRot[1] != null){
+                    this._currentRot[1] = this.interpolateScalar(this._initRot[1], this._finalRot[1]);
                     this._object.setRotation(this._currentRot[1], [0, 1, 0]);
                 }
 
                 //updates Z axis
-                if(this._finalRot[2][0]){
-                    this._currentRot[2] = this.interpolateScalar(this._initRot[2], this._finalRot[2][1]);
+                if(this._finalRot[2] != null){
+                    this._currentRot[2] = this.interpolateScalar(this._initRot[2], this._finalRot[2]);
                     this._object.setRotation(this._currentRot[2], [0, 0, 1]);
                 }
+
             }
 
             //updates scaling
-            if(this._finalScale != NULL){
+            if(this._finalScale != null){
                 this._currentScale = this.interpolateVector(this._initScale, this._finalScale);
                 this._object.setScale(this._currentScale[0], this._currentScale[1], this._currentScale[2]);
             }
@@ -91,6 +93,18 @@ class KeyframeShift {
     //reset keyframeshift
     reset(){
         this._now = 0;
+
+        this._initPos[0] = this._iPosReset[0];
+        this._initPos[1] = this._iPosReset[1];
+        this._initPos[2] = this._iPosReset[2];
+
+        this._initRot[0] = this._iRotReset[0];
+        this._initRot[1] = this._iRotReset[1];
+        this._initRot[2] = this._iRotReset[2];
+
+        this._initScale[0] = this._iScaleReset[0];
+        this._initScale[1] = this._iScaleReset[1];
+        this._initScale[2] = this._iScaleReset[2];
     }
 }
 
@@ -101,24 +115,9 @@ class Animation {
         this._animArray = animArray;
         this._isLoop = isLoop;
         if (isLoop){
-            this._animArrayIterator = this._animArray[Symbol.iterator]();
-            this._currentKeyframeshift;
-        }
-    }
-
-    resetIterator(){
-        if(this._isLoop) this._animArrayIterator = this._animArray[Symbol.iterator]();
-    }
-
-    iterate(){
-        if(this._isLoop){
-            var current = this._animArrayIterator.next();
-            if(typeof current == 'undefined'){
-                //iterator needs to be resetted
-                this.resetIterator();
-                return this._animArrayIterator.next();
-            }
-            else return current;
+            //this._animArrayIterator = this._animArray[Symbol.iterator]();
+            this._animArrayIndex = 0;
+            this._currentKeyframeshift = this._animArray[this._animArrayIndex];
         }
     }
 
@@ -126,33 +125,35 @@ class Animation {
     // until is exhausted
     animate(){
         if (this._play) {
-            //Loop sequence
-            if(this._isLoop){
-                //check initialization
-                if(typeof this._currentKeyframeshift == 'undefined') this._currentKeyframeshift.iterate();
 
-                //check if keyfram is exhausted
-                if(this._currentKeyframeshift.update() == false){
-                    //it's a loop, Keyframeshift needs to be resetted
+            var seqLen = this._animArray.length;
+
+
+            //check if keyframeshift is exhausted and if animation is a loop
+            if(this._isLoop){
+                if (this._currentKeyframeshift.update() == false) {
+
+                    //it's a loop, KeyframeShift needs to be resetted
                     this._currentKeyframeshift.reset();
 
                     //pass to the next KeyframeShift
-                    this._currentKeyframeshift.iterate();
-                }
+                    this._animArrayIndex += 1;
 
-                return;
+                    //check array len, in case restart array scanning
+                    if(this._animArrayIndex == seqLen){
+                        this._animArrayIndex = 0;
+                    }
+
+                    //assign next keyframeShift
+                    this._currentKeyframeshift = this._animArray[this._animArrayIndex];
+                    return;
+                }
             }
 
-            //One-shot sequence
-            else {
-                var seqLen = this._animArray.length;
-                //check if sequence is not empty and keyframeshift not exhausted
-                if(seqLen != 0 && !this._animArray[slen-1].update()){
-                    //pop exhausted keyframe
-                    sequence.pop();
-                }
-                return;
-            }
+            //One-shot animation case
+            else if (seqLen != 0 && !this._animArray[0].update())
+                //shift (remove first element) exhausted KeyframeShift
+                this._animArray.shift();
         }
     }
 
