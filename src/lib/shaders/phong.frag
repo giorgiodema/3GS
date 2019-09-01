@@ -13,22 +13,22 @@ varying vec3 N, L, E;
 
 void main()
 {
-    N = normalize(N);
-    L = normalize(L);
-    E = normalize(E);
+    vec3 normal = normalize(N);
+    vec3 surfaceToLight = normalize(L);
+    vec3 surfaceToView = normalize(E);
 
     vec4 fColor;
     
-    vec3 H = normalize(L + E);
+    vec3 H = normalize(surfaceToLight + surfaceToView);
     vec4 ambient = ambientProduct;
     
-    float Kd = max(dot(L, N), 0.0);
+    float Kd = max(dot(surfaceToLight, normal), 0.0);
     vec4 diffuse = Kd * diffuseProduct;
     
-    float Ks = pow(max(dot(N, H), 0.0), shininess);
+    float Ks = pow(max(dot(normal, H), 0.0), shininess);
     vec4 specular = Ks * specularProduct;
     
-    if (dot(L, N) < 0.0) {
+    if (dot(surfaceToLight, normal) < 0.0) {
         specular = vec4(0.0, 0.0, 0.0, 1.0);
     }
 
