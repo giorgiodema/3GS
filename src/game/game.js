@@ -8,7 +8,7 @@ window.onload = () =>
     var myHeight = window.innerHeight;
 
     // Canvas values
-    var WIDTH = res_independent(670, myHeight), 
+    var WIDTH = res_independent(670, myHeight),
     HEIGHT = res_independent(670, myHeight);
 
 
@@ -21,7 +21,7 @@ window.onload = () =>
     scene = new Scene("gl-canvas");
     scene.init(() => {
 
-        
+
         let values = buildMazeGeometry(Constants.WALL_COLOR,Constants.GROUND_COLOR);
         let maze = values[0];
         let mazeLogic = values[1];
@@ -85,10 +85,10 @@ function buildMazeGeometry(wallColor,groundColor){
     let tree = null;
     let maze = new Maze(Constants.GRID_WIDTH,Constants.GRID_WIDTH);
     console.log(maze.toString());
-    
+
     for(let i=0; i<maze.grid.length; i++){
         for(let j=0; j<maze.grid[0].length; j++){
-            let cube; 
+            let cube;
             if (maze.grid[i][j] == Constants.CELL.WALL){
                 cube = new Cube(wallColor[0],wallColor[1],wallColor[2]);
                 cube.setPosition(j*Constants.BLOCK_SIZE,Constants.BLOCK_SIZE/2,i*Constants.BLOCK_SIZE);
@@ -99,8 +99,8 @@ function buildMazeGeometry(wallColor,groundColor){
                 cube.setPosition(j*Constants.BLOCK_SIZE,-0.001,i*Constants.BLOCK_SIZE);
             }
 
-                
-            
+
+
             if (tree === null){
                 scene.addObject(cube);
                 tree = cube;
@@ -111,6 +111,11 @@ function buildMazeGeometry(wallColor,groundColor){
 
     return [tree,maze];
 }
+
+/*function buildLegsAnimation(upperLegL, upperLegR)
+{
+
+}*/
 
 function buildCharacterGeometry(){
 
@@ -180,12 +185,51 @@ function buildCharacterGeometry(){
     lowerLegR.addChild(footR);
     lowerLegL.addChild(footL);
 
+    //buildLegsAnimation(upperLegL, upperLegR);
+
+    //declare animation parameters
+    let fRot1 = vec3(0.0, -0.045, 0.0);
+    let fRot2 = vec3(0.0, 0.0, 0.0);
+    let fPos1 = vec3(upperArmR.pos[0], upperArmR.pos[1], upperArmR.pos[2]+0.05);
+    let iPos1 = [upperArmR.pos[0], upperArmR.pos[1], upperArmR.pos[2]];
+    let iRot1 = vec3(upperArmR.rot[0], upperArmR.rot[1], upperArmR.rot[2]);
+    console.log(iRot1);
+    let iRot2 = vec3(0, -0.045, 0);
+    let iScale1 = [upperArmR.scale[0], upperArmR.scale[1], upperArmR.scale[2]];
+
+    /*let fRot3 = [null, null, 45];
+    let iPos3 = [upperLegL.pos[0], upperLegL.pos[1], upperLegL.pos[2]];
+    let iRot3 = [upperLegL.rot[0], upperLegL.rot[1], upperLegL.rot[2]];
+    let iRot4 = [0, 0, 45];
+    let iScale3 = [upperLegL.scale[0], upperLegL.scale[1], upperLegL.scale[2]];*/
+
+    //build keyframeShifts
+    let k1 = new KeyframeShift(upperArmR, 5, null, iRot1, null, null, fRot1, null);
+    let k2 = new KeyframeShift(upperArmR, 5, null, fRot1, null, null, fRot2, null);
+    //let k3 = new KeyframeShift(upperLegL, 30, iPos3, iRot3, iScale3, null, fRot3, null);
+    //let k4 = new KeyframeShift(upperLegL, 30, iPos3, iRot4, iScale3, null, fRot2, null);
+
+    //build Animations
+    let anim1 = new Animation(true, new Array(k1, k2));
+    //let anim2 = new Animation(true, new Array(k3, k4));
+
+    //bind animations to the character
+
+    //add animation to the scene
+    scene.addAnimation(anim1);
+    //scene.addAnimation(anim2);
+
+    /*let k5 = new KeyframeShift(lowerLegR, 30, iPos1, iRot1, iScale1, null, fRot1, null);
+    let k6 = new KeyframeShift(lowerLegR, 30, iPos1, iRot2, iScale1, null, fRot2, null);
+    let k7 = new KeyframeShift(lowerLegL, 30, iPos3, iRot3, iScale3, null, fRot3, null);
+    let k8 = new KeyframeShift(lowerLegL, 30, iPos3, iRot4, iScale3, null, fRot2, null);*/
+
     return torso;
 }
 
 function res_independent(value, myHeight)
 {
-	//Makes every screen (or scaled window) have the same experience 
+	//Makes every screen (or scaled window) have the same experience
 	//based on the window's height (so that 4:3 and 16:9 work the same).
 	return (value/678.0)*myHeight;
 }
