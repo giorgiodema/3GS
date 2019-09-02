@@ -8,13 +8,13 @@ class KeyframeShift {
         this._initRot = initRot;
         this._initScale = initScale;
 
-        if(this._initPos != null)
+        if(this._initPos !== null)
             this._currentPos = vec3(initPos[0], initPos[1], initPos[2]);
 
-        if(this._initRot != null)
-            this._currentRot = vec3(initRot[0], initRot[1], initPos[2]);
+        if(this._initRot !== null)
+            this._currentRot = vec3(initRot[0], initRot[1], initRot[2]);
 
-        if(this._initScale != null)
+        if(this._initScale !== null)
             this._currentScale = vec3(initScale[0], initScale[1], initScale[2]);
 
         this._finalPos = finalPos;
