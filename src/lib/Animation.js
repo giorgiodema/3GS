@@ -2,25 +2,21 @@ class KeyframeShift {
     constructor(object, frames, initPos, initRot, initScale, finalPos, finalRot, finalScale) {
         this._now = 0;
         this._start = 0;
-        
         this._object = object;
         this._frames = frames;
-
         this._initPos = initPos;
-        if(this._initPos != null)
-            this._iPosReset = vec3(this._initPos[0], this._initPos[1], this._initPos[2]);
-
         this._initRot = initRot;
-        if(this._initRot != null)
-            this._iRotReset = vec3(this._initRot[0], this._initRot[1], this._initRot[2]);
-
         this._initScale = initScale;
-        if(this._initScale != null)
-            this._iScaleReset = vec3(this._initScale[0], this._initScale[1], this._initScale[2]);
 
-        this._currentPos = initPos;
-        this._currentRot = initRot;
-        this._currentScale = initScale;
+        if(this._initPos != null)
+            this._currentPos = vec3(initPos[0], initPos[1], initPos[2]);
+
+        if(this._initRot != null)
+            this._currentRot = vec3(initRot[0], initRot[1], initPos[2]);
+
+        if(this._initScale != null)
+            this._currentScale = vec3(initScale[0], initScale[1], initScale[2]);
+
         this._finalPos = finalPos;
         this._finalRot = finalRot;
         this._finalScale = finalScale;
@@ -93,18 +89,6 @@ class KeyframeShift {
     //reset keyframeshift
     reset(){
         this._now = 0;
-
-        this._initPos[0] = this._iPosReset[0];
-        this._initPos[1] = this._iPosReset[1];
-        this._initPos[2] = this._iPosReset[2];
-
-        this._initRot[0] = this._iRotReset[0];
-        this._initRot[1] = this._iRotReset[1];
-        this._initRot[2] = this._iRotReset[2];
-
-        this._initScale[0] = this._iScaleReset[0];
-        this._initScale[1] = this._iScaleReset[1];
-        this._initScale[2] = this._iScaleReset[2];
     }
 }
 
@@ -115,7 +99,6 @@ class Animation {
         this._animArray = animArray;
         this._isLoop = isLoop;
         if (isLoop){
-            //this._animArrayIterator = this._animArray[Symbol.iterator]();
             this._animArrayIndex = 0;
             this._currentKeyframeshift = this._animArray[this._animArrayIndex];
         }
