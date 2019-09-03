@@ -72,7 +72,11 @@ window.onload = () =>
         //light.setPosition(character.pos[0], character.pos[1] + Constants.CHARACTER_HEIGHT * 10, character.pos[2] - Constants.CAMERA_DISTANCE);
         light.setPosition(Constants.GRID_WIDTH/2, Constants.LIGHT_HEIGHT, Constants.GRID_WIDTH/2);
 
-        render();
+        let textureImporter = new PNGImporter("./Assets/Character/texture.png");
+        textureImporter.getImageMatrix(function(matrix) {
+            console.log(matrix);
+            render();
+        });
     });
 };
 
