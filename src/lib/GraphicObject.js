@@ -130,7 +130,7 @@ class GraphicObject {
     rotate(angle, axis, point) {
         // translate object to the origin before rotation
         if(point != null){
-            this.translate(-point[0],-point[1],-point[2]);
+            this.translate(point[0],point[1],point[2]);
         }
         
         // perform rotation
@@ -141,7 +141,7 @@ class GraphicObject {
 
         // translate object back to its initial position after rotation
         if(point!=null){
-            this.translate(point[0],point[1],point[2]);
+            this.translate(-point[0],-point[1],-point[2]);
         }
     }
 

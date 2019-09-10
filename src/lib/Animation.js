@@ -63,20 +63,20 @@ class KeyframeShift {
 
                 //updates X axis
                 if(this._finalRot[0] != null){
-                    this._currentRot[0] = this.interpolateScalar(this._initRot[0], this._finalRot[0],this._rotPoint);
-                    this._component.setRotation(this._currentRot[0], [1, 0, 0]);
+                    this._currentRot[0] = this.interpolateScalar(this._initRot[0], this._finalRot[0]);
+                    this._component.setRotation(this._currentRot[0], [1, 0, 0],this._rotPoint);
                 }
 
                 //updates Y axis
                 if(this._finalRot[1] != null){
-                    this._currentRot[1] = this.interpolateScalar(this._initRot[1], this._finalRot[1],this._rotPoint);
-                    this._component.setRotation(this._currentRot[1], [0, 1, 0]);
+                    this._currentRot[1] = this.interpolateScalar(this._initRot[1], this._finalRot[1]);
+                    this._component.setRotation(this._currentRot[1], [0, 1, 0],this._rotPoint);
                 }
 
                 //updates Z axis
                 if(this._finalRot[2] != null){
-                    this._currentRot[2] = this.interpolateScalar(this._initRot[2], this._finalRot[2],this._rotPoint);
-                    this._component.setRotation(this._currentRot[2], [0, 0, 1]);
+                    this._currentRot[2] = this.interpolateScalar(this._initRot[2], this._finalRot[2]);
+                    this._component.setRotation(this._currentRot[2], [0, 0, 1],this._rotPoint);
                 }
 
             }

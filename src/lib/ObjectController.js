@@ -2,8 +2,8 @@ class ObjectController{
     constructor(obj){
         this._positionValidator = null;
         this._object = obj;
-        this._fwStep = 0.1; //0.01;
-        this._rotStep = 4;//2;
+        this._fwStep = 0.05; //0.01;
+        this._rotStep = 2;//2;
         this._direction = vec3(0.0,0.0,-1.0);
         this._moving = false;
         this._rotatingRight = false;
@@ -44,15 +44,19 @@ class ObjectController{
         }
         if(this._rotatingRight){
             // rotate obj
-            this._object.rotate(-this._rotStep,[0,1,0],this._object.pos);
+            let pos = this._object.pos;
+            let aux = vec4(pos[0],pos[1],pos[2],1.0);
+            this._object.translate(-aux[0],-aux[1],-aux[2]);
+            this._object.rotate(-this._rotStep,[0,1,0],null);
+            this._object.translate(aux[0],aux[1],aux[2]);
 
             // rotate _direction
-            let aux = vec4(this._direction[0],this._direction[1],this._direction[2],1.0);
+            aux = vec4(this._direction[0],this._direction[1],this._direction[2],1.0);
             aux = mult(rotateY(-this._rotStep),aux);
             this._direction = vec3(aux[0],aux[1],aux[2]);
 
             let eye = this._cameraController.camera.eye;
-            let pos = this._object.pos;
+            pos = this._object.pos;
             this._cameraController.camera.eye = vec3(pos[0]-(this._direction[0]*this._cameraController._distance),pos[1] + this._cameraController._height,pos[2]-(this._direction[2]*this._cameraController._distance));
             eye = this._cameraController.camera.eye;
             this._cameraController.camera.at = vec3(pos[0],pos[1],pos[2]);
@@ -64,7 +68,7 @@ class ObjectController{
             let pos = this._object.pos;
             let aux = vec4(pos[0],pos[1],pos[2],1.0);
             this._object.translate(-aux[0],-aux[1],-aux[2]);
-            this._object.rotate(this._rotStep,[0,1,0]);
+            this._object.rotate(this._rotStep,[0,1,0],null);
             this._object.translate(aux[0],aux[1],aux[2]);
 
             // rotate _direction

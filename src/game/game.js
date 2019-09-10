@@ -182,16 +182,27 @@ function buildCharacterGeometry(){
 
 
     // add animations
+    /*
+    let k1InitUpLeg1Angle = vec3(0.0,0.0,30);
+    let k1FinalUpLeg1Angle = vec3(0.0,0.0,0.0,20);
+    let k1InitLowLeg1Angle = vec3(0.0,0.0,10);
+    */
+    
     let iRot1 = vec3(0.0,0.0,0.0);
     let fRot1 = vec3(0.0,360,0.0);
     let iRot2 = vec3(0.0,0.0,0.0);
     let fRot2 = vec3(0.0,0.0,360);
-    let k1 = new KeyframeShift(torso,torso,60,null,iRot1,null,null,fRot1,null,null);
-    let k2 = new KeyframeShift(torso,upperArmR,60,null,iRot2,null,null,fRot2,null,null)
-    let anim1 = new Animation(true,new Array(k1));
+    //let k1 = new KeyframeShift(torso,torso,60,null,iRot1,null,null,fRot1,null,null);
+    let k2 = new KeyframeShift(torso,upperArmR,60,null,iRot2,null,null,fRot2,null,vec3(0.0,-3.0,0.0));
+    //let k3 = new KeyframeShift(torso,lowerArmR,60,null,iRot2,null,null,fRot2,null,null);
+    //let anim1 = new Animation(true,new Array(k1));
     let anim2 = new Animation(true,new Array(k2));
+    //let anim3 = new Animation(true,new Array(k3));
+    //scene.addAnimation(anim1);
     scene.addAnimation(anim2);
-    scene.addAnimation(anim1);
+    //scene.addAnimation(anim3);
+
+    
     
 
 
