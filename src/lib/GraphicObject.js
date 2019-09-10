@@ -1,16 +1,15 @@
 class GraphicObject {
 
-    constructor(vertices, normals, materialAmbient, materialDiffuse, materialSpecular, uvCoords, colorMap) {
+    constructor(vertices, normals, materialAmbient, materialDiffuse, materialSpecular, uvCoords) {
         this._vertices = vertices;
         this._normals = normals;
         this._uvCoords = uvCoords;
-        this._colorMap = colorMap;
         this._children = new Array();
         this.scene;
 
         this.vBuffer;
-        this.cBuffer;
         this.nBuffer;
+        this.cBuffer;
 
         this._controller = null;
 
@@ -58,6 +57,10 @@ class GraphicObject {
         this.nBuffer = this.scene.gl.createBuffer();
         this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.nBuffer);
         this.scene.gl.bufferData(this.scene.gl.ARRAY_BUFFER, flatten(this._normals), this.scene.gl.STATIC_DRAW);
+        
+        this.cBuffer = this.scene.gl.createBuffer();
+        this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.cBuffer);
+        this.scene.gl.bufferData(this.scene.gl.ARRAY_BUFFER, flatten(this._uvCoords), this.scene.gl.STATIC_DRAW);
     }
 
     render(parentMatrix) {
@@ -84,6 +87,27 @@ class GraphicObject {
         this.scene.gl.vertexAttribPointer(this.scene.gl.getAttribLocation(this.scene.program, "vNormal"), 4, this.scene.gl.FLOAT, false, 0, 0);
         this.scene.gl.enableVertexAttribArray(this.scene.gl.getAttribLocation(this.scene.program, "vNormal"));
     
+        // binding UV coordinates buffer
+        this.scene.gl.bindBuffer(this.scene.gl.ARRAY_BUFFER, this.cBuffer);
+        this.scene.gl.vertexAttribPointer(this.scene.gl.getAttribLocation(this.scene.program, "vTexCoord"), 2, this.scene.gl.FLOAT, false, 0, 0);
+        this.scene.gl.enableVertexAttribArray(this.scene.gl.getAttribLocation(this.scene.program, "vTexCoord"));
+
+        if(this.colorMap !== undefined) {
+            // bind the texture buffer on the GPU to this object's texture 
+            this.scene.gl.activeTexture(this.scene.gl.TEXTURE0);
+            this.scene.gl.bindTexture(this.scene.gl.TEXTURE_2D, this.scene.GPUtexture);
+            
+
+            this.scene.gl.pixelStorei(this.scene.gl.UNPACK_FLIP_Y_WEBGL, true);
+            this.scene.gl.texImage2D(this.scene.gl.TEXTURE_2D, 0, this.scene.gl.RGB,
+            this.scene.gl.RGB, this.scene.gl.UNSIGNED_BYTE, this.colorMap);
+            this.scene.gl.generateMipmap( this.scene.gl.TEXTURE_2D );
+            this.scene.gl.texParameteri( this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MIN_FILTER,
+            this.scene.gl.NEAREST_MIPMAP_LINEAR );
+            this.scene.gl.texParameteri( this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.NEAREST );
+        }
+        this.scene.gl.uniform1i(this.scene.gl.getUniformLocation( this.scene.program,"useTexture"), this.colorMap !== undefined);
+
 
         // Compute coefficient products 
         let light = this.scene.getLight();
@@ -99,6 +123,8 @@ class GraphicObject {
         this.scene.gl.uniform4fv(this.scene.gl.getUniformLocation( this.scene.program,"ambientProduct"), flatten(ambientProduct));
         this.scene.gl.uniform4fv(this.scene.gl.getUniformLocation( this.scene.program,"diffuseProduct"), flatten(diffuseProduct));
         this.scene.gl.uniform4fv(this.scene.gl.getUniformLocation( this.scene.program,"specularProduct"), flatten(specularProduct));
+        this.scene.gl.uniform4fv(this.scene.gl.getUniformLocation( this.scene.program,"lightAmbient"), flatten(light.ambient));
+        this.scene.gl.uniform4fv(this.scene.gl.getUniformLocation( this.scene.program,"lightSpecular"), flatten(light.specular));
         this.scene.gl.uniform1f(this.scene.gl.getUniformLocation( this.scene.program,"shininess"), flatten(this.shininess));
 
     
@@ -109,6 +135,24 @@ class GraphicObject {
         this._children.forEach(child => {
             child.render(modelMatrix);
         });
+    }
+
+    // Only tested with square textures whose side is an exponent of 2
+    addColorMap(texture) {
+        this.colorMap = texture;
+
+        if(this.scene.GPUtexture === undefined)
+            this.scene.GPUtexture = this.scene.gl.createTexture();
+        this.scene.gl.activeTexture( this.scene.gl.TEXTURE0 );
+        this.scene.gl.bindTexture( this.scene.gl.TEXTURE_2D, this.scene.GPUtexture );
+        this.scene.gl.pixelStorei(this.scene.gl.UNPACK_FLIP_Y_WEBGL, true);
+        this.scene.gl.texImage2D(this.scene.gl.TEXTURE_2D, 0, this.scene.gl.RGB,
+            this.scene.gl.RGB, this.scene.gl.UNSIGNED_BYTE, texture);
+        this.scene.gl.generateMipmap( this.scene.gl.TEXTURE_2D );
+        this.scene.gl.texParameteri( this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MIN_FILTER,
+            this.scene.gl.NEAREST_MIPMAP_LINEAR );
+        this.scene.gl.texParameteri( this.scene.gl.TEXTURE_2D, this.scene.gl.TEXTURE_MAG_FILTER, this.scene.gl.NEAREST );
+
     }
 
     // Previews the position of the current object after a given translation
