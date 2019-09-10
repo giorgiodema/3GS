@@ -44,6 +44,10 @@ class KeyframeShift {
         //check if keyframe is exhausted
         if(this._now < this._frames){
 
+            //center the object in the origin before computing transformation
+            var objPos = vec3(this._object.pos[0],this._object.pos[1],this._object.pos[2]);
+            this._object.translate(-objPos[0],-objPos[1],-objPos[2]);
+
             //updates position
             if(this._finalPos != null){
                 this._currentPos = this.interpolateVector(this._initPos, this._finalPos);
@@ -78,6 +82,9 @@ class KeyframeShift {
                 this._currentScale = this.interpolateVector(this._initScale, this._finalScale);
                 this._object.setScale(this._currentScale[0], this._currentScale[1], this._currentScale[2]);
             }
+
+            //move object in its original position after computing transfomrations
+            this._object.translate(objPos[0],objPos[1],objPos[2]);
 
             //increment logical time
             this._now += 1;
