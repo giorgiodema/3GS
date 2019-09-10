@@ -47,6 +47,9 @@ class KeyframeShift {
             //center the object in the origin before computing transformation
             var objPos = vec3(this._object.pos[0],this._object.pos[1],this._object.pos[2]);
             this._object.translate(-objPos[0],-objPos[1],-objPos[2]);
+            // undo scale before computing transformations
+            var objScale = vec3(this._object._scale[0],this._object._scale[1],this._object._scale[2]);
+            this._object.setScale(1.0,1.0,1.0);
 
             //updates position
             if(this._finalPos != null){
@@ -83,6 +86,9 @@ class KeyframeShift {
                 this._object.setScale(this._currentScale[0], this._currentScale[1], this._currentScale[2]);
             }
 
+            //redo scaling after computing transformation
+            this._object.setScale(objScale[0],objScale[1],objScale[2]);
+            
             //move object in its original position after computing transfomrations
             this._object.translate(objPos[0],objPos[1],objPos[2]);
 
