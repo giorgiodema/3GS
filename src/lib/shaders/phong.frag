@@ -3,8 +3,18 @@ precision mediump float;
 uniform vec4 ambientProduct;
 uniform vec4 diffuseProduct;
 uniform vec4 specularProduct;
+
+uniform vec4 lightAmbient;
+//uniform vec4 lightDiffuse;
+uniform vec4 lightSpecular;
+
 uniform float shininess;
 varying vec3 N, L, E;
+
+varying vec2 fTexCoord;
+uniform sampler2D texture;
+uniform bool useTexture;
+
 
 void main()
 {
@@ -16,12 +26,22 @@ void main()
     
     vec3 H = normalize(surfaceToLight + surfaceToView);
     vec4 ambient = ambientProduct;
-    
+
     float Kd = max(dot(surfaceToLight, normal), 0.0);
     vec4 diffuse = Kd * diffuseProduct;
-    
+
     float Ks = pow(max(dot(normal, H), 0.0), shininess);
     vec4 specular = Ks * specularProduct;
+
+    if (useTexture) {
+        vec4 texVal = texture2D(texture, fTexCoord);
+        //texSpec = vec4(texSpec[0], texSpec[1], texSpec[2], 1.0);
+
+        ambient = lightAmbient * normalize(texVal);
+        //diffuse = Kd * (lightDiffuse * texVal);
+        specular = Ks * (lightSpecular * normalize(texVal));
+
+    }
     
     if (dot(surfaceToLight, normal) < 0.0) {
         specular = vec4(0.0, 0.0, 0.0, 1.0);

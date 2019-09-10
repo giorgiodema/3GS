@@ -89,6 +89,6 @@ class Cube extends GraphicObject{
         _normalsArray.push(n5);_normalsArray.push(n5);_normalsArray.push(n5);_normalsArray.push(n5);_normalsArray.push(n5);_normalsArray.push(n5);
         _normalsArray.push(n6);_normalsArray.push(n6);_normalsArray.push(n6);_normalsArray.push(n6);_normalsArray.push(n6);_normalsArray.push(n6);
 
-        super(_pointsArray,_normalsArray, vec4(r/5,g/5,b/5), vec4(r/2,g/2,b/2), vec4(r/4,g/4,b/4), _texCoordArray, null, null);
+        super(_pointsArray,_normalsArray, vec4(r/5,g/5,b/5), vec4(r/2,g/2,b/2), vec4(r/4,g/4,b/4), _texCoordArray);
     }
 }  
