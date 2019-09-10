@@ -180,6 +180,16 @@ function buildCharacterGeometry(){
     lowerLegR.addChild(footR);
     lowerLegL.addChild(footL);
 
+
+    // add animations
+    let iRot1 = vec3(0.0,0.0,0.0);
+    let fRot1 = vec3(0.0,360,0.0);
+    let k1 = new KeyframeShift(torso,60,null,iRot1,null,null,fRot1,null);
+    let anim1 = new Animation(true,new Array(k1));
+    scene.addAnimation(anim1);
+    
+
+
     return torso;
 }
 
