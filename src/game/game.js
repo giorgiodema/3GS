@@ -29,7 +29,7 @@ window.onload = () =>
 
         character.rotate(90.0, [0, 1, 0]);
         maze.setPosition(0.0,0.0,0.0);
-        character.scale(Constants.CHARACTER_SCALING,Constants.CHARACTER_SCALING,Constants.CHARACTER_SCALING);
+        //character.scale(Constants.CHARACTER_SCALING,Constants.CHARACTER_SCALING,Constants.CHARACTER_SCALING);
         character.setPosition(mazeLogic.position.x,Constants.CHARACTER_HEIGHT,mazeLogic.position.y);
 
         let camera = new PerspectiveCamera();
@@ -184,9 +184,12 @@ function buildCharacterGeometry(){
     // add animations
     let iRot1 = vec3(0.0,0.0,0.0);
     let fRot1 = vec3(0.0,360,0.0);
+    let iRot2 = vec3(0.0,0.0,0.0);
+    let fRot2 = vec3(0.0,360,0.0);
     let k1 = new KeyframeShift(torso,60,null,iRot1,null,null,fRot1,null);
-    let anim1 = new Animation(true,new Array(k1));
-    scene.addAnimation(anim1);
+    let k2 = new KeyframeShift(upperArmR,60,null,iRot2,null,null,fRot2,null)
+    let anim1 = new Animation(true,new Array(k2));
+    //scene.addAnimation(anim1);
     
 
 
