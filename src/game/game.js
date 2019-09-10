@@ -27,7 +27,7 @@ window.onload = () =>
         let mazeLogic = values[1];
         let character = buildCharacterGeometry();
 
-        character.rotate(90.0, [0, 1, 0]);
+        character.rotate(90.0, [0, 1, 0],null);
         maze.setPosition(0.0,0.0,0.0);
         character.scale(Constants.CHARACTER_SCALING,Constants.CHARACTER_SCALING,Constants.CHARACTER_SCALING);
         character.setPosition(mazeLogic.position.x,Constants.CHARACTER_HEIGHT,mazeLogic.position.y);
@@ -171,6 +171,30 @@ function buildCharacterGeometry(){
     upperLegL.addChild(lowerLegL);
     lowerLegR.addChild(footR);
     lowerLegL.addChild(footL);
+
+
+    // add animations
+    /*
+    let k1InitUpLeg1Angle = vec3(0.0,0.0,30);
+    let k1FinalUpLeg1Angle = vec3(0.0,0.0,0.0,20);
+    let k1InitLowLeg1Angle = vec3(0.0,0.0,10);
+    */
+    
+    let iRot = vec3(0.0,0.0,0.0);
+    let fRotY = vec3(0.0,360,0.0);
+    let fRotZ = vec3(0.0,0.0,360);
+    //rotate torso
+    let k1 = new KeyframeShift(torso,torso,60,null,iRot,null,null,fRotY,null,null);
+    //rotate upperArm
+    let k2 = new KeyframeShift(torso,upperArmR,60,null,iRot,null,null,fRotZ,null,Constants.UPPER_ARM_ROTATION_POINT);
+    //let anim1 = new Animation(true,new Array(k1));
+    let anim2 = new Animation(true,new Array(k2));
+    //scene.addAnimation(anim1);
+    scene.addAnimation(anim2);
+
+    
+    
+
 
     return torso;
 }
