@@ -22,6 +22,7 @@
 <script type="text/javascript" src="../lib/angelDependencies/webgl-utils.js"></script>
 <script type="text/javascript" src="../lib/angelDependencies/initShadersFromFile.js"></script>
 <script type="text/javascript" src="../lib/angelDependencies/MV.js"></script>
+<script type="text/javascript" src="../common/TextureImporter.js"></script>
 <script type="text/javascript" src="../lib/GraphicObject.js"></script>
 <script type="text/javascript" src="../lib/Cube.js"></script>
 <script type="text/javascript" src="../lib/Camera.js"></script>
@@ -37,8 +38,14 @@
 </head>
 
 <body>
+
 <canvas id="gl-canvas" width="980" height="980">
-Oops ... your browser doesn't support the HTML5 canvas element
+        Oops ... your browser doesn't support the HTML5 canvas element
 </canvas>
+
+<canvas id ="imageLoadingCanvas" width="1024" height="1024" hidden="true">
+        This is where the images to load as pixels will be temporarily stored.
+</canvas>    
+
 </body>
 </html>
