@@ -65,7 +65,7 @@ class GraphicObject {
         // update the direction of the object
         if(this._controller!== null)
             this._controller.update();
-        var modelMatrix = mult(this._instanceMatrix, parentMatrix);
+        var modelMatrix = mult(parentMatrix,this._instanceMatrix);
         
         //rendering stuff
         this.scene.gl.uniformMatrix4fv(this.scene.gl.getUniformLocation( this.scene.program,"modelMatrix"),false,flatten(modelMatrix));

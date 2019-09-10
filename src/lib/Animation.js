@@ -1,8 +1,9 @@
 class KeyframeShift {
-    constructor(object, frames, initPos, initRot, initScale, finalPos, finalRot, finalScale, rotPoint) {
+    constructor(object, component, frames, initPos, initRot, initScale, finalPos, finalRot, finalScale, rotPoint) {
         this._now = 0;
         this._start = 0;
         this._object = object;
+        this._component = component;
         this._frames = frames;
         this._initPos = initPos;
         this._initRot = initRot;
@@ -54,7 +55,7 @@ class KeyframeShift {
             //updates position
             if(this._finalPos != null){
                 this._currentPos = this.interpolateVector(this._initPos, this._finalPos);
-                this._object.setPosition(this._currentPos[0], this._currentPos[1], this._currentPos[2]);
+                this._component.setPosition(this._currentPos[0], this._currentPos[1], this._currentPos[2]);
             }
 
             //updates rotation
@@ -63,19 +64,19 @@ class KeyframeShift {
                 //updates X axis
                 if(this._finalRot[0] != null){
                     this._currentRot[0] = this.interpolateScalar(this._initRot[0], this._finalRot[0],this._rotPoint);
-                    this._object.setRotation(this._currentRot[0], [1, 0, 0]);
+                    this._component.setRotation(this._currentRot[0], [1, 0, 0]);
                 }
 
                 //updates Y axis
                 if(this._finalRot[1] != null){
                     this._currentRot[1] = this.interpolateScalar(this._initRot[1], this._finalRot[1],this._rotPoint);
-                    this._object.setRotation(this._currentRot[1], [0, 1, 0]);
+                    this._component.setRotation(this._currentRot[1], [0, 1, 0]);
                 }
 
                 //updates Z axis
                 if(this._finalRot[2] != null){
                     this._currentRot[2] = this.interpolateScalar(this._initRot[2], this._finalRot[2],this._rotPoint);
-                    this._object.setRotation(this._currentRot[2], [0, 0, 1]);
+                    this._component.setRotation(this._currentRot[2], [0, 0, 1]);
                 }
 
             }
@@ -83,12 +84,12 @@ class KeyframeShift {
             //updates scaling
             if(this._finalScale != null){
                 this._currentScale = this.interpolateVector(this._initScale, this._finalScale);
-                this._object.setScale(this._currentScale[0], this._currentScale[1], this._currentScale[2]);
+                this._component.setScale(this._currentScale[0], this._currentScale[1], this._currentScale[2]);
             }
 
             //redo scaling after computing transformation
             this._object.setScale(objScale[0],objScale[1],objScale[2]);
-            
+
             //move object in its original position after computing transfomrations
             this._object.translate(objPos[0],objPos[1],objPos[2]);
 
