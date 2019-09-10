@@ -50,4 +50,8 @@ class Constants {
         return 50;
     }
 
+    static get UPPER_ARM_ROTATION_POINT(){
+        return vec3(0.0,-3.0,0.0);
+    }
+
 }
