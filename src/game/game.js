@@ -78,6 +78,17 @@ window.onload = () =>
             render();
         });
     });
+
+    // Easter egg: random flying pig
+    if (Math.random() >= 0.99) {
+        console.log("        ,-,------,");
+        console.log("      _ \\(\\(_,--'");
+        console.log(" <`--'\\>/(/(__");
+        console.log(" /. .  `'` '  \\");
+        console.log("(`')  ,        @");
+        console.log(" `-._,        /");
+        console.log("   )-)_/--( >    ");
+    }
 };
 
 function render() {
