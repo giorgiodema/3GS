@@ -128,10 +128,18 @@ class GraphicObject {
     // Rotates the object of angle, on the axes that are set to 1 in the axis array 
     // (which should be a vec3 of 0 or 1 values)
     rotate(angle, axis) {
+        // translate object to the origin before rotation
+        let auxPos = vec4(this._pos[0],this._pos[1],this._pos[2],1.0);
+        this.translate(-auxPos[0],-auxPos[1],-auxPos[2]);
+        
+        // perform rotation
         this._rot[0] = this._rot[0] + angle * axis[0];
         this._rot[1] = this._rot[1] + angle * axis[1];
         this._rot[2] = this._rot[2] + angle * axis[2];
         this._instanceMatrix = mult(rotate(angle, axis), this._instanceMatrix);
+
+        // translate object back to its initial position after rotation
+        this.translate(auxPos[0],auxPos[1],auxPos[2]);
     }
 
     // Multiplies the current scale parameters of the object to those in x, y, z
