@@ -44,10 +44,9 @@ class ObjectController{
         }
         if(this._rotatingRight){
             // rotate obj
-            this._object.rotate(-this._rotStep,[0,1,0]);
+            this._object.rotate(-this._rotStep,[0,1,0],this._object.pos);
 
             // rotate _direction
-            
             let aux = vec4(this._direction[0],this._direction[1],this._direction[2],1.0);
             aux = mult(rotateY(-this._rotStep),aux);
             this._direction = vec3(aux[0],aux[1],aux[2]);

@@ -127,10 +127,11 @@ class GraphicObject {
 
     // Rotates the object of angle, on the axes that are set to 1 in the axis array 
     // (which should be a vec3 of 0 or 1 values)
-    rotate(angle, axis) {
+    rotate(angle, axis, point) {
         // translate object to the origin before rotation
-        let auxPos = vec4(this._pos[0],this._pos[1],this._pos[2],1.0);
-        this.translate(-auxPos[0],-auxPos[1],-auxPos[2]);
+        if(point != null){
+            this.translate(-point[0],-point[1],-point[2]);
+        }
         
         // perform rotation
         this._rot[0] = this._rot[0] + angle * axis[0];
@@ -139,7 +140,9 @@ class GraphicObject {
         this._instanceMatrix = mult(rotate(angle, axis), this._instanceMatrix);
 
         // translate object back to its initial position after rotation
-        this.translate(auxPos[0],auxPos[1],auxPos[2]);
+        if(point!=null){
+            this.translate(point[0],point[1],point[2]);
+        }
     }
 
     // Multiplies the current scale parameters of the object to those in x, y, z
@@ -157,16 +160,16 @@ class GraphicObject {
         this.translate(xTranslation, yTranslation, zTranslation);
     }
 
-    setRotation(angle, axis) {
+    setRotation(angle, axis, point) {
         let rotations = new vec3();
         for (let i = 0; i < 3; i++) {
             if(axis[i] === 1) {
                 rotations[i] = angle - this._rot[i];
             }
         }
-        this.rotate(rotations[0], [1, 0, 0]);
-        this.rotate(rotations[1], [0, 1, 0]);
-        this.rotate(rotations[2], [0, 0, 1]);
+        this.rotate(rotations[0], [1, 0, 0], point);
+        this.rotate(rotations[1], [0, 1, 0], point);
+        this.rotate(rotations[2], [0, 0, 1], point);
     }
 
     setScale(x, y, z) {

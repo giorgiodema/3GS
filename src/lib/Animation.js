@@ -1,5 +1,5 @@
 class KeyframeShift {
-    constructor(object, frames, initPos, initRot, initScale, finalPos, finalRot, finalScale) {
+    constructor(object, frames, initPos, initRot, initScale, finalPos, finalRot, finalScale, rotPoint) {
         this._now = 0;
         this._start = 0;
         this._object = object;
@@ -7,6 +7,7 @@ class KeyframeShift {
         this._initPos = initPos;
         this._initRot = initRot;
         this._initScale = initScale;
+        this._rotPoint = rotPoint;
 
         if(this._initPos !== null)
             this._currentPos = vec3(initPos[0], initPos[1], initPos[2]);
@@ -54,19 +55,19 @@ class KeyframeShift {
 
                 //updates X axis
                 if(this._finalRot[0] != null){
-                    this._currentRot[0] = this.interpolateScalar(this._initRot[0], this._finalRot[0]);
+                    this._currentRot[0] = this.interpolateScalar(this._initRot[0], this._finalRot[0],this._rotPoint);
                     this._object.setRotation(this._currentRot[0], [1, 0, 0]);
                 }
 
                 //updates Y axis
                 if(this._finalRot[1] != null){
-                    this._currentRot[1] = this.interpolateScalar(this._initRot[1], this._finalRot[1]);
+                    this._currentRot[1] = this.interpolateScalar(this._initRot[1], this._finalRot[1],this._rotPoint);
                     this._object.setRotation(this._currentRot[1], [0, 1, 0]);
                 }
 
                 //updates Z axis
                 if(this._finalRot[2] != null){
-                    this._currentRot[2] = this.interpolateScalar(this._initRot[2], this._finalRot[2]);
+                    this._currentRot[2] = this.interpolateScalar(this._initRot[2], this._finalRot[2],this._rotPoint);
                     this._object.setRotation(this._currentRot[2], [0, 0, 1]);
                 }
 
