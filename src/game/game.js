@@ -188,8 +188,10 @@ function buildCharacterGeometry(){
     let fRot2 = vec3(0.0,0.0,360);
     let k1 = new KeyframeShift(torso,torso,60,null,iRot1,null,null,fRot1,null,null);
     let k2 = new KeyframeShift(torso,upperArmR,60,null,iRot2,null,null,fRot2,null,null)
+    let anim1 = new Animation(true,new Array(k1));
     let anim2 = new Animation(true,new Array(k2));
     scene.addAnimation(anim2);
+    scene.addAnimation(anim1);
     
 
 
