@@ -4,6 +4,8 @@ class TextureImporter {
     }    
 
     getTexture(callback) {
+        // Next step here is to dynamically create an img element if it's not there
+        // for better information hiding 
         let texture = document.getElementById("texImage");
         texture.src = this.objPath;
 
