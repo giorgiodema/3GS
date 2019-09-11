@@ -54,4 +54,8 @@ class Constants {
         return vec3(0.0,-3.0,0.0);
     }
 
+    static get LOWER_LEG_ROTATION_POINT(){
+        return vec3(-2,0.0,0.0);
+    }
+
 }
