@@ -1,5 +1,7 @@
 "use strict";
 
+var SERVER_ADDR = "https://giorgiodema.github.io/3GS"; 
+//var SERVER_ADDR = "http:localhost:9000";
 var scene;
 window.onload = () =>
 {
