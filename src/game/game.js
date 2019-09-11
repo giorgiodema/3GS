@@ -8,7 +8,7 @@ window.onload = () =>
     var myHeight = window.innerHeight;
 
     // Canvas values
-    var WIDTH = res_independent(670, myHeight), 
+    var WIDTH = res_independent(670, myHeight),
     HEIGHT = res_independent(670, myHeight);
 
 
@@ -21,7 +21,7 @@ window.onload = () =>
     scene = new Scene("gl-canvas");
     scene.init(() => {
 
-        
+
         let values = buildMazeGeometry(Constants.WALL_COLOR,Constants.GROUND_COLOR);
         let maze = values[0];
         let mazeLogic = values[1];
@@ -89,10 +89,10 @@ function buildMazeGeometry(wallColor,groundColor){
     let tree = null;
     let maze = new Maze(Constants.GRID_WIDTH,Constants.GRID_WIDTH);
     console.log(maze.toString());
-    
+
     for(let i=0; i<maze.grid.length; i++){
         for(let j=0; j<maze.grid[0].length; j++){
-            let cube; 
+            let cube;
             if (maze.grid[i][j] == Constants.CELL.WALL){
                 cube = new Cube(wallColor[0],wallColor[1],wallColor[2]);
                 cube.setPosition(j*Constants.BLOCK_SIZE,Constants.BLOCK_SIZE/2,i*Constants.BLOCK_SIZE);
@@ -103,8 +103,8 @@ function buildMazeGeometry(wallColor,groundColor){
                 cube.setPosition(j*Constants.BLOCK_SIZE,-0.001,i*Constants.BLOCK_SIZE);
             }
 
-                
-            
+
+
             if (tree === null){
                 scene.addObject(cube);
                 tree = cube;
@@ -174,26 +174,73 @@ function buildCharacterGeometry(){
 
 
     // add animations
-    /*
-    let k1InitUpLeg1Angle = vec3(0.0,0.0,30);
-    let k1FinalUpLeg1Angle = vec3(0.0,0.0,0.0,20);
-    let k1InitLowLeg1Angle = vec3(0.0,0.0,10);
-    */
-    
     let iRot = vec3(0.0,0.0,0.0);
-    let fRotY = vec3(0.0,360,0.0);
-    let fRotZ = vec3(0.0,0.0,360);
-    //rotate torso
-    let k1 = new KeyframeShift(torso,torso,60,null,iRot,null,null,fRotY,null,null);
-    //rotate upperArm
-    let k2 = new KeyframeShift(torso,upperArmR,60,null,iRot,null,null,fRotZ,null,Constants.UPPER_ARM_ROTATION_POINT);
-    //let anim1 = new Animation(true,new Array(k1));
-    let anim2 = new Animation(true,new Array(k2));
-    //scene.addAnimation(anim1);
-    scene.addAnimation(anim2);
+    //let fRotZ = vec3(0.0,0.0,360);
 
-    
-    
+    //rotate torso
+    /*let iTorsoRot = vec3(0.0, 90, 0.0);
+    let fTorsoRot = vec3(-10, 90, 0.0);
+    let torso1 = new KeyframeShift(torso,torso,3,null,iTorsoRot,null,null,fTorsoRot,null,null);
+    let torso2 = new KeyframeShift(torso,torso,3,null,fTorsoRot,null,null,iTorsoRot,null,null);
+
+    let torso3 = new KeyframeShift(torso,torso,3,null,iTorsoRot,null,null,fTorsoRot,null,null);
+    let torso4 = new KeyframeShift(torso,torso,3,null,fTorsoRot,null,null,iTorsoRot,null,null);
+    let torsoAnim = new Animation(true,new Array(torso1, torso2));*/
+
+    let steps = 4;
+
+    //---------------------------------------------rotate upper Legs
+    //RIGHT LEG
+    let fUpperLegRRotY1 = vec3(0.0,0.0,35);
+    let fUpperLegRRotY2 = vec3(0.0,0.0,-35);
+    let uLegR1 = new KeyframeShift(torso,upperLegR,steps,null,iRot,null,null,fUpperLegRRotY1,null,null);
+    let uLegR2 = new KeyframeShift(torso,upperLegR,steps,null,fUpperLegRRotY1,null,null,iRot,null,null);
+    let uLegR3 = new KeyframeShift(torso,upperLegR,steps,null,iRot,null,null,fUpperLegRRotY2,null,null);
+    let uLegR4 = new KeyframeShift(torso,upperLegR,steps,null,fUpperLegRRotY2,null,null,iRot,null,null);
+    let uppperLegRAnim = new Animation(true,new Array(uLegR1,uLegR2,uLegR3,uLegR4));
+
+    //LEFT LEG
+    let fUpperLegLRotY1 = vec3(0.0,0.0,-35);
+    let fUpperLegLRotY2 = vec3(0.0,0.0,35);
+    let uLegL1 = new KeyframeShift(torso,upperLegL,steps,null,iRot,null,null,fUpperLegLRotY1,null,null);
+    let uLegL2 = new KeyframeShift(torso,upperLegL,steps,null,fUpperLegLRotY1,null,null,iRot,null,null);
+    let uLegL3 = new KeyframeShift(torso,upperLegL,steps,null,iRot,null,null,fUpperLegLRotY2,null,null);
+    let uLegL4 = new KeyframeShift(torso,upperLegL,steps,null,fUpperLegLRotY2,null,null,iRot,null,null);
+    let uppperLegLAnim = new Animation(true,new Array(uLegL1,uLegL2,uLegL3,uLegL4));
+
+    // --------------------------------------------rotate lower Legs
+    //LEFT LEG
+    let fLowerLegLRotY1 = vec3(0.0,0.0, 0.0);
+    let fLowerLegLRotY2 = vec3(0.0,0.0, -50);
+    let fLowerLegLPosY2 = vec3 (0.0, 1, 0.0);
+    let lLegL1 = new KeyframeShift(torso,lowerLegL,steps,null,iRot,null,null,fLowerLegLRotY1,null,Constants.LOWER_LEG_ROTATION_POINT);
+    let lLegL2 = new KeyframeShift(torso,lowerLegL,steps,null,fLowerLegLRotY1,null,null,iRot,null,Constants.LOWER_LEG_ROTATION_POINT);
+    let lLegL3 = new KeyframeShift(torso,lowerLegL,steps,null,iRot,null,null,fLowerLegLRotY2,null,Constants.LOWER_LEG_ROTATION_POINT);
+    let lLegL4 = new KeyframeShift(torso,lowerLegL,steps,null,fLowerLegLRotY2,null,null,iRot,null,Constants.LOWER_LEG_ROTATION_POINT);
+    let lowerLegLAnim = new Animation(true,new Array(lLegL1,lLegL2,lLegL3,lLegL4));
+
+    //RIGHT LEG
+    let fLowerLegRRotY1 = vec3(0.0,0.0, -50);
+    let fLowerLegRRotY2 = vec3(0.0,0.0, 0.0);
+    let fLowerLegRPosY2 = vec3 (0.0, 1, 0.0);
+    let lLegR1 = new KeyframeShift(torso,lowerLegR,steps,null,iRot,null,null,fLowerLegRRotY1,null,Constants.LOWER_LEG_ROTATION_POINT);
+    let lLegR2 = new KeyframeShift(torso,lowerLegR,steps,null,fLowerLegRRotY1,null,null,iRot,null,Constants.LOWER_LEG_ROTATION_POINT);
+    let lLegR3 = new KeyframeShift(torso,lowerLegR,steps,null,iRot,null, null,fLowerLegRRotY2,null,Constants.LOWER_LEG_ROTATION_POINT);
+    let lLegR4 = new KeyframeShift(torso,lowerLegR,steps,null,fLowerLegRRotY2,null,null,iRot,null,Constants.LOWER_LEG_ROTATION_POINT);
+    let lowerLegRAnim = new Animation(true,new Array(lLegR1,lLegR2,lLegR3,lLegR4));
+
+
+
+    //rotate upperArm
+    //let k2 = new KeyframeShift(torso,upperArmR,60,null,iRot,null,null,fRotZ,null,Constants.UPPER_ARM_ROTATION_POINT);
+    //let anim1 = new Animation(true,new Array(k1));
+    scene.addAnimation(uppperLegLAnim);
+    scene.addAnimation(uppperLegRAnim);
+    scene.addAnimation(lowerLegLAnim);
+    scene.addAnimation(lowerLegRAnim);
+
+
+
 
 
     return torso;
@@ -201,7 +248,7 @@ function buildCharacterGeometry(){
 
 function res_independent(value, myHeight)
 {
-	//Makes every screen (or scaled window) have the same experience 
+	//Makes every screen (or scaled window) have the same experience
 	//based on the window's height (so that 4:3 and 16:9 work the same).
 	return (value/678.0)*myHeight;
 }
