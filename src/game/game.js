@@ -119,7 +119,7 @@ function buildMazeGeometry(wallColor,groundColor){
 function buildCharacterGeometry(){
 
     // parse character model
-    let objparser = new Parser("http://localhost:9000", "src/game/Assets/Character/model_separated.obj");
+    let objparser = new Parser("https://giorgiodema.github.io/3GS", "src/game/Assets/Character/model_separated.obj");
     objparser.parse();
 
     //Red parts
