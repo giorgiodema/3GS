@@ -101,7 +101,7 @@ function game(mazeNumber) {
             character.addColorMap(processedTexture);
 
             let controls_message = document.getElementById("controls");
-            controls_message.style.fontSize = res_independent(120, window.innerHeight).toString() + "%";
+            //controls_message.style.fontSize = res_independent(120, window.innerHeight).toString() + "%";
             controls_message.style.display = "inline";
         	window.setTimeout(vanishControls, 7000);
             render();
