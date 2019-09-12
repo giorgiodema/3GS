@@ -58,4 +58,8 @@ class Constants {
         return vec3(-2,0.0,0.0);
     }
 
+    static get FOOT_ROTATION_POINT(){
+        return vec3(0.0,5.0,0.0);
+    }
+
 }
