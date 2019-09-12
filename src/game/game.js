@@ -173,7 +173,7 @@ function buildCharacterGeometry(){
     lowerLegL.addChild(footL);
 
 
-    // add animations
+    //-----------------------------------ANIMATIONS-----------------------------
     let iRot = vec3(0.0,0.0,0.0);
     //let fRotZ = vec3(0.0,0.0,360);
 
@@ -230,6 +230,27 @@ function buildCharacterGeometry(){
     let lowerLegRAnim = new Animation(true,new Array(lLegR1,lLegR2,lLegR3,lLegR4));
 
 
+    //------------------------------------------------rotate feet
+
+    //LEFT FOOT
+    let fFootLRot1 = vec3(0.0,0.0,15);
+    let fFootLRot2 = vec3(0.0,0.0,0.0);
+    let fFootL1 = new KeyframeShift(torso,footL,steps,null,iRot,null,null,fFootLRot1,null,Constants.FOOT_ROTATION_POINT);
+    let fFootL2 = new KeyframeShift(torso,footL,steps,null,fFootLRot1,null,null,fFootLRot1,null,Constants.FOOT_ROTATION_POINT);
+    let fFootL3 = new KeyframeShift(torso,footL,steps,null,fFootLRot1,null,null,fFootLRot2,null,Constants.FOOT_ROTATION_POINT);
+    let fFootL4 = new KeyframeShift(torso,footL,steps,null,fFootLRot2,null,null,iRot,null,Constants.FOOT_ROTATION_POINT);
+    let footLAnim = new Animation(true, new Array(fFootL1,fFootL2,fFootL3,fFootL4));
+
+    //RIGHT FOOT
+    let fFootRRot1 = vec3(0.0,0.0,0.0);
+    let fFootRRot2 = vec3(0.0,0.0,15);
+    let fFootR1 = new KeyframeShift(torso,footR,steps,null,iRot,null,null,fFootRRot1,null,Constants.FOOT_ROTATION_POINT);
+    let fFootR2 = new KeyframeShift(torso,footR,steps,null,fFootRRot1,null,null,fFootRRot1,null,Constants.FOOT_ROTATION_POINT);
+    let fFootR3 = new KeyframeShift(torso,footR,steps,null,fFootRRot1,null,null,fFootRRot2,null,Constants.FOOT_ROTATION_POINT);
+    let fFootR4 = new KeyframeShift(torso,footR,steps,null,fFootRRot2,null,null,iRot,null,Constants.FOOT_ROTATION_POINT);
+    let footRAnim = new Animation(true, new Array(fFootR1,fFootR2,fFootR3,fFootR4));
+
+
 
     //rotate upperArm
     //let k2 = new KeyframeShift(torso,upperArmR,60,null,iRot,null,null,fRotZ,null,Constants.UPPER_ARM_ROTATION_POINT);
@@ -238,6 +259,8 @@ function buildCharacterGeometry(){
     scene.addAnimation(uppperLegRAnim);
     scene.addAnimation(lowerLegLAnim);
     scene.addAnimation(lowerLegRAnim);
+    scene.addAnimation(footLAnim);
+    scene.addAnimation(footRAnim);
 
 
 
