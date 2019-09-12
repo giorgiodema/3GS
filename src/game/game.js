@@ -99,6 +99,10 @@ function game(mazeNumber) {
         let textureImporter = new TextureImporter("./Assets/Character/texture.png");
         textureImporter.getTexture(function (processedTexture) {
             character.addColorMap(processedTexture);
+
+            let controls_message = document.getElementById("controls");
+            controls_message.style.display = "inline";
+        	window.setTimeout(vanishControls, 7000);
             render();
         });
     });
@@ -226,4 +230,8 @@ function res_independent(value, myHeight) {
     //Makes every screen (or scaled window) have the same experience 
     //based on the window's height (so that 4:3 and 16:9 work the same).
     return (value / 678.0) * myHeight;
+}
+
+function vanishControls() {
+    document.getElementById("controls").style.display = "none";
 }

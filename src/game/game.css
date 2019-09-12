@@ -122,3 +122,15 @@ h1 {
   .btn.red:hover, .btn.red:focus {
     background-color: #c0392b;
   }
+
+#controls {
+  font-family: Lucida Console,Lucida Sans Typewriter,monaco,Bitstream Vera Sans Mono,monospace; 
+  font-size: 120%;
+  color: whitesmoke;
+  position: absolute;
+  bottom: 60%;
+  left: 50%;
+  transform: translateX(-50%);
+  display:none;
+  background-color: transparent;
+}

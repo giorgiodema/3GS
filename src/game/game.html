@@ -28,7 +28,7 @@
 <body>
 
 <h1> 3GS - Tech Demo </h1>
-<div class="menutext"> Select one of the three procedurally generated mazes: </div>
+<div class="menutext"> Select one of the three procedurally generated mazes. </div>
 <div class="menu">
     <div class="level">
             <button class="btn" type="button" onClick="game(0);"><span>Maze 1</span></button>
@@ -44,9 +44,13 @@
     </div>
 </div>
 
-
-<canvas id="gl-canvas" width="980" height="980" hidden>
-</canvas>
+<div id="UI">
+        <div id="controls">
+                <pre>Use WASD to move, and the mouse scroll wheel to raise up and lower the camera.</pre>
+        </div>
+        <canvas id="gl-canvas" width="980" height="980" hidden>
+        </canvas>
+</div>
 
 
 
