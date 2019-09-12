@@ -4,19 +4,7 @@
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" >
 <title>3GS Tech Demo</title>
 
-<style>
-    body {
-        background-color : black;
-    }
-    canvas {
-        padding-left: 0;
-        padding-right: 0;
-        margin-left: auto;
-        margin-right: auto;
-        display: block;
-        width: 800px;
-    }
-</style>
+<link rel="stylesheet" type="text/css" href="game.css" />
 
 <!--A future step will be to turn all these dependencies into ES6 modules and hide them from the user-->
 <script type="text/javascript" src="../lib/angelDependencies/webgl-utils.js"></script>
@@ -39,13 +27,28 @@
 
 <body>
 
-<canvas id="gl-canvas" width="980" height="980">
-        Oops ... your browser doesn't support the HTML5 canvas element
+<h1> 3GS - Tech Demo </h1>
+<div class="menutext"> Select one of the three procedurally generated labyrinths: </div>
+<div class="menu">
+    <div class="level">
+            <button class="btn" type="button" onClick="game(0);"><span>Labyrinth 1</span></button>
+            <p class="maze" id="lvl1"> </p>
+    </div>
+    <div class="level">
+            <button class="btn orange" type="button" onClick="game(1);"><span>Labyrinth 2</span></button>
+            <p class="maze" id="lvl2"> placeholder</p>
+    </div>
+    <div class="level">
+            <button class="btn red" type="button" onClick="game(2);"><span>Labyrinth 3</span></button>
+            <p class="maze" id="lvl3"> </p>
+    </div>
+</div>
+
+
+<canvas id="gl-canvas" width="980" height="980" hidden>
 </canvas>
 
-<canvas id ="imageLoadingCanvas" width="1024" height="1024" hidden="true">
-        This is where the images to load as pixels will be temporarily stored.
-</canvas>    
+
 
 </body>
 </html>
