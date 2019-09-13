@@ -10,7 +10,7 @@ The library's name is a pun on the creators' names: Gabriele, Giorgio, Giovanni 
 
 ## The game
 
-The game has you control a walking humanoid mech in order to escape from a maze. Three mazes are procedurally generated and you can choose which one to play in the main menu. You can move with WASD and regulate the height of the camera with the mouse's scroll wheel. 
+The game has you control a walking humanoid mech in order to escape from a maze. Three mazes are procedurally generated and you can choose which one to play in the main menu. You can move with WASD and regulate the height of the camera with the mouse's scroll wheel. The model and textures for the mech were made by [@jotaro-sama](https://github.com/jotaro-sama) with Blender.
 
 ## Dependencies
 
