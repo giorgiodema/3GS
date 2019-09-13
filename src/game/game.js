@@ -21,9 +21,10 @@ window.onload = () => {
 
 
     mazes = [];
+    let maze_sizes = [3, 12, Constants.GRID_WIDTH];
 
     for (let i = 0; i < 3; i++) {
-        let maze = new Maze(Constants.GRID_WIDTH, Constants.GRID_WIDTH);
+        let maze = new Maze(maze_sizes[i], maze_sizes[i]);
         mazes.push(maze);
     }
     document.getElementById("lvl1").innerHTML = "<pre>" + mazes[0].toString() + "</pre>";
