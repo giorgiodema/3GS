@@ -165,4 +165,10 @@ class Animation {
         this._play = true;
     }
 
+    reset(){
+        this._animArray.forEach(element => {
+            element.reset();
+        });
+    }
+
 }

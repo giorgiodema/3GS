@@ -10,6 +10,7 @@ class ObjectController{
         this._rotatingLeft = false;
         this._cameraController = null;
         this._object.setController(this);
+        this._animations = [];
         window.onkeydown = this.__directionKeyDown(this);
         window.onkeyup   = this.__directionKeyUp(this);
     }
@@ -102,6 +103,13 @@ class ObjectController{
                         contr._rotatingLeft = true;
                         break;
             }
+            if(contr._moving===true || contr._rotatingRight===true || contr._rotatingLeft===true){
+                if(contr._animations.length!=0){
+                    contr._animations.forEach(element => {
+                        element.play();
+                    });
+                }
+            }
         }
     }
 
@@ -119,7 +127,18 @@ class ObjectController{
                         break;
                 
             }
+            if(contr._moving===false && contr._rotatingRight===false && contr._rotatingLeft===false){
+                if(contr._animations.length!=0){
+                    contr._animations.forEach(element => {
+                        element.pause();
+                    });
+                }
+            }
         }
+    }
+
+    addAnimation(animation){
+        this._animations.push(animation);
     }
 
     get object(){
