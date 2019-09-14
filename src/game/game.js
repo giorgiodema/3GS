@@ -122,9 +122,9 @@ function game(mazeNumber) {
 
 
 
-        var lightpos = new Cube(0.0,0.0,0.0);
-        lightpos.setPosition(mazeLogic.grid.length/2, Constants.LIGHT_HEIGHT,mazeLogic.grid.length);
-        scene.addObject(lightpos);
+        //var lightpos = new Cube(0.0,0.0,0.0);
+        //lightpos.setPosition(mazeLogic.grid.length/2, Constants.LIGHT_HEIGHT,mazeLogic.grid.length);
+        //scene.addObject(lightpos);
 
         let light = new DirectionalLight();
         scene.addLight(light);
