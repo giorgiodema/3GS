@@ -11,8 +11,9 @@ window.onload = () => {
     var myHeight = window.innerHeight;
 
     // Canvas values
-    var WIDTH = res_independent(650, myHeight),
-        HEIGHT = res_independent(650, myHeight);
+    var WIDTH = res_independent(670, myHeight),
+    HEIGHT = res_independent(670, myHeight);
+
 
 
     canvas.style.height = HEIGHT.toString() + 'px'; //Reminder that CSS parameters are string
@@ -47,6 +48,7 @@ function game(mazeNumber) {
 
     scene = new Scene("gl-canvas");
     scene.init(() => {
+
         let values = buildMazeGeometry(mazes[mazeNumber], Constants.WALL_COLOR, Constants.GROUND_COLOR);
         let maze = values[0];
         let mazeLogic = values[1];
@@ -134,6 +136,7 @@ function buildMazeGeometry(maze, wallColor, groundColor) {
 
 
 
+
             if (tree === null) {
                 scene.addObject(cube);
                 tree = cube;
@@ -202,31 +205,107 @@ function buildCharacterGeometry() {
     lowerLegL.addChild(footL);
 
 
-    // add animations
-    /*
-    let k1InitUpLeg1Angle = vec3(0.0,0.0,30);
-    let k1FinalUpLeg1Angle = vec3(0.0,0.0,0.0,20);
-    let k1InitLowLeg1Angle = vec3(0.0,0.0,10);
-    */
+    //-----------------------------------ANIMATIONS-----------------------------
+    let iRot = vec3(0.0,0.0,0.0);
+    let steps = 4;
 
-    let iRot = vec3(0.0, 0.0, 0.0);
-    let fRotY = vec3(0.0, 360, 0.0);
-    let fRotZ = vec3(0.0, 0.0, 360);
-    //rotate torso
-    let k1 = new KeyframeShift(torso, torso, 60, null, iRot, null, null, fRotY, null, null);
-    //rotate upperArm
-    let k2 = new KeyframeShift(torso, upperArmR, 60, null, iRot, null, null, fRotZ, null, Constants.UPPER_ARM_ROTATION_POINT);
-    //let anim1 = new Animation(true,new Array(k1));
-    let anim2 = new Animation(true, new Array(k2));
-    //scene.addAnimation(anim1);
-    scene.addAnimation(anim2);
+    //---------------------------------------------rotate upper Legs------------
+    //RIGHT LEG
+    let fUpperLegRRotY1 = vec3(0.0,0.0,35);
+    let fUpperLegRRotY2 = vec3(0.0,0.0,-35);
+    let uLegR1 = new KeyframeShift(torso,upperLegR,steps,null,iRot,null,null,fUpperLegRRotY1,null,null);
+    let uLegR2 = new KeyframeShift(torso,upperLegR,steps,null,fUpperLegRRotY1,null,null,iRot,null,null);
+    let uLegR3 = new KeyframeShift(torso,upperLegR,steps,null,iRot,null,null,fUpperLegRRotY2,null,null);
+    let uLegR4 = new KeyframeShift(torso,upperLegR,steps,null,fUpperLegRRotY2,null,null,iRot,null,null);
+    let uppperLegRAnim = new Animation(true,new Array(uLegR1,uLegR2,uLegR3,uLegR4));
+
+    //LEFT LEG
+    let fUpperLegLRotY1 = vec3(0.0,0.0,-35);
+    let fUpperLegLRotY2 = vec3(0.0,0.0,35);
+    let uLegL1 = new KeyframeShift(torso,upperLegL,steps,null,iRot,null,null,fUpperLegLRotY1,null,null);
+    let uLegL2 = new KeyframeShift(torso,upperLegL,steps,null,fUpperLegLRotY1,null,null,iRot,null,null);
+    let uLegL3 = new KeyframeShift(torso,upperLegL,steps,null,iRot,null,null,fUpperLegLRotY2,null,null);
+    let uLegL4 = new KeyframeShift(torso,upperLegL,steps,null,fUpperLegLRotY2,null,null,iRot,null,null);
+    let uppperLegLAnim = new Animation(true,new Array(uLegL1,uLegL2,uLegL3,uLegL4));
+
+    // --------------------------------------------rotate lower Legs------------
+    //LEFT LEG
+    let fLowerLegLRotY1 = vec3(0.0,0.0, 0.0);
+    let fLowerLegLRotY2 = vec3(0.0,0.0, -50);
+    let fLowerLegLPosY2 = vec3 (0.0, 1, 0.0);
+    let lLegL1 = new KeyframeShift(torso,lowerLegL,steps,null,iRot,null,null,fLowerLegLRotY1,null,Constants.LOWER_LEG_ROTATION_POINT);
+    let lLegL2 = new KeyframeShift(torso,lowerLegL,steps,null,fLowerLegLRotY1,null,null,iRot,null,Constants.LOWER_LEG_ROTATION_POINT);
+    let lLegL3 = new KeyframeShift(torso,lowerLegL,steps,null,iRot,null,null,fLowerLegLRotY2,null,Constants.LOWER_LEG_ROTATION_POINT);
+    let lLegL4 = new KeyframeShift(torso,lowerLegL,steps,null,fLowerLegLRotY2,null,null,iRot,null,Constants.LOWER_LEG_ROTATION_POINT);
+    let lowerLegLAnim = new Animation(true,new Array(lLegL1,lLegL2,lLegL3,lLegL4));
+
+    //RIGHT LEG
+    let fLowerLegRRotY1 = vec3(0.0,0.0, -50);
+    let fLowerLegRRotY2 = vec3(0.0,0.0, 0.0);
+    let fLowerLegRPosY2 = vec3 (0.0, 1, 0.0);
+    let lLegR1 = new KeyframeShift(torso,lowerLegR,steps,null,iRot,null,null,fLowerLegRRotY1,null,Constants.LOWER_LEG_ROTATION_POINT);
+    let lLegR2 = new KeyframeShift(torso,lowerLegR,steps,null,fLowerLegRRotY1,null,null,iRot,null,Constants.LOWER_LEG_ROTATION_POINT);
+    let lLegR3 = new KeyframeShift(torso,lowerLegR,steps,null,iRot,null, null,fLowerLegRRotY2,null,Constants.LOWER_LEG_ROTATION_POINT);
+    let lLegR4 = new KeyframeShift(torso,lowerLegR,steps,null,fLowerLegRRotY2,null,null,iRot,null,Constants.LOWER_LEG_ROTATION_POINT);
+    let lowerLegRAnim = new Animation(true,new Array(lLegR1,lLegR2,lLegR3,lLegR4));
+
+
+    //--------------------------------------------rotate feet-------------------
+
+    //LEFT FOOT
+    let fFootLRot1 = vec3(0.0,0.0,15);
+    let fFootLRot2 = vec3(0.0,0.0,0.0);
+    let footL1 = new KeyframeShift(torso,footL,steps,null,iRot,null,null,fFootLRot1,null,Constants.FOOT_ROTATION_POINT);
+    let footL2 = new KeyframeShift(torso,footL,steps,null,fFootLRot1,null,null,fFootLRot1,null,Constants.FOOT_ROTATION_POINT);
+    let footL3 = new KeyframeShift(torso,footL,steps,null,fFootLRot1,null,null,fFootLRot2,null,Constants.FOOT_ROTATION_POINT);
+    let footL4 = new KeyframeShift(torso,footL,steps,null,fFootLRot2,null,null,iRot,null,Constants.FOOT_ROTATION_POINT);
+    let footLAnim = new Animation(true, new Array(footL1,footL2,footL3,footL4));
+
+    //RIGHT FOOT
+    let fFootRRot1 = vec3(0.0,0.0,0.0);
+    let fFootRRot2 = vec3(0.0,0.0,15);
+    let footR1 = new KeyframeShift(torso,footR,steps,null,iRot,null,null,fFootRRot1,null,Constants.FOOT_ROTATION_POINT);
+    let footR2 = new KeyframeShift(torso,footR,steps,null,fFootRRot1,null,null,fFootRRot1,null,Constants.FOOT_ROTATION_POINT);
+    let footR3 = new KeyframeShift(torso,footR,steps,null,fFootRRot1,null,null,fFootRRot2,null,Constants.FOOT_ROTATION_POINT);
+    let footR4 = new KeyframeShift(torso,footR,steps,null,fFootRRot2,null,null,iRot,null,Constants.FOOT_ROTATION_POINT);
+    let footRAnim = new Animation(true, new Array(footR1,footR2,footR3,footR4));
 
 
 
+    //--------------------------------------------rotate upper arms-------------
+
+    //RIGHT UPPER ARM
+    let fUArmR1 = vec3(0.0,0.0,-20);
+    let fUArmR2 = vec3(0.0,0.0,20);
+    let uArmR1 = new KeyframeShift(torso,upperArmR,steps,null,iRot,null,null,fUArmR1,null,Constants.UPPER_ARM_ROTATION_POINT);
+    let uArmR2 = new KeyframeShift(torso,upperArmR,steps,null,fUArmR1,null,null,iRot,null,Constants.UPPER_ARM_ROTATION_POINT);
+    let uArmR3 = new KeyframeShift(torso,upperArmR,steps,null,iRot,null,null,fUArmR2,null,Constants.UPPER_ARM_ROTATION_POINT);
+    let uArmR4 = new KeyframeShift(torso,upperArmR,steps,null,fUArmR2,null,null,iRot,null,Constants.UPPER_ARM_ROTATION_POINT);
+    let upperArmRAnim = new Animation(true,new Array(uArmR1,uArmR2,uArmR3,uArmR4));
+
+    //LEFT UPPER ARM
+    let fUArmL1 = vec3(0.0,0.0,20);
+    let fUArmL2 = vec3(0.0,0.0,-20);
+    let uArmL1 = new KeyframeShift(torso,upperArmL,steps,null,iRot,null,null,fUArmL1,null,Constants.UPPER_ARM_ROTATION_POINT);
+    let uArmL2 = new KeyframeShift(torso,upperArmL,steps,null,fUArmL1,null,null,iRot,null,Constants.UPPER_ARM_ROTATION_POINT);
+    let uArmL3 = new KeyframeShift(torso,upperArmL,steps,null,iRot,null,null,fUArmL2,null,Constants.UPPER_ARM_ROTATION_POINT);
+    let uArmL4 = new KeyframeShift(torso,upperArmL,steps,null,fUArmL2,null,null,iRot,null,Constants.UPPER_ARM_ROTATION_POINT);
+    let upperArmLAnim = new Animation(true,new Array(uArmL1,uArmL2,uArmL3,uArmL4));
+
+
+    scene.addAnimation(uppperLegLAnim);
+    scene.addAnimation(uppperLegRAnim);
+    scene.addAnimation(lowerLegLAnim);
+    scene.addAnimation(lowerLegRAnim);
+    scene.addAnimation(footLAnim);
+    scene.addAnimation(footRAnim);
+    scene.addAnimation(upperArmRAnim);
+    scene.addAnimation(upperArmLAnim);
 
 
     return torso;
 }
+
 
 function res_independent(value, myHeight) {
     //Makes every screen (or scaled window) have the same experience 
