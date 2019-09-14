@@ -107,6 +107,9 @@ function game(mazeNumber) {
             // check for victory
             if (mazeLogic.grid[Math.trunc(cy)][Math.trunc(cx)] == Constants.CELL.TARGET) {
                 console.log("VICTORY!");
+                var victory = document.getElementById("victory");
+                victory.style.display="block";
+
                 return false;
             }
 
