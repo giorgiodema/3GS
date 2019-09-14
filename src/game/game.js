@@ -22,7 +22,7 @@ window.onload = () => {
 
 
     mazes = [];
-    let maze_sizes = [Math.trunc(Constants.GRID_WIDTH*(1/3)),Math.trunc(Constants.GRID_WIDTH*(2/3)), Constants.GRID_WIDTH];
+    let maze_sizes = [Math.trunc(Constants.GRID_WIDTH*(1/3)),Math.trunc(Constants.GRID_WIDTH*(1/3)+1), Math.trunc(Constants.GRID_WIDTH*(1/3)+2];
 
     for (let i = 0; i < 3; i++) {
         let maze = new Maze(maze_sizes[i], maze_sizes[i]);
