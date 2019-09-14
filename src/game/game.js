@@ -120,10 +120,15 @@ function game(mazeNumber) {
 
         cameraController.bindObjectController(characterController, Constants.CAMERA_DISTANCE, Constants.CAMERA_HEIGHT);
 
+
+
+        var lightpos = new Cube(0.0,0.0,0.0);
+        lightpos.setPosition(mazeLogic.grid.length/2, Constants.LIGHT_HEIGHT,mazeLogic.grid.length);
+        scene.addObject(lightpos);
+
         let light = new DirectionalLight();
         scene.addLight(light);
-
-        light.setPosition(Constants.GRID_WIDTH / 2, Constants.LIGHT_HEIGHT, Constants.GRID_WIDTH / 2);
+        light.setPosition(mazeLogic.grid.length/2, Constants.LIGHT_HEIGHT,mazeLogic.grid.length);
 
         let textureImporter = new TextureImporter("./Assets/Character/texture.png");
         textureImporter.getTexture(function (processedTexture) {
@@ -154,7 +159,8 @@ function buildMazeGeometry(maze, wallColor, groundColor) {
 
                 // Wall cube
                 cube = new Cube(wallColor[0], wallColor[1], wallColor[2]);
-                cube.setPosition(j * Constants.BLOCK_SIZE, Constants.BLOCK_SIZE / 2, i * Constants.BLOCK_SIZE);
+                cube.scale(1.0,0.5,1.0);
+                cube.setPosition(j * Constants.BLOCK_SIZE, Constants.BLOCK_SIZE / 4, i * Constants.BLOCK_SIZE);
             }
             else {
 
