@@ -175,18 +175,6 @@ function buildCharacterGeometry(){
 
     //-----------------------------------ANIMATIONS-----------------------------
     let iRot = vec3(0.0,0.0,0.0);
-    let fRotZ = vec3(0.0,0.0,360);
-
-    //rotate torso
-    /*let iTorsoRot = vec3(0.0, 90, 0.0);
-    let fTorsoRot = vec3(-10, 90, 0.0);
-    let torso1 = new KeyframeShift(torso,torso,3,null,iTorsoRot,null,null,fTorsoRot,null,null);
-    let torso2 = new KeyframeShift(torso,torso,3,null,fTorsoRot,null,null,iTorsoRot,null,null);
-
-    let torso3 = new KeyframeShift(torso,torso,3,null,iTorsoRot,null,null,fTorsoRot,null,null);
-    let torso4 = new KeyframeShift(torso,torso,3,null,fTorsoRot,null,null,iTorsoRot,null,null);
-    let torsoAnim = new Animation(true,new Array(torso1, torso2));*/
-
     let steps = 4;
 
     //---------------------------------------------rotate upper Legs------------
