@@ -175,7 +175,7 @@ function buildCharacterGeometry(){
 
     //-----------------------------------ANIMATIONS-----------------------------
     let iRot = vec3(0.0,0.0,0.0);
-    //let fRotZ = vec3(0.0,0.0,360);
+    let fRotZ = vec3(0.0,0.0,360);
 
     //rotate torso
     /*let iTorsoRot = vec3(0.0, 90, 0.0);
@@ -189,7 +189,7 @@ function buildCharacterGeometry(){
 
     let steps = 4;
 
-    //---------------------------------------------rotate upper Legs
+    //---------------------------------------------rotate upper Legs------------
     //RIGHT LEG
     let fUpperLegRRotY1 = vec3(0.0,0.0,35);
     let fUpperLegRRotY2 = vec3(0.0,0.0,-35);
@@ -208,7 +208,7 @@ function buildCharacterGeometry(){
     let uLegL4 = new KeyframeShift(torso,upperLegL,steps,null,fUpperLegLRotY2,null,null,iRot,null,null);
     let uppperLegLAnim = new Animation(true,new Array(uLegL1,uLegL2,uLegL3,uLegL4));
 
-    // --------------------------------------------rotate lower Legs
+    // --------------------------------------------rotate lower Legs------------
     //LEFT LEG
     let fLowerLegLRotY1 = vec3(0.0,0.0, 0.0);
     let fLowerLegLRotY2 = vec3(0.0,0.0, -50);
@@ -230,40 +230,57 @@ function buildCharacterGeometry(){
     let lowerLegRAnim = new Animation(true,new Array(lLegR1,lLegR2,lLegR3,lLegR4));
 
 
-    //------------------------------------------------rotate feet
+    //--------------------------------------------rotate feet-------------------
 
     //LEFT FOOT
     let fFootLRot1 = vec3(0.0,0.0,15);
     let fFootLRot2 = vec3(0.0,0.0,0.0);
-    let fFootL1 = new KeyframeShift(torso,footL,steps,null,iRot,null,null,fFootLRot1,null,Constants.FOOT_ROTATION_POINT);
-    let fFootL2 = new KeyframeShift(torso,footL,steps,null,fFootLRot1,null,null,fFootLRot1,null,Constants.FOOT_ROTATION_POINT);
-    let fFootL3 = new KeyframeShift(torso,footL,steps,null,fFootLRot1,null,null,fFootLRot2,null,Constants.FOOT_ROTATION_POINT);
-    let fFootL4 = new KeyframeShift(torso,footL,steps,null,fFootLRot2,null,null,iRot,null,Constants.FOOT_ROTATION_POINT);
-    let footLAnim = new Animation(true, new Array(fFootL1,fFootL2,fFootL3,fFootL4));
+    let footL1 = new KeyframeShift(torso,footL,steps,null,iRot,null,null,fFootLRot1,null,Constants.FOOT_ROTATION_POINT);
+    let footL2 = new KeyframeShift(torso,footL,steps,null,fFootLRot1,null,null,fFootLRot1,null,Constants.FOOT_ROTATION_POINT);
+    let footL3 = new KeyframeShift(torso,footL,steps,null,fFootLRot1,null,null,fFootLRot2,null,Constants.FOOT_ROTATION_POINT);
+    let footL4 = new KeyframeShift(torso,footL,steps,null,fFootLRot2,null,null,iRot,null,Constants.FOOT_ROTATION_POINT);
+    let footLAnim = new Animation(true, new Array(footL1,footL2,footL3,footL4));
 
     //RIGHT FOOT
     let fFootRRot1 = vec3(0.0,0.0,0.0);
     let fFootRRot2 = vec3(0.0,0.0,15);
-    let fFootR1 = new KeyframeShift(torso,footR,steps,null,iRot,null,null,fFootRRot1,null,Constants.FOOT_ROTATION_POINT);
-    let fFootR2 = new KeyframeShift(torso,footR,steps,null,fFootRRot1,null,null,fFootRRot1,null,Constants.FOOT_ROTATION_POINT);
-    let fFootR3 = new KeyframeShift(torso,footR,steps,null,fFootRRot1,null,null,fFootRRot2,null,Constants.FOOT_ROTATION_POINT);
-    let fFootR4 = new KeyframeShift(torso,footR,steps,null,fFootRRot2,null,null,iRot,null,Constants.FOOT_ROTATION_POINT);
-    let footRAnim = new Animation(true, new Array(fFootR1,fFootR2,fFootR3,fFootR4));
+    let footR1 = new KeyframeShift(torso,footR,steps,null,iRot,null,null,fFootRRot1,null,Constants.FOOT_ROTATION_POINT);
+    let footR2 = new KeyframeShift(torso,footR,steps,null,fFootRRot1,null,null,fFootRRot1,null,Constants.FOOT_ROTATION_POINT);
+    let footR3 = new KeyframeShift(torso,footR,steps,null,fFootRRot1,null,null,fFootRRot2,null,Constants.FOOT_ROTATION_POINT);
+    let footR4 = new KeyframeShift(torso,footR,steps,null,fFootRRot2,null,null,iRot,null,Constants.FOOT_ROTATION_POINT);
+    let footRAnim = new Animation(true, new Array(footR1,footR2,footR3,footR4));
 
 
 
-    //rotate upperArm
-    //let k2 = new KeyframeShift(torso,upperArmR,60,null,iRot,null,null,fRotZ,null,Constants.UPPER_ARM_ROTATION_POINT);
-    //let anim1 = new Animation(true,new Array(k1));
+    //--------------------------------------------rotate upper arms-------------
+
+    //RIGHT UPPER ARM
+    let fUArmR1 = vec3(0.0,0.0,-20);
+    let fUArmR2 = vec3(0.0,0.0,20);
+    let uArmR1 = new KeyframeShift(torso,upperArmR,steps,null,iRot,null,null,fUArmR1,null,Constants.UPPER_ARM_ROTATION_POINT);
+    let uArmR2 = new KeyframeShift(torso,upperArmR,steps,null,fUArmR1,null,null,iRot,null,Constants.UPPER_ARM_ROTATION_POINT);
+    let uArmR3 = new KeyframeShift(torso,upperArmR,steps,null,iRot,null,null,fUArmR2,null,Constants.UPPER_ARM_ROTATION_POINT);
+    let uArmR4 = new KeyframeShift(torso,upperArmR,steps,null,fUArmR2,null,null,iRot,null,Constants.UPPER_ARM_ROTATION_POINT);
+    let upperArmRAnim = new Animation(true,new Array(uArmR1,uArmR2,uArmR3,uArmR4));
+
+    //LEFT UPPER ARM
+    let fUArmL1 = vec3(0.0,0.0,20);
+    let fUArmL2 = vec3(0.0,0.0,-20);
+    let uArmL1 = new KeyframeShift(torso,upperArmL,steps,null,iRot,null,null,fUArmL1,null,Constants.UPPER_ARM_ROTATION_POINT);
+    let uArmL2 = new KeyframeShift(torso,upperArmL,steps,null,fUArmL1,null,null,iRot,null,Constants.UPPER_ARM_ROTATION_POINT);
+    let uArmL3 = new KeyframeShift(torso,upperArmL,steps,null,iRot,null,null,fUArmL2,null,Constants.UPPER_ARM_ROTATION_POINT);
+    let uArmL4 = new KeyframeShift(torso,upperArmL,steps,null,fUArmL2,null,null,iRot,null,Constants.UPPER_ARM_ROTATION_POINT);
+    let upperArmLAnim = new Animation(true,new Array(uArmL1,uArmL2,uArmL3,uArmL4));
+
+
     scene.addAnimation(uppperLegLAnim);
     scene.addAnimation(uppperLegRAnim);
     scene.addAnimation(lowerLegLAnim);
     scene.addAnimation(lowerLegRAnim);
     scene.addAnimation(footLAnim);
     scene.addAnimation(footRAnim);
-
-
-
+    scene.addAnimation(upperArmRAnim);
+    scene.addAnimation(upperArmLAnim);
 
 
     return torso;
