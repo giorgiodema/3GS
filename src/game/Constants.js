@@ -11,7 +11,7 @@ const _CELL = {
 class Constants {
 
     static get GRID_WIDTH() {
-        return 20;
+        return 10;
     }
 
     static get BLOCK_SIZE() {

@@ -1,7 +1,7 @@
 "use strict";
 
-var SERVER_ADDR = "https://giorgiodema.github.io/3GS";
-//var SERVER_ADDR = "http:localhost:9000";
+//var SERVER_ADDR = "https://giorgiodema.github.io/3GS";
+var SERVER_ADDR = "http://localhost:9000";
 var scene;
 var mazes;
 
@@ -22,7 +22,7 @@ window.onload = () => {
 
 
     mazes = [];
-    let maze_sizes = [3, 12, Constants.GRID_WIDTH];
+    let maze_sizes = [Math.trunc(Constants.GRID_WIDTH*(1/3)),Math.trunc(Constants.GRID_WIDTH*(2/3)), Constants.GRID_WIDTH];
 
     for (let i = 0; i < 3; i++) {
         let maze = new Maze(maze_sizes[i], maze_sizes[i]);
@@ -52,7 +52,9 @@ function game(mazeNumber) {
         let values = buildMazeGeometry(mazes[mazeNumber], Constants.WALL_COLOR, Constants.GROUND_COLOR);
         let maze = values[0];
         let mazeLogic = values[1];
-        let character = buildCharacterGeometry();
+        let aux = buildCharacterGeometry();
+        let character = aux[0];
+        let animations = aux[1];
 
         character.rotate(90.0, [0, 1, 0], null);
         maze.setPosition(0.0, 0.0, 0.0);
@@ -67,6 +69,10 @@ function game(mazeNumber) {
 
         let cameraController = new CameraController(camera);
         let characterController = new ObjectController(character);
+
+        animations.forEach(element => {
+            characterController.addAnimation(element);
+        });
 
         // setup the position validation function
         characterController.positionValidator = pos => {
@@ -302,8 +308,22 @@ function buildCharacterGeometry() {
     scene.addAnimation(upperArmRAnim);
     scene.addAnimation(upperArmLAnim);
 
+    var animations = [];
+    animations.push(uppperLegLAnim);
+    animations.push(uppperLegRAnim);
+    animations.push(lowerLegLAnim);
+    animations.push(lowerLegRAnim);
+    animations.push(footLAnim);
+    animations.push(footRAnim);
+    animations.push(upperArmRAnim);
+    animations.push(upperArmLAnim);
 
-    return torso;
+    animations.forEach(element => {
+        element.pause();
+    });
+
+
+    return [torso,animations];
 }
 
 
