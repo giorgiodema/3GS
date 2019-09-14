@@ -49,7 +49,7 @@ function game(mazeNumber) {
     scene = new Scene("gl-canvas");
     scene.init(() => {
 
-        let values = buildMazeGeometry(mazes[mazeNumber], Constants.WALL_COLOR, Constants.GROUND_COLOR);
+        let values = buildMazeGeometry(mazes[mazeNumber], Constants.WALL_COLOR, Constants.GROUND_COLOR, Constants.TROPHY_COLOR);
         let maze = values[0];
         let mazeLogic = values[1];
         let character = buildCharacterGeometry();
@@ -123,26 +123,28 @@ function render() {
     requestAnimFrame(render);
 }
 
-function buildMazeGeometry(maze, wallColor, groundColor) {
+function buildMazeGeometry(maze, wallColor, groundColor, trophyColor) {
     let tree = null;
     console.log(maze.toString());
+    let cube;
 
     for (let i = 0; i < maze.grid.length; i++) {
         for (let j = 0; j < maze.grid[0].length; j++) {
-            let cube;
             if (maze.grid[i][j] == Constants.CELL.WALL) {
+
+                // Wall cube
                 cube = new Cube(wallColor[0], wallColor[1], wallColor[2]);
                 cube.setPosition(j * Constants.BLOCK_SIZE, Constants.BLOCK_SIZE / 2, i * Constants.BLOCK_SIZE);
             }
             else {
+
+                // Floor cube
                 cube = new Cube(groundColor[0], groundColor[1], groundColor[2]);
                 cube.scale(1.0, 0.0001, 1.0);
                 cube.setPosition(j * Constants.BLOCK_SIZE, -0.001, i * Constants.BLOCK_SIZE);
             }
 
-
-
-
+            // Add the new cube to the scene or the existing tree
             if (tree === null) {
                 scene.addObject(cube);
                 tree = cube;
@@ -150,6 +152,11 @@ function buildMazeGeometry(maze, wallColor, groundColor) {
             else tree.addChild(cube);
         }
     }
+
+    // Victory trophy
+    cube = new Cube(trophyColor[0], trophyColor[1], trophyColor[2]);
+    cube.setPosition(maze.target.x * Constants.BLOCK_SIZE, Constants.BLOCK_SIZE / 2, maze.target.y * Constants.BLOCK_SIZE);
+    tree.addChild(cube);
 
     return [tree, maze];
 }
