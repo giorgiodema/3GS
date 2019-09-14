@@ -51,7 +51,7 @@ class Constants {
     }
 
     static get LIGHT_HEIGHT() {
-        return 50;
+        return 10;
     }
 
     static get UPPER_ARM_ROTATION_POINT() {
