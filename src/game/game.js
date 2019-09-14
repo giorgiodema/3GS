@@ -1,7 +1,7 @@
 "use strict";
 
-var SERVER_ADDR = "https://giorgiodema.github.io/3GS";
-//var SERVER_ADDR = "http:localhost:9000";
+//var SERVER_ADDR = "https://giorgiodema.github.io/3GS";
+var SERVER_ADDR = "http://localhost:9000";
 var scene;
 var mazes;
 
@@ -87,6 +87,12 @@ function game(mazeNumber) {
                 if (mazeLogic.grid[yCell][xCell] == Constants.CELL.WALL) {
                     return false;
                 }
+            }
+
+            // check for victory
+            if (mazeLogic.grid[Math.trunc(cy)][Math.trunc(cx)] == Constants.CELL.TARGET) {
+                console.log("VICTORY!");
+                return false;
             }
 
             return true;
