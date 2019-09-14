@@ -49,12 +49,21 @@ function game(mazeNumber) {
     scene = new Scene("gl-canvas");
     scene.init(() => {
 
-        let values = buildMazeGeometry(mazes[mazeNumber], Constants.WALL_COLOR, Constants.GROUND_COLOR, Constants.TROPHY_COLOR);
+        let values = buildMazeGeometry(mazes[mazeNumber], Constants.WALL_COLOR, Constants.GROUND_COLOR);
         let maze = values[0];
         let mazeLogic = values[1];
         let aux = buildCharacterGeometry();
         let character = aux[0];
         let animations = aux[1];
+
+        // Victory trophy
+        let trophy = new Cube(Constants.TROPHY_COLOR[0],Constants.TROPHY_COLOR[1], Constants.TROPHY_COLOR[2]);
+        trophy.scale(0.25,0.25,0.25);
+        trophy.setPosition(mazeLogic.target.x * Constants.BLOCK_SIZE, Constants.BLOCK_SIZE / 4, mazeLogic.target.y * Constants.BLOCK_SIZE);
+        scene.addObject(trophy);
+        let trofykfshift = new KeyframeShift(trophy,trophy,60,null,vec3(45,0.0,45),null,null,vec3(45,360,45),null,null);
+        let trphyanim = new Animation(true,new Array(trofykfshift));
+        scene.addAnimation(trphyanim);
 
         character.rotate(90.0, [0, 1, 0], null);
         maze.setPosition(0.0, 0.0, 0.0);
@@ -129,7 +138,7 @@ function render() {
     requestAnimFrame(render);
 }
 
-function buildMazeGeometry(maze, wallColor, groundColor, trophyColor) {
+function buildMazeGeometry(maze, wallColor, groundColor) {
     let tree = null;
     console.log(maze.toString());
     let cube;
@@ -159,10 +168,7 @@ function buildMazeGeometry(maze, wallColor, groundColor, trophyColor) {
         }
     }
 
-    // Victory trophy
-    cube = new Cube(trophyColor[0], trophyColor[1], trophyColor[2]);
-    cube.setPosition(maze.target.x * Constants.BLOCK_SIZE, Constants.BLOCK_SIZE / 2, maze.target.y * Constants.BLOCK_SIZE);
-    tree.addChild(cube);
+
 
     return [tree, maze];
 }
