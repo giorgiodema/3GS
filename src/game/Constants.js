@@ -10,8 +10,16 @@ const _CELL = {
 
 class Constants {
 
-    static get GRID_WIDTH() {
-        return 10;
+    static get SMALL_GRID_WIDTH() {
+        return 3;
+    }
+    
+    static get MID_GRID_WIDTH() {
+        return 4;
+    }
+    
+    static get LARGE_GRID_WIDTH() {
+        return 5;
     }
 
     static get BLOCK_SIZE() {
