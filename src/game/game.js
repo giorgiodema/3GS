@@ -1,7 +1,7 @@
 "use strict";
 
-var SERVER_ADDR = "https://giorgiodema.github.io/3GS";
-//var SERVER_ADDR = "http://localhost:9000";
+//var SERVER_ADDR = "https://giorgiodema.github.io/3GS";
+var SERVER_ADDR = "http://localhost:9000";
 var scene;
 var mazes;
 
@@ -108,8 +108,10 @@ function game(mazeNumber) {
             if (mazeLogic.grid[Math.trunc(cy)][Math.trunc(cx)] == Constants.CELL.TARGET) {
                 console.log("VICTORY!");
                 var victory = document.getElementById("victory");
+                var canvas = document.getElementById("gl-canvas");
+                canvas.style.opacity = 0.2;
                 victory.style.display="block";
-
+                setTimeout(restart,5000);
                 return false;
             }
 
@@ -357,4 +359,8 @@ function res_independent(value, myHeight) {
 
 function vanishControls() {
     document.getElementById("controls").style.display = "none";
+}
+
+function restart(){
+    location.reload();
 }
