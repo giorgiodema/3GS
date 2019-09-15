@@ -128,7 +128,7 @@ function game(mazeNumber) {
 
         let light = new DirectionalLight();
         scene.addLight(light);
-        light.setPosition(mazeLogic.grid.length/2, Constants.LIGHT_HEIGHT,mazeLogic.grid.length);
+        light.setDirection(mazeLogic.grid.length/2, Constants.LIGHT_HEIGHT,mazeLogic.grid.length);
 
         let textureImporter = new TextureImporter("./Assets/Character/texture.png");
         textureImporter.getTexture(function (processedTexture) {

@@ -116,7 +116,7 @@ class GraphicObject {
         let specularProduct = mult(light.specular, this.materialSpecular);
 
         // Pass light position to vertex shader
-        this.scene.gl.uniform4fv(this.scene.gl.getUniformLocation( this.scene.program,"lightPosition"), flatten(light.pos));
+        this.scene.gl.uniform4fv(this.scene.gl.getUniformLocation( this.scene.program,"lightPosition"), flatten(light.direction));
 
 
         // Pass parameters to fragment shader

@@ -9,9 +9,15 @@ class DirectionalLight {
         this._pos = vec4(0.0, 0.0, 0.0,0.0);
     }
 
-    get pos() {
-        return new vec4(this._pos);
+    get direction() {
+        return this._pos;
     }
+
+    /*
+    // Needs to be reworded to express the fact that the light's "position"
+    // is a direction (implemented by having 0 as last parameter of the vec4)
+    // Not really necessary as setDirection + get direction already can do everything
+    // this method would do, we could also just delete this
 
     // Adds the values of x, y, z to the position parameters of the object
     translate(x, y, z) {
@@ -19,11 +25,23 @@ class DirectionalLight {
         this._pos[1] = this._pos[1] + y;
         this._pos[2] = this._pos[2] + z;
     }
+    */
 
-    setPosition(x, y, z) {
+    setDirection(x, y, z) {
+        // To keep the light directional, the user shouldn't be able to edit the 4th
+        // value of the _pos vector
+        this._pos[0] = x;
+        this._pos[1] = y;
+        this._pos[2] = z;
+
+        /*
+        // Old implementation which relied on the translate method, could be reused if we 
+        // decided to put that back with a different name. If we decide to delete that
+        // completely, this will have to be deleted as well.
         let xTranslation = x - this._pos[0];
         let yTranslation = y - this._pos[1];
         let zTranslation = z - this._pos[2];
         this.translate(xTranslation, yTranslation, zTranslation);
+        */ 
     }
 }
