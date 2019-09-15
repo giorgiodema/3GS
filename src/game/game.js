@@ -49,96 +49,98 @@ function game(mazeNumber) {
     scene = new Scene("gl-canvas");
     scene.init(() => {
 
-        let values = buildMazeGeometry(mazes[mazeNumber], Constants.WALL_COLOR, Constants.GROUND_COLOR);
-        let maze = values[0];
-        let mazeLogic = values[1];
-        let aux = buildCharacterGeometry();
-        let character = aux[0];
-        let animations = aux[1];
+        let values = buildMazeGeometry(mazes[mazeNumber], Constants.WALL_COLOR, Constants.GROUND_COLOR, function(maze, mazeLogic) {
+                //let maze = values[0];
+                //let mazeLogic = values[1];
+                let aux = buildCharacterGeometry();
+                let character = aux[0];
+                let animations = aux[1];
 
-        // Victory trophy
-        let trophy = new Cube(Constants.TROPHY_COLOR[0],Constants.TROPHY_COLOR[1], Constants.TROPHY_COLOR[2]);
-        trophy.scale(0.25,0.25,0.25);
-        trophy.setPosition(mazeLogic.target.x * Constants.BLOCK_SIZE, Constants.BLOCK_SIZE / 4, mazeLogic.target.y * Constants.BLOCK_SIZE);
-        scene.addObject(trophy);
-        let trofykfshift = new KeyframeShift(trophy,trophy,60,null,vec3(45,0.0,45),null,null,vec3(45,360,45),null,null);
-        let trphyanim = new Animation(true,new Array(trofykfshift));
-        scene.addAnimation(trphyanim);
+                // Victory trophy
+                let trophy = new Cube(Constants.TROPHY_COLOR[0],Constants.TROPHY_COLOR[1], Constants.TROPHY_COLOR[2]);
+                trophy.scale(0.25,0.25,0.25);
+                trophy.setPosition(mazeLogic.target.x * Constants.BLOCK_SIZE, Constants.BLOCK_SIZE / 4, mazeLogic.target.y * Constants.BLOCK_SIZE);
+                scene.addObject(trophy);
+                let trofykfshift = new KeyframeShift(trophy,trophy,60,null,vec3(45,0.0,45),null,null,vec3(45,360,45),null,null);
+                let trphyanim = new Animation(true,new Array(trofykfshift));
+                scene.addAnimation(trphyanim);
 
-        character.rotate(90.0, [0, 1, 0], null);
-        maze.setPosition(0.0, 0.0, 0.0);
-        character.scale(Constants.CHARACTER_SCALING, Constants.CHARACTER_SCALING, Constants.CHARACTER_SCALING);
-        character.setPosition(mazeLogic.position.x, Constants.CHARACTER_HEIGHT, mazeLogic.position.y);
+                character.rotate(90.0, [0, 1, 0], null);
+                maze.setPosition(0.0, 0.0, 0.0);
+                character.scale(Constants.CHARACTER_SCALING, Constants.CHARACTER_SCALING, Constants.CHARACTER_SCALING);
+                character.setPosition(mazeLogic.position.x, Constants.CHARACTER_HEIGHT, mazeLogic.position.y);
 
-        let camera = new PerspectiveCamera();
-        camera.setFar(1000);
+                let camera = new PerspectiveCamera();
+                camera.setFar(1000);
 
-        scene.addCamera(camera);
-        scene.setActiveCamera(0);
+                scene.addCamera(camera);
+                scene.setActiveCamera(0);
 
-        let cameraController = new CameraController(camera);
-        let characterController = new ObjectController(character);
+                let cameraController = new CameraController(camera);
+                let characterController = new ObjectController(character);
 
-        animations.forEach(element => {
-            characterController.addAnimation(element);
-        });
+                animations.forEach(element => {
+                    characterController.addAnimation(element);
+                });
 
-        // setup the position validation function
-        characterController.positionValidator = pos => {
+                // setup the position validation function
+                characterController.positionValidator = pos => {
 
-            // calculate the effective character position
-            let cx = pos[0] + 0.5;
-            let cy = pos[2] + 0.5;
+                    // calculate the effective character position
+                    let cx = pos[0] + 0.5;
+                    let cy = pos[2] + 0.5;
 
-            // check boundaries in a circle of radius 0.1, in 20 degrees intervals
-            for (let i = 0; i < 18; i++) {
-                let radians = i * 20 * (180 / Math.PI);
-                let x = cx + 0.1 * Math.cos(radians);
-                let y = cy + 0.1 * Math.sin(radians);
-                let xCell = Math.trunc(x); // Truncate to get the logical coordinate
-                let yCell = Math.trunc(y);
+                    // check boundaries in a circle of radius 0.1, in 20 degrees intervals
+                    for (let i = 0; i < 18; i++) {
+                        let radians = i * 20 * (180 / Math.PI);
+                        let x = cx + 0.1 * Math.cos(radians);
+                        let y = cy + 0.1 * Math.sin(radians);
+                        let xCell = Math.trunc(x); // Truncate to get the logical coordinate
+                        let yCell = Math.trunc(y);
 
-                // abort if the next move would make the player go into a wall
-                if (mazeLogic.grid[yCell][xCell] == Constants.CELL.WALL) {
-                    return false;
-                }
-            }
+                        // abort if the next move would make the player go into a wall
+                        if (mazeLogic.grid[yCell][xCell] == Constants.CELL.WALL) {
+                            return false;
+                        }
+                    }
 
-            // check for victory
-            if (mazeLogic.grid[Math.trunc(cy)][Math.trunc(cx)] == Constants.CELL.TARGET) {
-                console.log("VICTORY!");
-                var victory = document.getElementById("victory");
-                var canvas = document.getElementById("gl-canvas");
-                canvas.style.opacity = 0.2;
-                victory.style.display="block";
-                setTimeout(restart,5000);
-                return false;
-            }
+                    // check for victory
+                    if (mazeLogic.grid[Math.trunc(cy)][Math.trunc(cx)] == Constants.CELL.TARGET) {
+                        console.log("VICTORY!");
+                        var victory = document.getElementById("victory");
+                        var canvas = document.getElementById("gl-canvas");
+                        canvas.style.opacity = 0.2;
+                        victory.style.display="block";
+                        setTimeout(restart,5000);
+                        return false;
+                    }
 
-            return true;
-        };
+                    return true;
+                };
 
-        cameraController.bindObjectController(characterController, Constants.CAMERA_DISTANCE, Constants.CAMERA_HEIGHT);
+                cameraController.bindObjectController(characterController, Constants.CAMERA_DISTANCE, Constants.CAMERA_HEIGHT);
 
 
 
-        //var lightpos = new Cube(0.0,0.0,0.0);
-        //lightpos.setPosition(mazeLogic.grid.length/2, Constants.LIGHT_HEIGHT,mazeLogic.grid.length);
-        //scene.addObject(lightpos);
+                //var lightpos = new Cube(0.0,0.0,0.0);
+                //lightpos.setPosition(mazeLogic.grid.length/2, Constants.LIGHT_HEIGHT,mazeLogic.grid.length);
+                //scene.addObject(lightpos);
 
-        let light = new DirectionalLight();
-        scene.addLight(light);
-        light.setDirection(mazeLogic.grid.length/2, Constants.LIGHT_HEIGHT,mazeLogic.grid.length);
+                let light = new DirectionalLight();
+                scene.addLight(light);
+                light.setDirection(mazeLogic.grid.length/2, Constants.LIGHT_HEIGHT,mazeLogic.grid.length);
 
-        let textureImporter = new TextureImporter("./Assets/Character/texture.png");
-        textureImporter.getTexture(function (processedTexture) {
-            character.addColorMap(processedTexture);
+                let textureImporter = new TextureImporter("./Assets/Character/texture.png");
+                textureImporter.getTexture(function (processedTexture) {
+                    character.addColorMap(processedTexture);
 
-            let controls_message = document.getElementById("controls");
-            //controls_message.style.fontSize = res_independent(120, window.innerHeight).toString() + "%";
-            controls_message.style.display = "inline";
-        	window.setTimeout(vanishControls, 7000);
-            render();
+                    let controls_message = document.getElementById("controls");
+                    //controls_message.style.fontSize = res_independent(120, window.innerHeight).toString() + "%";
+                    controls_message.style.display = "inline";
+                    window.setTimeout(vanishControls, 7000);
+                    render();
+            });
+        
         });
     });
 }
@@ -148,40 +150,55 @@ function render() {
     requestAnimFrame(render);
 }
 
-function buildMazeGeometry(maze, wallColor, groundColor) {
+function buildMazeGeometry(maze, wallColor, groundColor, callback) {
     let tree = null;
     console.log(maze.toString());
     let cube;
+    let wallTextureImporter = new TextureImporter("./Assets/Scenario/walls.jpg");
+    wallTextureImporter.getTexture(function (wallTexture) {
+        let groundTextureImporter = new TextureImporter("./Assets/Scenario/ground.png");
+        groundTextureImporter.getTexture(function (groundTexture) {
 
-    for (let i = 0; i < maze.grid.length; i++) {
-        for (let j = 0; j < maze.grid[0].length; j++) {
-            if (maze.grid[i][j] == Constants.CELL.WALL) {
+            for (let i = 0; i < maze.grid.length; i++) {
+                for (let j = 0; j < maze.grid[0].length; j++) {
+                    if (maze.grid[i][j] == Constants.CELL.WALL) {
 
-                // Wall cube
-                cube = new Cube(wallColor[0], wallColor[1], wallColor[2]);
-                cube.scale(1.0,0.5,1.0);
-                cube.setPosition(j * Constants.BLOCK_SIZE, Constants.BLOCK_SIZE / 4, i * Constants.BLOCK_SIZE);
+                        // Wall cube
+                        cube = new Cube(wallColor[0], wallColor[1], wallColor[2]);
+                        cube.scale(1.0,0.5,1.0);
+                        cube.setPosition(j * Constants.BLOCK_SIZE, Constants.BLOCK_SIZE / 4, i * Constants.BLOCK_SIZE);
+                        
+                        // Add the new cube to the scene or the existing tree
+                        if (tree === null) {
+                            scene.addObject(cube);
+                            tree = cube;
+                        }
+                        else tree.addChild(cube);
+                        
+                        cube.addColorMap(wallTexture);
+                    }
+                    else {
+
+                        // Floor cube
+                        cube = new Cube(groundColor[0], groundColor[1], groundColor[2]);
+                        cube.scale(1.0, 0.0001, 1.0);
+                        cube.setPosition(j * Constants.BLOCK_SIZE, -0.001, i * Constants.BLOCK_SIZE);
+
+                        // Add the new cube to the scene or the existing tree
+                        if (tree === null) {
+                            scene.addObject(cube);
+                            tree = cube;
+                        }
+                        else tree.addChild(cube);
+
+                        cube.addColorMap(groundTexture);
+                    }
+                }
             }
-            else {
 
-                // Floor cube
-                cube = new Cube(groundColor[0], groundColor[1], groundColor[2]);
-                cube.scale(1.0, 0.0001, 1.0);
-                cube.setPosition(j * Constants.BLOCK_SIZE, -0.001, i * Constants.BLOCK_SIZE);
-            }
-
-            // Add the new cube to the scene or the existing tree
-            if (tree === null) {
-                scene.addObject(cube);
-                tree = cube;
-            }
-            else tree.addChild(cube);
-        }
-    }
-
-
-
-    return [tree, maze];
+            callback(tree, maze);
+        });
+    });
 }
 
 function buildCharacterGeometry() {

@@ -15,3 +15,5 @@ The game has you control a walking humanoid mech in order to escape from a maze.
 ## Dependencies
 
 The files in the `angelDependencies` folder are taken from [Edward Angel's examples](https://github.com/esangel/WebGL) for the book "Interactive Computer Graphics, 7th Edition" by him and Dave Shreiner, which was our coursebook. Where specified, they've been edited to better fit our needs.
+
+Also, shoutout to [FabooGuy on DeviantArt](https://www.deviantart.com/fabooguy/art/Dirt-Ground-Texture-Tileable-2048x2048-441212191) for making the ground texture and making it free to use. 
