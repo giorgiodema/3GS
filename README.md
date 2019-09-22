@@ -12,6 +12,9 @@ The library's name is a pun on the creators' names: Gabriele, Giorgio, Giovanni 
 
 The game has you control a walking humanoid mech in order to escape from a maze. Three mazes are procedurally generated and you can choose which one to play in the main menu. You can move with WASD and regulate the height of the camera with the mouse's scroll wheel. The model and textures for the mech were made by [@jotaro-sama](https://github.com/jotaro-sama) with [Blender](https://www.blender.org/).
 
+You can test the game at https://giorgiodema.github.io/3GS/src/game/game.html
+Please test it from Firefox as Chromium-based browsers sometimes seem to have bugs concerning the lights.
+
 ## Dependencies
 
 The files in the `angelDependencies` folder are taken from [Edward Angel's examples](https://github.com/esangel/WebGL) for the book "Interactive Computer Graphics, 7th Edition" by him and Dave Shreiner, which was our coursebook. Where specified, they've been edited to better fit our needs.
